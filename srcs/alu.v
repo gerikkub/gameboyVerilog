@@ -54,7 +54,7 @@ module alu(
 
 
     // ALU Ops
-    assign addResult = in_A + in_B + 'd1;
+    assign addResult = in_A + in_B;
     assign adcResult = in_A + in_B + in_C;
     assign subResult = in_A - in_B;
     assign sbcResult = in_A - in_B - in_C;
