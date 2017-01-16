@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "../srcs/alu.v"
+`include "srcs/alu.v"
 
 `define CHECK(condition) if (!(condition)) begin $display("[%d] Failed: condition ", `__LINE__); end
 
@@ -522,67 +522,52 @@ module alu_sim(
 
         alu_op = cp_op;
 
-        in_A = 'h0;
-        in_B = 'h0;
+        in_A = 'd2;
+        in_B = 'd1;
         in_C = 'd0;
 
         #1
 
-        `CHECK(out == 'hF)
+        `CHECK(out == 'd2)
         `CHECK(out_Z == 'd0)
         `CHECK(out_C == 'd0)
 
-        in_B = 'hF;
-        
-        #1
-
-        `CHECK(out == 'hF)
-        `CHECK(out_Z == 'd0)
-        `CHECK(out_C == 'd0)
-
-        in_B = 'h0;
         in_C = 'd1;
 
         #1
 
-        `CHECK(out == 'hF)
-        `CHECK(out_Z == 'd0)
+        `CHECK(out == 'd2)
+        `CHECK(out_Z == 'd1)
         `CHECK(out_C == 'd0)
 
-        in_B = 'hF;
-        in_C = 'd1;
-
-        #1
-
-        `CHECK(out == 'hF)
-        `CHECK(out_Z == 'd0)
-        `CHECK(out_C == 'd0)
-
-        #1
-
-        in_A = 'hF;
+        in_A = 'd0;
 
         #1
 
         `CHECK(out == 'd0)
+        `CHECK(out_Z == 'd0)
+        `CHECK(out_C == 'd1)
+
+        in_C = 'd0;
+
+        #1
+
+        `CHECK(out == 'd0)
+        `CHECK(out_Z == 'd0)
+        `CHECK(out_C == 'd1)
+
+        in_A = 'hC;
+        in_B = 'hC;
+        in_C = 'd0;
+
+        #1
+
+        `CHECK(out == 'hC)
         `CHECK(out_Z == 'd1)
         `CHECK(out_C == 'd0)
 
-        in_A = 'hA;
 
-        #1
 
-        `CHECK(out == 'h5)
-        `CHECK(out_Z == 'd0)
-        `CHECK(out_C == 'd0)
-
-        in_A = 'hC;
-
-        #1
-
-        `CHECK(out == 'h3)
-        `CHECK(out_Z == 'd0)
-        `CHECK(out_C == 'd0)
 
     end
     endtask

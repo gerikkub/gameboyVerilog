@@ -47,7 +47,7 @@ module alu(
     wire [3:0] andResult;
     wire [3:0] xorResult;
     wire [3:0] orResult;
-    wire [3:0] cpResult;
+    wire [4:0] cpResult;
 
     reg [3:0] result;
     reg c_result;
@@ -61,7 +61,7 @@ module alu(
     assign andResult = in_A & in_B;
     assign xorResult = in_A ^ in_B;
     assign orResult = in_A | in_B;
-    assign cpResult = ~in_A;
+    assign cpResult = in_A - in_B - in_C;
 
     // Assign result
     always @(*)
@@ -103,13 +103,13 @@ module alu(
         end
 
         cp_op: begin
-            result <= cpResult;
-            c_result <= 'd0;
+            result <= cpResult[3:0];
+            c_result <= cpResult[4];
         end
         endcase
     end
 
-    assign out = result;
+    assign out = (alu_op == cp_op) ? in_A : result;
 
     // Assign Flags
     assign out_Z = result == 'd0;
