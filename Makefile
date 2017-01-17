@@ -1,6 +1,8 @@
 
 
-TARGETS = alu_mod_sim alu_sim
+TARGETS = alu_mod_sim alu_sim reg_file_sim
+
+
 
 FILES = $(addprefix sims/, $(addsuffix .v, $(basename $(SOURCES))))
 
