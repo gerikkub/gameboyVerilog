@@ -1,10 +1,11 @@
 
 
-TARGETS = alu_mod_sim alu_sim reg_file_sim
+FILES = alu_mod alu reg_file pc_mod
 
+TARGETS = $(addsuffix _sim, $(basename $(FILES)))
 
-
-FILES = $(addprefix sims/, $(addsuffix .v, $(basename $(SOURCES))))
+#SRCS = $(addprefix srcs/, $(addsuffix .v, $(basename $(FILES))))
+#SIMS = $(addprefix sims/, $(addsuffix _sim.v, $(basename $(FILES))))
 
 SIMS_DIR = sims
 

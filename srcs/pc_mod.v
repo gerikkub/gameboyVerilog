@@ -25,12 +25,74 @@ module pc_mod(
 
     parameter offset_sel_offset = 'd0,
               offset_sel_offset_incr = 'd1,
-              offset_sel_zero = 'd0;
+              offset_sel_zero = 'd2;
 
 
 
-    assign pc_w_offset = 'd0;
-    assign pc = 'd0;
+
+    reg [15:0] pc_register;
+    reg [1:0] offset_register;
+    reg [7:0] data_bus_buffer;
+
+    wire [15:0]pc_reg_mux_out;
+    wire [1:0]offset_reg_mux_out;
+    
+    wire [15:0]rst_addr;
+    wire [15:0]int_addr;
+    wire [15:0]data_bus_rel_value;
+
+
+    assign pc = pc_register;
+
+    assign pc_w_offset = pc_register + offset_register;
+
+    // PC register input mux
+    assign pc_reg_mux_out = (pc_sel == pc_sel_pc) ? pc_register :
+                            (pc_sel == pc_sel_pc_incr) ? (pc_w_offset + 'd1) :
+                            (pc_sel == pc_sel_rst_mod) ? rst_addr :
+                            (pc_sel == pc_sel_int_mod) ? int_addr :
+                            (pc_sel == pc_sel_zero) ? 16'd0 :
+                            (pc_sel == pc_sel_data_bus) ? {data_bus, data_bus_buffer} :
+                            (pc_sel == pc_sel_data_bus_rel) ? data_bus_rel_value :
+                            'hFACE; // Should never occur!!!!!
+
+
+    // Offset register input mux 
+    assign offset_reg_mux_out = (offset_sel == offset_sel_offset) ? offset_register :
+                                (offset_sel == offset_sel_offset_incr) ? offset_register + 'd1 :
+                                (offset_sel == offset_sel_zero) ? 'd0 :
+                                'b11; // Should never occur!!!!
+
+    // Expand the given rst value to an address
+    assign rst_addr = {10'd0, rst_pc_in, 3'd0};
+    
+    // Expand the given interrupt value to an address
+    assign int_addr = {9'd0, 1'd1, int_pc_in, 3'd0};
+
+    // Perform a signed addition to pc register
+    assign data_bus_rel_value = (data_bus[7] == 'd0) ? pc_register + {9'd0, data_bus[6:0]} :
+                                pc_register + {9'h1FF, data_bus[6:0]};
+
+    always @(posedge clock)
+    begin
+        if (reset == 'd0)
+        begin
+            pc_register <= 'd0;
+            offset_register <= 'd0;
+            data_bus_buffer <= 'd0;
+        end else begin
+            pc_register <= pc_reg_mux_out;
+            offset_register <= offset_reg_mux_out;
+
+            if (write_temp_buf == 'd1)
+            begin
+                data_bus_buffer <= data_bus;
+            end else begin
+                data_bus_buffer <= data_bus_buffer;
+            end
+        end
+    end
+
 
 endmodule
 

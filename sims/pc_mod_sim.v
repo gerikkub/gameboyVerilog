@@ -2,7 +2,7 @@
 
 `include "srcs/pc_mod.v"
 
-`define CHECK(condition) if (!(condition)) begin $display("[%d] Failed: condition ", `__LINE__); end
+`define CHECK(condition) if (!(condition)) begin $display("[%d] Failed: condition %X %X", `__LINE__, pc_out, pc_w_offset_out); end
 
 `define CHECK_PC(value) \
 `CHECK(pc_out === value)
@@ -51,7 +51,7 @@ module pc_mod_sim();
 
     parameter offset_sel_offset = 'd0,
               offset_sel_offset_incr = 'd1,
-              offset_sel_zero = 'd0;
+              offset_sel_zero = 'd2;
 
 
     task run_cycle;
@@ -97,7 +97,7 @@ module pc_mod_sim();
     task write_pc_incr;
         input dummy;
     begin
-        pc_sel = pc_sel_data_bus_rel;
+        pc_sel = pc_sel_pc_incr;
 
         run_cycle('d0);
     end
@@ -255,6 +255,8 @@ module pc_mod_sim();
         write_pc_data_bus_rel('h80);
         `CHECK_PC('h4568);
 
+        pc_sel = pc_sel_pc;
+
         offset_reset('d0);
         offset_incr('d0);
         offset_incr('d0);
@@ -332,13 +334,15 @@ module pc_mod_sim();
         `CHECK_OFFSET('h0FFE);
 
         write_pc_incr('d0);
-        `CHECK_OFFSET('h0FFF);
+        `CHECK_PC('h0FFF);
+
+        pc_sel = pc_sel_pc;
 
         offset_reset('d0);
         offset_incr('d0);
 
         write_pc_incr('d0);
-        `CHECK_OFFSET('h1001);
+        `CHECK_PC('h1001);
 
         write_pc('hFFFE);
         offset_reset('d0);
@@ -347,7 +351,7 @@ module pc_mod_sim();
         offset_incr('d0);
 
         write_pc_incr('d0);
-        `CHECK_OFFSET('h0002);
+        `CHECK_PC('h0002);
     end
     endtask
 
@@ -355,6 +359,8 @@ module pc_mod_sim();
 
         $dumpfile("dump.vcd");
         $dumpvars;
+
+        reset_pc_mod('d0);
 
         test_write_pc('d0);
         test_pc_rst('d0);
