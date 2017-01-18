@@ -2,6 +2,7 @@
 *.out
 *.swp
 *.vcd
+*.swo
 
-/*
+bin/
 
