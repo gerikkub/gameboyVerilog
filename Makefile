@@ -1,6 +1,6 @@
 
 
-FILES = alu_mod alu reg_file pc_mod
+FILES = alu_mod alu reg_file pc_mod sp_mod
 
 TARGETS = $(addprefix bin/, $(addsuffix _sim, $(basename $(FILES))))
 
