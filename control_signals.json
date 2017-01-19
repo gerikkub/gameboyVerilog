@@ -1,0 +1,42 @@
+{
+    "someSignal": {
+        "type": "num",
+        "bits": 2,
+        "default": 3
+    },
+
+    "someMux": {
+        "type": "mux",
+        "values": ["muxZero", "muxValue", "muxVal2", "muxVal3"],
+        "default": "muxVal3"
+    },
+
+    "use_alu": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "write_register": {
+        "type": "num",
+        "bits": 1,
+        "default": 1
+    },
+
+    "reg_in_mux": {
+        "type": "mux",
+        "values": ["muxZero", "reg_in_mux_alu", "reg_in_mux_reg1", "reg_in_mux_data_bus", "reg_in_mux_sp"]
+    },
+
+    "alu_in_A_mux": {
+        "type": "mux",
+        "values": ["in_A_mux_inst", "in_A_mux_databus"]
+    },
+
+    "alu_in_B_mux": {
+        "type": "mux",
+        "values": ["in_B_mux_SP", "in_B_mux_inst", "in_A_mux_databus"]
+    }
+
+}
+
+
