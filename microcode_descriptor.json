@@ -1,33 +1,41 @@
 {
     "metadata": {
         "addB": {
-            "opcode_value": "0x80",
-            "codes": "addReg"
+            "opcode_position": "80",
+            "opcode": "addReg"
         },
 
         "addC": {
-            "opcode_value": "0x81",
-            "codes": "addReg"
+            "opcode_position": "81",
+            "opcode": "addReg"
         },
 
         "loadBC": {
-            "opcode_value": "0x41",
-            "codes": "loadReg"
+            "opcode_position": "41",
+            "opcode": "loadReg"
         },
 
         "loadBD": {
-            "opcode_value": "0x42",
-            "codes": "loadReg"
+            "opcode_position": "42",
+            "opcode": "loadReg"
         }
     },
 
     "opcode": {
+        "inst_fetch": {
+            "subops": ["fetch"]
+        },
+
         "addReg": {
-            "subops": ["fetch", "register_add"]
+            "subops": ["register_add"]
         },
 
         "loadReg": {
-            "subops": ["fetch", "register_load"]
+            "subops": ["register_load"]
+        },
+
+        "illegal_op": {
+            "subops": ["fetch"]
         }
     },
 

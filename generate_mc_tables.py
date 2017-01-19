@@ -207,6 +207,91 @@ def generateSubopTable(subop_json, cs_bits, cs_position, cs_values, default_bitf
 
     return True, subop_bitfield_dict, subop_position_dict
 
+def addSubopsToOpcodeList(opcode_list, subop_list, subop_position_dict):
+
+    for subop_name in subop_list:
+        if not subop_name in subop_position_dict:
+            print "Subop {0} not found in subop list1}".format(subop_name)
+            return False
+
+        opcode_list.append(subop_position_dict[subop_name])
+
+    return True
+
+# Generates opcode_list (a list of subops) and the position of
+# the opcodes in opcode_position_dict
+def generateOpcodeTable(opcode_json, subop_position_dict):
+
+    opcode_list = []
+    opcode_position_dict = {}
+
+    position = 0
+
+    if not "inst_fetch" in opcode_json:
+        print 'Special opcode "inst_fetch" not found in opcode list'
+        return False, opcode_list, opcode_position_dict
+    
+    addSubopsToOpcodeList(opcode_list, opcode_json["inst_fetch"]["subops"], subop_position_dict)
+
+    opcode_position_dict["inst_fetch"] = 0
+    position = len(opcode_json["inst_fetch"]["subops"])
+    del opcode_json["inst_fetch"]
+
+    if not "illegal_op" in opcode_json:
+        print 'Special opcode "illegal_op" not found in opcode list'
+        return False, opcode_list, opcode_position_dict
+
+    for opcode_name in opcode_json:
+        addSubopsToOpcodeList(opcode_list, opcode_json[opcode_name]["subops"], subop_position_dict)
+        opcode_position_dict[opcode_name] = position
+
+        position = position + len(opcode_json[opcode_name]["subops"])
+
+    return True, opcode_list, opcode_position_dict
+
+def generateMetadataDict(metadata_json):
+
+    metadata_opcode_dict = {};
+
+    for mdata_name in metadata_json:
+
+        position = int(metadata_json[mdata_name]["opcode_position"], 16)
+         
+        metadata_opcode_dict[position] = metadata_json[mdata_name]["opcode"]
+        
+    return True, metadata_opcode_dict
+
+def writeMetadataVector(metadata_opcode_dict, opcode_position_dict):
+
+    ill_position = opcode_position_dict["illegal_op"]
+
+    metadata_vector = ['%X' % ill_position for x in range(0x200)]
+
+    for mdata_pos in metadata_opcode_dict:
+        metadata_vector[mdata_pos] = '%X' % opcode_position_dict[metadata_opcode_dict[mdata_pos]]
+
+    mdata_file = open("metadata_vector.txt", "w")
+
+    mdata_file.write("\n".join(metadata_vector))
+
+def writeOpcodeVector(opcode_list):
+    
+    opcode_vector = map((lambda x: '%X' % x), opcode_list)
+
+    opcode_file = open("opcode_vector.txt", "w")
+
+    opcode_file.write("\n".join(opcode_vector))
+
+def writeSubopVector(subop_bitfield_dict, subop_position_dict):
+
+    subop_vector = ['0' for x in range(len(subop_position_dict))]
+
+    for subop in subop_bitfield_dict:
+        subop_vector[subop_position_dict[subop]] = '%X' % subop_bitfield_dict[subop]
+
+    subop_file = open("subop_vector.txt", "w")
+
+    subop_file.write("\n".join(subop_vector))
 
 
 def main():
@@ -232,6 +317,28 @@ def main():
     print subop_bitfield_dict
 
     print subop_position_dict
+
+    status, opcode_list, opcode_position_dict = generateOpcodeTable(microcode_json["opcode"], subop_position_dict)
+
+    if status == False:
+        return
+
+    print opcode_list
+
+    print opcode_position_dict
+
+    status, metadata_opcode_dict = generateMetadataDict(microcode_json["metadata"])
+
+    if status == False:
+        return
+
+    print metadata_opcode_dict
+
+
+    writeMetadataVector(metadata_opcode_dict, opcode_position_dict)
+    writeOpcodeVector(opcode_list)
+    writeSubopVector(subop_bitfield_dict, subop_position_dict)
+
 
 if __name__ == "__main__":
     main()
