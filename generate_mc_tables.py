@@ -3,6 +3,7 @@
 import json
 import sys
 import math
+import verilog_gen
 
 # Checks if an entry in the control signal json file is correct
 def isValidSignalEntry(cs_entry, name):
@@ -338,6 +339,10 @@ def main():
     writeMetadataVector(metadata_opcode_dict, opcode_position_dict)
     writeOpcodeVector(opcode_list)
     writeSubopVector(subop_bitfield_dict, subop_position_dict)
+
+    verilog_gen.writeMicrocodeVerilog("microcode_mod.v", len(opcode_list), len(subop_position_dict), cs_position_dict, cs_bits_dict)
+
+    verilog_gen.writeControlSignalVerilog("cs_mapper_mod.v", cs_bits_dict, cs_position_dict)
 
 
 if __name__ == "__main__":
