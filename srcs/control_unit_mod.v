@@ -31,7 +31,7 @@ module control_unit_mod(
 
     wire adv_signal;
 
-    initial $readmemh("srcs/metadata_table.txt", metadata_table);
+    initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 
     microcode_mod microcode(
         .opcode(opcode_input[3:0]),
