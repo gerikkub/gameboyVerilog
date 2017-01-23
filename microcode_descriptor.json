@@ -1,63 +1,95 @@
 {
     "metadata": {
-        "addB": {
-            "opcode_position": "80",
-            "opcode": "addReg"
+        "load_B_d8": {
+            "opcode_position": "06",
+            "opcode": "load_r_d8"
         },
 
-        "addC": {
-            "opcode_position": "81",
-            "opcode": "addReg"
+        "load_C_d8": {
+            "opcode_position": "0E",
+            "opcode": "load_r_d8"
         },
 
-        "loadBC": {
-            "opcode_position": "41",
-            "opcode": "loadReg"
+        "load_D_d8": {
+            "opcode_position": "16",
+            "opcode": "load_r_d8"
         },
 
-        "loadBD": {
-            "opcode_position": "42",
-            "opcode": "loadReg"
+        "load_E_d8": {
+            "opcode_position": "1E",
+            "opcode": "load_r_d8"
+        },
+
+        "load_H_d8": {
+            "opcode_position": "26",
+            "opcode": "load_r_d8"
+        },
+
+        "load_L_d8": {
+            "opcode_position": "2E",
+            "opcode": "load_r_d8"
+        },
+
+        "load_A_d8": {
+            "opcode_position": "3E",
+            "opcode": "load_r_d8"
         }
     },
-
+        
     "opcode": {
         "inst_fetch": {
-            "subops": ["fetch"]
-        },
-
-        "addReg": {
-            "subops": ["register_add"]
-        },
-
-        "loadReg": {
-            "subops": ["register_load"]
+            "subops": ["fetch1", "fetch2"]
         },
 
         "illegal_op": {
-            "subops": ["fetch"]
+            "subops": ["illegal_subop"]
+        },
+
+        "load_r_d8": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadRegDataBus", "nop", "finishInstruction"]
         }
+
     },
 
     "subop": {
-
-        "fetch": {
-            "someSignal": 1,
-            "someMux": "muxValue",
-            "write_register": 0
-            
+        "illegal_subop": {
         },
 
-        "register_add": {
-            "use_alu": 1,
-            "write_register": 1,
-            "reg_in_mux": "reg_in_mux_alu",
-            "alu_in_A_mux": "in_A_mux_inst",
-            "alu_in_B_mux": "in_B_mux_inst"
+        "nop": {
         },
 
-        "register_load": {
-            "reg_in_mux": "reg_in_mux_reg1"
+        "finishInstruction": {
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "incrPCOffset": {
+            "cs_pc_offset_sel": "pc_offset_sel_offset_incr"
+        },
+
+        "fetch1": {
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+            "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "fetch2": {
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+            "cs_write_inst_buffer": 1
+        },
+
+        "loadRegDataBus": {
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst53",
+            "cs_reg_file_write_reg": 1
         }
+
+
+
+        
     }
 }

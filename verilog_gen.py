@@ -4,7 +4,7 @@ import math
 mc_verilog_str = '`timescale 1ns / 1ps \n\
  \n\
 module microcode_mod( \n\
-    input [___OPCODE_BW___:0]opcode, \n\
+    input [___OPCODE_SIZE_LOG2___:0]opcode, \n\
     output [___CONTROL_SIGNAL_BW___:0]control_signals \n\
     ); \n\
  \n\
@@ -15,14 +15,13 @@ module microcode_mod( \n\
     reg [___OPCODE_BW___:0]opcode_table[0:opcode_table_size-1]; \n\
     reg [___CONTROL_SIGNAL_BW___:0]subop_table[0:subop_table_size-1]; \n\
  \n\
-    initial $readmemh("sims/metadata_table.txt", metadata_table); \n\
-    initial $readmemh("sims/opcode_table.txt", opcode_table); \n\
-    initial $readmemh("sims/subop_table.txt", subop_table); \n\
+    initial $readmemh("srcs/opcode_vector.txt", opcode_table); \n\
+    initial $readmemh("srcs/subop_vector.txt", subop_table); \n\
      \n\
     wire [___OPCODE_BW___:0]opcode_table_out; \n\
     wire [___CONTROL_SIGNAL_BW___:0]subop_table_out; \n\
  \n\
-    assign opcode_table_out = opcode_table[metadata_table_out]; \n\
+    assign opcode_table_out = opcode_table[opcode]; \n\
  \n\
     assign subop_table_out = subop_table[opcode_table_out]; \n\
  \n\
@@ -57,7 +56,8 @@ def writeMicrocodeVerilog(filename, num_opcodes, num_subops, cs_position_dict, c
 
     global mc_verilog_str
 
-    opcode_bitwidth = int(math.ceil(math.log(num_subops, 2)))
+    opcode_size_log2 = int(math.ceil(math.log(num_opcodes, 2)))
+    opcode_table_bitwidth = int(math.ceil(math.log(num_subops, 2)))
 
     v = list(cs_position_dict.values())
     k = list(cs_position_dict.keys())
@@ -68,7 +68,8 @@ def writeMicrocodeVerilog(filename, num_opcodes, num_subops, cs_position_dict, c
 
     local_mc_verilog_str = mc_verilog_str
 
-    local_mc_verilog_str = local_mc_verilog_str.replace("___OPCODE_BW___", "%d" % (opcode_bitwidth - 1))
+    local_mc_verilog_str = local_mc_verilog_str.replace("___OPCODE_SIZE_LOG2___", "%d" % (opcode_size_log2 - 1))
+    local_mc_verilog_str = local_mc_verilog_str.replace("___OPCODE_BW___", "%d" % (opcode_table_bitwidth - 1))
     local_mc_verilog_str = local_mc_verilog_str.replace("___OPCODE_SIZE___", "%d" % (num_opcodes))
     local_mc_verilog_str = local_mc_verilog_str.replace("___SUBOP_SIZE___", "%d" % (num_subops))
     local_mc_verilog_str = local_mc_verilog_str.replace("___CONTROL_SIGNAL_BW___", "%d" % (cs_bitwidth - 1))

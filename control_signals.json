@@ -1,42 +1,177 @@
 {
-    "someSignal": {
-        "type": "num",
-        "bits": 2,
-        "default": 3
-    },
-
-    "someMux": {
-        "type": "mux",
-        "values": ["muxZero", "muxValue", "muxVal2", "muxVal3"],
-        "default": "muxVal3"
-    },
-
-    "use_alu": {
+    "cs_write_inst_buffer": {
         "type": "num",
         "bits": 1
     },
 
-    "write_register": {
+    "cs_write_data_buffer1": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_write_data_buffer2": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_write_addr_buffer": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_write_data_bus_buffer": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_addr_buffer_sel": {
+        "type": "mux",
+        "values": ["addr_buffer_reg_file_out2", "addr_buffer_data_bus", "addr_buffer_ff"]
+    },
+
+    "cs_db_address_sel": {
+        "type": "mux",
+        "values": ["db_addr_buffer", "db_addr_pc_offset", "db_addr_sp"]
+    },
+
+    "cs_db_data_sel": {
+        "type": "mux",
+        "values": ["db_data_reg_file_out2", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c"]
+    },
+
+    "cs_db_nwrite": {
         "type": "num",
         "bits": 1,
         "default": 1
     },
 
-    "reg_in_mux": {
-        "type": "mux",
-        "values": ["muxZero", "reg_in_mux_alu", "reg_in_mux_reg1", "reg_in_mux_data_bus", "reg_in_mux_sp"]
+    "cs_db_nread": {
+        "type": "num",
+        "bits": 1,
+        "default": 1
     },
 
-    "alu_in_A_mux": {
-        "type": "mux",
-        "values": ["in_A_mux_inst", "in_A_mux_databus"]
+    "cs_write_flag_c": {
+        "type": "num",
+        "bits": 1
     },
 
-    "alu_in_B_mux": {
+    "cs_write_flag_z": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_write_flag_n": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_write_flag_h": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_write_tem_flag_c": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_flag_c_sel": {
         "type": "mux",
-        "values": ["in_B_mux_SP", "in_B_mux_inst", "in_A_mux_databus"]
+        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift"]
+    },
+
+    "cs_flag_z_sel": {
+        "type": "mux",
+        "values": ["flag_z_zero", "flag_z_one", "flag_z_alu", "flag_z_shift"]
+    },
+
+    "cs_flag_n_sel": {
+        "type": "mux",
+        "values": ["flag_n_zero", "flag_n_one"]
+    },
+
+    "cs_flag_h_sel": {
+        "type": "mux",
+        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu"]
+    },
+
+    "cs_alu_in_A_sel": {
+        "type": "mux",
+        "values": ["alu_in_A_reg_out1", "alu_in_A_SP_S", "alu_in_A_SP_P", "alu_in_A_data_bus_temp"]
+    },
+
+    "cs_alu_in_B_sel": {
+        "type": "mux",
+        "values": ["alu_in_B_zero", "alu_in_B_one", "alu_in_B_reg_out2", "alu_in_B_data_bus_temp"]
+    },
+
+    "cs_alu_op_sel": {
+        "type": "mux",
+        "values": ["alu_op_inst", "alu_op_add", "alu_op_adc", "alu_op_sub", "alu_op_sbc"]
+    },
+
+    "cs_alu_in_C_sel": {
+        "type": "mux",
+        "values": ["alu_in_C_flag", "alu_in_C_temp", "alu_in_C_zero", "alu_in_C_one"]
+    },
+
+    "cs_pc_sel": {
+        "type": "mux",
+        "values": ["pc_sel_pc", "pc_sel_pc_incr", "pc_sel_rst_mod", "pc_sel_int_mod", "pc_sel_zero", "pc_sel_data_bus", "pc_sel_data_bus_rel"]
+    },
+
+    "cs_pc_offset_sel": {
+        "type": "mux",
+        "values": ["pc_offset_sel_offset", "pc_offset_sel_offset_incr", "pc_offset_sel_zero"]
+    },
+
+    "cs_pc_write_temp_buf": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_sp_sel": {
+        "type": "mux",
+        "values": ["sp_sel_sp", "sp_sel_sp_incr", "sp_sel_sp_dect", "sp_sel_data_bus", "sp_sel_data_bus_rel"]
+    },
+
+    "cs_sp_write_temp_buf": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_reg_file_out1_sel_sel": {
+        "type": "mux",
+        "values": ["reg_file_out1_inst54_zero", "reg_file_out1_inst54_one", "reg_file_out1_A", "reg_file_out1_H", "reg_file_out1_L"]
+    },
+
+    "cs_reg_file_out2_sel_sel": {
+        "type": "mux",
+        "values": ["reg_file_out2_inst20", "reg_file_out2_inst53", "reg_file_out2_inst54_zero", "reg_file_out2_inst54_one", "reg_file_out2_H", "reg_file_out2_L"]
+    },
+
+    "cs_reg_file_data_in_sel": {
+        "type": "mux",
+        "values": ["reg_file_data_in_data_bus", "reg_file_data_in_alu", "reg_file_Data_in_shift", "reg_file_data_in_daa", "reg_file_data_in_cpl", "reg_file_data_in_out2"]
+    },
+
+    "cs_reg_file_data_in_sel_sel": {
+        "type": "mux",
+        "values": ["reg_file_data_in_sel_inst53", "reg_file_data_in_sel_inst54_zero", "reg_file_data_in_sel_inst54_one", "reg_file_data_in_sel_A", "reg_file_data_in_sel_H", "reg_file_data_in_sel_L"]
+    },
+
+    "cs_reg_file_write_reg": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_cu_adv_sel": {
+        "type": "mux",
+        "values": ["adv_signal_mux_zero", "adv_signal_mux_one", "adv_signal_mux_flag"]
     }
 
 }
+           
 
 
