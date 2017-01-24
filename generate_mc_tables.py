@@ -265,8 +265,10 @@ def generateMetadataDict(metadata_json):
 def writeMetadataVector(metadata_opcode_dict, opcode_position_dict):
 
     ill_position = opcode_position_dict["illegal_op"]
+    print "Illegal_op pos: " + str(ill_position)
 
     metadata_vector = ['%X' % ill_position for x in range(0x200)]
+
 
     for mdata_pos in metadata_opcode_dict:
         metadata_vector[mdata_pos] = '%X' % opcode_position_dict[metadata_opcode_dict[mdata_pos]]
@@ -274,6 +276,9 @@ def writeMetadataVector(metadata_opcode_dict, opcode_position_dict):
     mdata_file = open("metadata_vector.txt", "w")
 
     mdata_file.write("\n".join(metadata_vector))
+
+
+    print metadata_vector
 
 def writeOpcodeVector(opcode_list):
     

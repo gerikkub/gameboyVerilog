@@ -93,7 +93,7 @@
 
     "cs_flag_h_sel": {
         "type": "mux",
-        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu"]
+        "values": ["flag_h_zero", "flag_h_one", "flag_h_alu"]
     },
 
     "cs_alu_in_A_sel": {

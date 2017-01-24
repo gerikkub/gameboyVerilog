@@ -55,41 +55,51 @@ module core(
 
     always @(posedge clock)
     begin
-        if (cs_write_inst_buffer == 'd0)
+        if (reset == 'd0)
         begin
-            inst_buffer <= inst_buffer;
+            inst_buffer <= 'd0;
+            inst_data_buffer1 <= 'd0;
+            inst_data_buffer2 <= 'd0;
+            addr_buffer <= 'd0;
+            data_bus_buffer <= 'd0;
         end else begin
-            inst_buffer <= db_data;
-        end
 
-        if (cs_write_data_buffer1 == 'd0)
-        begin
-            inst_data_buffer1 <= inst_data_buffer1;
-        end else begin
-            inst_data_buffer1 <= db_data;
-        end
+            if (cs_write_inst_buffer == 'd0)
+            begin
+                inst_buffer <= inst_buffer;
+            end else begin
+                inst_buffer <= db_data;
+            end
 
-        if (cs_write_data_buffer2 == 'd0)
-        begin
-            inst_data_buffer2 <= inst_data_buffer2;
-        end else begin
-            inst_data_buffer2 <= db_data;
-        end
+            if (cs_write_data_buffer1 == 'd0)
+            begin
+                inst_data_buffer1 <= inst_data_buffer1;
+            end else begin
+                inst_data_buffer1 <= db_data;
+            end
 
-        if (cs_write_addr_buffer == 'd0)
-        begin
-            addr_buffer <= addr_buffer;
-        end else begin
-            // Writing the addr buffer shifts the lower byte to the upper byte
-            // and loads the bottom byte
-            addr_buffer <= {addr_buffer[7:0], addr_bus_buffer_in};
-        end
+            if (cs_write_data_buffer2 == 'd0)
+            begin
+                inst_data_buffer2 <= inst_data_buffer2;
+            end else begin
+                inst_data_buffer2 <= db_data;
+            end
 
-        if (cs_write_data_bus_buffer == 'd0)
-        begin
-            data_bus_buffer <= data_bus_buffer;
-        end else begin
-            data_bus_buffer <= db_data;
+            if (cs_write_addr_buffer == 'd0)
+            begin
+                addr_buffer <= addr_buffer;
+            end else begin
+                // Writing the addr buffer shifts the lower byte to the upper byte
+                // and loads the bottom byte
+                addr_buffer <= {addr_buffer[7:0], addr_bus_buffer_in};
+            end
+
+            if (cs_write_data_bus_buffer == 'd0)
+            begin
+                data_bus_buffer <= data_bus_buffer;
+            end else begin
+                data_bus_buffer <= db_data;
+            end
         end
     end
 
@@ -156,60 +166,70 @@ module core(
      // Flag muxes
      always @(posedge clock)
      begin         
-        if (cs_write_flag_c == 'd0)
+        if (reset <= 'd0)
         begin
-            flag_c <= flag_c;
+            flag_c <= 'd0;
+            flag_z <= 'd0;
+            flag_n <= 'd0;
+            flag_h <= 'd0;
+            temp_flag_c <= 'd0;
         end else begin
-            case (cs_flag_c_sel)
-                flag_c_zero:  flag_c <= 'd0;
-                flag_c_one:   flag_c <= 'd1;
-                flag_c_alu:   flag_c <= alu_out_flags[0];
-                flag_c_shift: flag_c <= 'd0; // TODO
-                default: flag_c <= 'd1; // Should never occur
-            endcase
-        end
 
-        if (cs_write_flag_z == 'd0)
-        begin
-            flag_z <= flag_z;
-        end else begin
-            case (cs_flag_z_sel)
-                flag_z_zero:  flag_z <= 'd0;
-                flag_z_one:   flag_z <= 'd1;
-                flag_z_alu:   flag_z <= alu_out_flags[3];
-                flag_z_shift: flag_z <= 'd0; // TODO
-                default: flag_z <= 'd1; // Can never occur
-            endcase
-        end
+            if (cs_write_flag_c == 'd0)
+            begin
+                flag_c <= flag_c;
+            end else begin
+                case (cs_flag_c_sel)
+                    flag_c_zero:  flag_c <= 'd0;
+                    flag_c_one:   flag_c <= 'd1;
+                    flag_c_alu:   flag_c <= alu_out_flags[0];
+                    flag_c_shift: flag_c <= 'd0; // TODO
+                    default: flag_c <= 'd1; // Should never occur
+                endcase
+            end
 
-        if (cs_write_flag_n == 'd0)
-        begin
-            flag_n <= flag_n;
-        end else begin
-            case (cs_flag_n_sel)
-                flag_n_zero: flag_n <= 'd0;
-                flag_n_one:  flag_n <= 'd1;
-                default: flag_n <= 'd1; // Can never occur
-            endcase
-        end
+            if (cs_write_flag_z == 'd0)
+            begin
+                flag_z <= flag_z;
+            end else begin
+                case (cs_flag_z_sel)
+                    flag_z_zero:  flag_z <= 'd0;
+                    flag_z_one:   flag_z <= 'd1;
+                    flag_z_alu:   flag_z <= alu_out_flags[3];
+                    flag_z_shift: flag_z <= 'd0; // TODO
+                    default: flag_z <= 'd1; // Can never occur
+                endcase
+            end
 
-        if (cs_write_flag_h == 'd0)
-        begin
-            flag_h <= flag_h;
-        end else begin
-            case (cs_flag_h_sel)
-                flag_h_zero: flag_h <= 'd0;
-                flag_h_one:  flag_h <= 'd1;
-                flag_h_alu:  flag_h <= alu_out_flags[1];
-                default: flag_h <= 'd1; // Could occur, but should not
-            endcase
-        end
+            if (cs_write_flag_n == 'd0)
+            begin
+                flag_n <= flag_n;
+            end else begin
+                case (cs_flag_n_sel)
+                    flag_n_zero: flag_n <= 'd0;
+                    flag_n_one:  flag_n <= 'd1;
+                    default: flag_n <= 'd1; // Can never occur
+                endcase
+            end
 
-        if (cs_write_temp_flag_c == 'd0)
-        begin
-            temp_flag_c <= temp_flag_c;
-        end else begin
-            temp_flag_c <= alu_out_flags[0];
+            if (cs_write_flag_h == 'd0)
+            begin
+                flag_h <= flag_h;
+            end else begin
+                case (cs_flag_h_sel)
+                    flag_h_zero: flag_h <= 'd0;
+                    flag_h_one:  flag_h <= 'd1;
+                    flag_h_alu:  flag_h <= alu_out_flags[1];
+                    default: flag_h <= 'd1; // Could occur, but should not
+                endcase
+            end
+
+            if (cs_write_temp_flag_c == 'd0)
+            begin
+                temp_flag_c <= temp_flag_c;
+            end else begin
+                temp_flag_c <= alu_out_flags[0];
+            end
         end
     end
 
