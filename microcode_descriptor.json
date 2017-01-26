@@ -468,7 +468,23 @@
         "dec_HL": {
             "opcode_position": "2B",
             "opcode": "dec_rr"
+        },
+
+        "add_HL_BC": {
+            "opcode_position": "09",
+            "opcode": "add_hl_rr"
+        },
+
+        "add_HL_DE": {
+            "opcode_position": "19",
+            "opcode": "add_hl_rr"
+        },
+
+        "add_HL_HL": {
+            "opcode_position": "29",
+            "opcode": "add_hl_rr"
         }
+
 
     },
         
@@ -523,6 +539,10 @@
 
         "dec_rr": {
             "subops": ["dec_rr_pt1", "dec_rr_pt2", "dec_rr_pt3", "dec_rr_pt4", "nop", "finishInstruction"]
+        },
+
+        "add_hl_rr": {
+            "subops": ["add_hl_rr_pt1", "add_hl_rr_pt2", "add_hl_rr_pt3", "add_hl_rr_pt4", "nop", "finishInstruction"]
         }
 
     },
@@ -781,12 +801,60 @@
             "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
             "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_zero",
             "cs_reg_file_write_reg": 1
+        },
+
+        "add_hl_rr_pt1": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_reg_out2",
+            "cs_alu_op_sel": "alu_op_add",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_L",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_inst54_one"
+        },
+
+        "add_hl_rr_pt2": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_reg_out2",
+            "cs_alu_op_sel": "alu_op_add",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_L",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_inst54_one",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_L",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_temp_flag_c": 1
+        },
+
+        "add_hl_rr_pt3": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_reg_out2",
+            "cs_alu_in_C_sel": "alu_in_C_temp",
+            "cs_alu_op_sel": "alu_op_adc",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_H",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_inst54_zero"
+        },
+
+        "add_hl_rr_pt4": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_reg_out2",
+            "cs_alu_in_C_sel": "alu_in_C_temp",
+            "cs_alu_op_sel": "alu_op_adc",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_H",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_inst54_zero",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_H",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_flag_c": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_z": 1,
+
+            "cs_flag_c_sel": "flag_c_alu",
+            "cs_flag_h_sel": "flag_h_alu",
+            "cs_flag_n_sel": "flag_n_zero"
         }
-        
-
-
-
-
-        
     }
 }
