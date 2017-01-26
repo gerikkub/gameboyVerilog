@@ -880,6 +880,36 @@
         "ret_c": {
             "opcode_position": "D8",
             "opcode": "ret_flag"
+        },
+
+        "jp_a16": {
+            "opcode_position": "C3",
+            "opcode": "jump_a16"
+        },
+
+        "jp_nz_a16": {
+            "opcode_position": "C2",
+            "opcode": "jump_flag_a16"
+        },
+        
+        "jp_z_a16": {
+            "opcode_position": "CA",
+            "opcode": "jump_flag_a16"
+        },
+        
+        "jp_nc_a16": {
+            "opcode_position": "D2",
+            "opcode": "jump_flag_a16"
+        },
+        
+        "jp_c_a16": {
+            "opcode_position": "DA",
+            "opcode": "jump_flag_a16"
+        },
+
+        "jp_(hl)": {
+            "opcode_position": "E9",
+            "opcode": "jump_(hl)"
         }
         
     },
@@ -999,7 +1029,20 @@
 
         "ret_flag": {
             "subops": ["nop", "nop", "nop", "nop", "nop", "finishInstructionIfFlags", "load_data_buffer1_sp", "load_data_buffer1_sp", "load_pc_temp_data_bus", "inc_sp", "load_data_buffer1_sp", "load_data_buffer1_sp", "inc_sp", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "jump_a16": {
+            "subops": ["nop", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "nop", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "jump_flag_a16": {
+            "subops": ["nop", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "nop", "finishInstructionIfFlags", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "jump_(hl)": {
+            "subops": ["nop", "finish_instruction_pc_hl"]
         }
+
 
     },
 
@@ -1026,6 +1069,15 @@
             "cs_pc_sel": "pc_sel_data_bus",
             "cs_pc_offset_sel": "pc_offset_sel_zero",
             "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "finish_instruction_pc_hl": {
+            "cs_pc_sel": "pc_sel_reg_file",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_H",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_L"
         },
 
         "incrPCOffset": {

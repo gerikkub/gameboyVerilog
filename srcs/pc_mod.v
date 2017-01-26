@@ -7,6 +7,7 @@ module pc_mod(
     input [2:0]rst_pc_in,
     input [2:0]int_pc_in,
     input [7:0]data_bus,
+    input [15:0]reg_file_in,
     input [2:0]pc_sel,
     input [1:0]offset_sel,
     input write_temp_buf,
@@ -21,7 +22,8 @@ module pc_mod(
               pc_sel_int_mod = 'd3,
               pc_sel_zero = 'd4,
               pc_sel_data_bus = 'd5,
-              pc_sel_data_bus_rel = 'd6;
+              pc_sel_data_bus_rel = 'd6,
+              pc_sel_reg_file = 'd7;
 
     parameter offset_sel_offset = 'd0,
               offset_sel_offset_incr = 'd1,
@@ -54,7 +56,8 @@ module pc_mod(
                             (pc_sel == pc_sel_zero) ? 16'd0 :
                             (pc_sel == pc_sel_data_bus) ? {data_bus, data_bus_buffer} :
                             (pc_sel == pc_sel_data_bus_rel) ? data_bus_rel_value :
-                            'hFACE; // Should never occur!!!!!
+                            (pc_sel == pc_sel_reg_file) ? reg_file_in :
+                            'hFACE; // Can never occur!!!!!
 
 
     // Offset register input mux 

@@ -118,7 +118,7 @@
 
     "cs_pc_sel": {
         "type": "mux",
-        "values": ["pc_sel_pc", "pc_sel_pc_incr", "pc_sel_rst_mod", "pc_sel_int_mod", "pc_sel_zero", "pc_sel_data_bus", "pc_sel_data_bus_rel"]
+        "values": ["pc_sel_pc", "pc_sel_pc_incr", "pc_sel_rst_mod", "pc_sel_int_mod", "pc_sel_zero", "pc_sel_data_bus", "pc_sel_data_bus_rel", "pc_sel_reg_file"]
     },
 
     "cs_pc_offset_sel": {

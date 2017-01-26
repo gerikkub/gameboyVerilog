@@ -316,48 +316,7 @@ module core(
         .out_flags(alu_out_flags)
     );
     
-    // Control Signals for PC
-    wire [2:0]pc_rst_in;
-    wire [2:0]pc_int_in;
 
-    wire [2:0]cs_pc_sel;
-    wire [1:0]cs_pc_offset_sel;
-    wire cs_pc_write_temp_buf;
-
-    wire [15:0]pc_out_w_offset;
-    wire [15:0]pc_out_direct;
-
-    assign pc_rst_in = inst_buffer[5:3];
-    
-    assign pc_int_in = 'd0; // TODO
-
-    pc_mod pc_mod(
-        .clock(clock),
-        .reset(reset),
-        .rst_pc_in(pc_rst_in),
-        .int_pc_in(pc_int_in),
-        .data_bus(inst_data_buffer1),
-        .pc_sel(cs_pc_sel),
-        .offset_sel(cs_pc_offset_sel),
-        .write_temp_buf(cs_pc_write_temp_buf),
-        .pc_w_offset(pc_out_w_offset),
-        .pc(pc_out_direct)
-    );
-
-    // Control Signals for SP
-    wire [2:0]cs_sp_sel;
-    wire cs_sp_write_temp_buf;
-
-    wire [15:0]sp_out;
-
-    sp_mod sp_mod(
-        .clock(clock),
-        .reset(reset),
-        .sp_sel(cs_sp_sel),
-        .data_bus(db_data),
-        .write_temp_buf(cs_sp_write_temp_buf),
-        .sp(sp_out)
-    );
 
     // Control Signals for Register File
     wire [2:0]reg_file_out1_sel;
@@ -443,6 +402,50 @@ module core(
         .write_reg(cs_reg_file_write_reg),
         .out1(reg_file_out1),
         .out2(reg_file_out2)
+    );
+
+    // Control Signals for PC
+    wire [2:0]pc_rst_in;
+    wire [2:0]pc_int_in;
+
+    wire [2:0]cs_pc_sel;
+    wire [1:0]cs_pc_offset_sel;
+    wire cs_pc_write_temp_buf;
+
+    wire [15:0]pc_out_w_offset;
+    wire [15:0]pc_out_direct;
+
+    assign pc_rst_in = inst_buffer[5:3];
+    
+    assign pc_int_in = 'd0; // TODO
+
+    pc_mod pc_mod(
+        .clock(clock),
+        .reset(reset),
+        .rst_pc_in(pc_rst_in),
+        .int_pc_in(pc_int_in),
+        .data_bus(inst_data_buffer1),
+        .reg_file_in({reg_file_out1, reg_file_out2}),
+        .pc_sel(cs_pc_sel),
+        .offset_sel(cs_pc_offset_sel),
+        .write_temp_buf(cs_pc_write_temp_buf),
+        .pc_w_offset(pc_out_w_offset),
+        .pc(pc_out_direct)
+    );
+
+    // Control Signals for SP
+    wire [2:0]cs_sp_sel;
+    wire cs_sp_write_temp_buf;
+
+    wire [15:0]sp_out;
+
+    sp_mod sp_mod(
+        .clock(clock),
+        .reset(reset),
+        .sp_sel(cs_sp_sel),
+        .data_bus(db_data),
+        .write_temp_buf(cs_sp_write_temp_buf),
+        .sp(sp_out)
     );
     
     // Control signals for Control Unit
