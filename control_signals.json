@@ -71,7 +71,7 @@
         "bits": 1
     },
 
-    "cs_write_tem_flag_c": {
+    "cs_write_temp_flag_c": {
         "type": "num",
         "bits": 1
     },

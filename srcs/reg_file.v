@@ -82,5 +82,13 @@ module reg_file(
     assign reg_l = true_registers[5];
     assign reg_a = true_registers[6];
 
+    wire [15:0]debug_reg_bc;
+    wire [15:0]debug_reg_de;
+    wire [15:0]debug_reg_hl;
+
+    assign debug_reg_bc = {reg_b, reg_c};
+    assign debug_reg_de = {reg_d, reg_e};
+    assign debug_reg_hl = {reg_h, reg_l};
+
 endmodule
 

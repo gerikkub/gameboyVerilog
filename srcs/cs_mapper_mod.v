@@ -21,9 +21,9 @@ output cs_write_data_bus_buffer,
 output [1:0]cs_db_address_sel,
 output [1:0]cs_db_data_sel,
 output cs_reg_file_write_reg,
+output cs_write_temp_flag_c,
 output cs_db_nread,
 output [1:0]cs_alu_in_A_sel,
-output cs_write_tem_flag_c,
 output [1:0]cs_alu_in_B_sel,
 output cs_sp_write_temp_buf,
 output [2:0]cs_reg_file_out1_sel_sel,
@@ -54,13 +54,13 @@ assign cs_reg_file_data_in_sel = control_signals[25:23];
 assign cs_write_data_buffer2 = control_signals[26];
 assign cs_write_data_buffer1 = control_signals[27];
 assign cs_cu_adv_sel = control_signals[29:28];
-assign cs_write_data_bus_buffer = control_signals[37];
+assign cs_write_data_bus_buffer = control_signals[38];
 assign cs_db_address_sel = control_signals[32:31];
 assign cs_db_data_sel = control_signals[34:33];
 assign cs_reg_file_write_reg = control_signals[36];
+assign cs_write_temp_flag_c = control_signals[37];
 assign cs_db_nread = control_signals[30];
-assign cs_alu_in_A_sel = control_signals[39:38];
-assign cs_write_tem_flag_c = control_signals[40];
+assign cs_alu_in_A_sel = control_signals[40:39];
 assign cs_alu_in_B_sel = control_signals[42:41];
 assign cs_sp_write_temp_buf = control_signals[35];
 assign cs_reg_file_out1_sel_sel = control_signals[47:45];

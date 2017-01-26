@@ -438,6 +438,36 @@
         "dec_A": {
             "opcode_position": "3D",
             "opcode": "dec_r"
+        },
+
+        "inc_BC": {
+            "opcode_position": "03",
+            "opcode": "inc_rr"
+        },
+
+        "inc_DE": {
+            "opcode_position": "13",
+            "opcode": "inc_rr"
+        },
+
+        "inc_HL": {
+            "opcode_position": "23",
+            "opcode": "inc_rr"
+        },
+
+        "dec_BC": {
+            "opcode_position": "0B",
+            "opcode": "dec_rr"
+        },
+
+        "dec_DE": {
+            "opcode_position": "1B",
+            "opcode": "dec_rr"
+        },
+
+        "dec_HL": {
+            "opcode_position": "2B",
+            "opcode": "dec_rr"
         }
 
     },
@@ -485,8 +515,15 @@
 
         "dec_r": {
             "subops": ["dec_r_pt1", "dec_r_pt2_finish"]
-        }
+        },
 
+        "inc_rr": {
+            "subops": ["inc_rr_pt1", "inc_rr_pt2", "inc_rr_pt3", "inc_rr_pt4", "nop", "finishInstruction"]
+        },
+
+        "dec_rr": {
+            "subops": ["dec_rr_pt1", "dec_rr_pt2", "dec_rr_pt3", "dec_rr_pt4", "nop", "finishInstruction"]
+        }
 
     },
 
@@ -660,9 +697,92 @@
             "cs_pc_sel": "pc_sel_pc_incr",
             "cs_pc_offset_sel": "pc_offset_sel_zero",
             "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "inc_rr_pt1": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_add",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_one"
+        },
+
+        "inc_rr_pt2": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_add",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_one",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_one",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_temp_flag_c": 1
+        },
+
+        "inc_rr_pt3": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_C_sel": "alu_in_C_temp",
+            "cs_alu_op_sel": "alu_op_adc",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_zero"
+        },
+
+        "inc_rr_pt4": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_C_sel": "alu_in_C_temp",
+            "cs_alu_op_sel": "alu_op_adc",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_zero",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_zero",
+            "cs_reg_file_write_reg": 1
+        },
+
+        "dec_rr_pt1": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_sub",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_one"
+        },
+
+        "dec_rr_pt2": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_sub",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_one",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_one",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_temp_flag_c": 1
+        },
+
+        "dec_rr_pt3": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_C_sel": "alu_in_C_temp",
+            "cs_alu_op_sel": "alu_op_sbc",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_zero"
+        },
+
+        "dec_rr_pt4": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_C_sel": "alu_in_C_temp",
+            "cs_alu_op_sel": "alu_op_sbc",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_zero",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_zero",
+            "cs_reg_file_write_reg": 1
         }
-
-
+        
 
 
 

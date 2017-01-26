@@ -489,7 +489,7 @@ module core(
         .cs_db_data_sel(cs_db_data_sel),
         .cs_db_nread(cs_db_nread),
         .cs_alu_in_A_sel(cs_alu_in_A_sel),
-        .cs_write_tem_flag_c(cs_write_tem_flag_c),
+        .cs_write_temp_flag_c(cs_write_temp_flag_c),
         .cs_alu_in_B_sel(cs_alu_in_B_sel),
         .cs_sp_write_temp_buf(cs_sp_write_temp_buf),
         .cs_reg_file_out1_sel_sel(cs_reg_file_out1_sel_sel),

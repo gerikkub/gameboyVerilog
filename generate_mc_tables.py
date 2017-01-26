@@ -177,7 +177,7 @@ def generateSubopTable(subop_json, cs_bits, cs_position, cs_values, default_bitf
 
         for signal_name in subop_entry:
             if not signal_name in cs_bits:
-                print "Unknown signal name {0} in subop {1}".format((signal_name, subop_entry_name))
+                print "Unknown signal name {0} in subop {1}".format(signal_name, subop_entry_name)
                 return False, subop_bitfield_dict, subop_position_dict
 
             sig_bits = cs_bits[signal_name]
