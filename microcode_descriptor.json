@@ -855,6 +855,31 @@
         "ccf": {
             "opcode_position": "3F",
             "opcode": "ccf"
+        },
+
+        "ret": {
+            "opcode_position": "C9",
+            "opcode": "ret"
+        },
+
+        "ret_nz": {
+            "opcode_position": "C0",
+            "opcode": "ret_flag"
+        },
+        
+        "ret_z": {
+            "opcode_position": "C8",
+            "opcode": "ret_flag"
+        },
+        
+        "ret_nc": {
+            "opcode_position": "D0",
+            "opcode": "ret_flag"
+        },
+        
+        "ret_c": {
+            "opcode_position": "D8",
+            "opcode": "ret_flag"
         }
         
     },
@@ -966,6 +991,14 @@
 
         "ccf": {
             "subops": ["ccf", "finishInstruction"]
+        },
+        
+        "ret": {
+            "subops": ["nop", "nop", "load_data_buffer1_sp", "load_data_buffer1_sp", "load_pc_temp_data_bus", "inc_sp", "load_data_buffer1_sp", "load_data_buffer1_sp", "inc_sp", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "ret_flag": {
+            "subops": ["nop", "nop", "nop", "nop", "nop", "finishInstructionIfFlags", "load_data_buffer1_sp", "load_data_buffer1_sp", "load_pc_temp_data_bus", "inc_sp", "load_data_buffer1_sp", "load_data_buffer1_sp", "inc_sp", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
         }
 
     },
@@ -987,6 +1020,12 @@
             "cs_pc_sel": "pc_sel_pc_incr",
             "cs_pc_offset_sel": "pc_offset_sel_zero",
             "cs_cu_adv_sel": "adv_signal_mux_flag"
+        },
+
+        "finish_instruction_jump": {
+            "cs_pc_sel": "pc_sel_data_bus",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one"
         },
 
         "incrPCOffset": {
@@ -1163,6 +1202,12 @@
         "loadDataBuffer1_addr_buffer": {
             "cs_write_data_buffer1": 1,
             "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_nread": 0
+        },
+
+        "load_data_buffer1_sp": {
+            "cs_write_data_buffer1": 1,
+            "cs_db_address_sel": "db_addr_sp",
             "cs_db_nread": 0
         },
 
@@ -1628,6 +1673,10 @@
             "cs_flag_c_sel": "flag_c_toggle",
             "cs_flag_n_sel": "flag_n_zero",
             "cs_flag_h_sel": "flag_h_zero"
+        },
+
+        "load_pc_temp_data_bus": {
+            "cs_pc_write_temp_buf": 1
         }
 
     }
