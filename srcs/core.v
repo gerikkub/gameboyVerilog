@@ -334,7 +334,7 @@ module core(
         .reset(reset),
         .rst_pc_in(pc_rst_in),
         .int_pc_in(pc_int_in),
-        .data_bus(db_data),
+        .data_bus(inst_data_buffer1),
         .pc_sel(cs_pc_sel),
         .offset_sel(cs_pc_offset_sel),
         .write_temp_buf(cs_pc_write_temp_buf),
@@ -372,11 +372,12 @@ module core(
     wire [2:0]cs_reg_file_data_in_sel_sel;
     wire cs_reg_file_write_reg;
 
-    parameter reg_file_out1_inst54_zero = 'd0,
-              reg_file_out1_inst54_one  = 'd1,
-              reg_file_out1_A = 'd2,
-              reg_file_out1_H = 'd3,
-              reg_file_out1_L = 'd4;
+    parameter reg_file_out1_inst53 = 'd0,
+              reg_file_out1_inst54_zero = 'd1,
+              reg_file_out1_inst54_one  = 'd2,
+              reg_file_out1_A = 'd3,
+              reg_file_out1_H = 'd4,
+              reg_file_out1_L = 'd5;
 
     parameter reg_file_out2_inst20 = 'd0,
               reg_file_out2_inst53 = 'd1,
@@ -399,7 +400,8 @@ module core(
               reg_file_data_in_sel_H = 'd4,
               reg_file_data_in_sel_L = 'd5;
 
-    assign reg_file_out1_sel = (cs_reg_file_out1_sel_sel == reg_file_out1_inst54_zero) ? {inst_buffer[5:4], 1'd0} :
+    assign reg_file_out1_sel = (cs_reg_file_out1_sel_sel == reg_file_out1_inst53) ? inst_buffer[5:3] :
+                               (cs_reg_file_out1_sel_sel == reg_file_out1_inst54_zero) ? {inst_buffer[5:4], 1'd0} :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_inst54_one)  ? {inst_buffer[5:4], 1'd1} :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_A) ? 'b111 :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_H) ? 'b100 :
@@ -449,11 +451,11 @@ module core(
 
     // Used for coditional operation to skip the rest
     // of the instruction
-    assign flag_adv = (inst_buffer[4:3] == 'b00) ? ~flag_z :
-                      (inst_buffer[4:3] == 'b01) ? flag_z :
-                      (inst_buffer[4:3] == 'b10) ? ~flag_c :
-                      (inst_buffer[4:3] == 'b11) ? flag_c :
-                      'b1; // Can never occur
+    assign flag_adv = ~((inst_buffer[4:3] == 'b00) ? ~flag_z :
+                        (inst_buffer[4:3] == 'b01) ? flag_z :
+                        (inst_buffer[4:3] == 'b10) ? ~flag_c :
+                        (inst_buffer[4:3] == 'b11) ? flag_c :
+                        'b1); // Can never occur
 
     control_unit_mod cu_mod(
         .clock(clock),

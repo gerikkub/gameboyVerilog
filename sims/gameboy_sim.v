@@ -25,7 +25,7 @@ module gameboy_sim(
         #20
         reset = 'd1;
 
-        #2000
+        #4000
         $finish;
     end
 

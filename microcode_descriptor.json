@@ -1,5 +1,10 @@
 {
     "metadata": {
+        "nop": {
+            "opcode_position": "00",
+            "opcode": "nop"
+        },
+
         "load_B_d8": {
             "opcode_position": "06",
             "opcode": "load_r_d8"
@@ -321,8 +326,119 @@
         "add_A_A": {
             "opcode_position": "87",
             "opcode": "add_r_r"
-        }
+        },
 
+
+        "jr_r8": {
+            "opcode_position": "18",
+            "opcode": "jr_r8"
+        },
+
+        "jr_nz_r8": {
+            "opcode_position": "20",
+            "opcode": "jr_f_r8"
+        },
+
+        "jr_z_r8": {
+            "opcode_position": "28",
+            "opcode": "jr_f_r8"
+        },
+
+
+        "jr_nc_r8": {
+            "opcode_position": "30",
+            "opcode": "jr_f_r8"
+        },
+
+        "jr_c_r8": {
+            "opcode_position": "38",
+            "opcode": "jr_f_r8"
+        },
+
+        "ld_BC_d16": {
+            "opcode_position": "01",
+            "opcode": "load_rr_d16"
+        },
+
+        "ld_DE_d16": {
+            "opcode_position": "11",
+            "opcode": "load_rr_d16"
+        },
+
+        "ld_HL_d16": {
+            "opcode_position": "21",
+            "opcode": "load_rr_d16"
+        },
+
+        "inc_B": {
+            "opcode_position": "04",
+            "opcode": "inc_r"
+        },
+
+        "inc_C": {
+            "opcode_position": "0C",
+            "opcode": "inc_r"
+        },
+
+        "inc_D": {
+            "opcode_position": "14",
+            "opcode": "inc_r"
+        },
+
+        "inc_E": {
+            "opcode_position": "1C",
+            "opcode": "inc_r"
+        },
+
+        "inc_H": {
+            "opcode_position": "24",
+            "opcode": "inc_r"
+        },
+
+        "inc_L": {
+            "opcode_position": "2C",
+            "opcode": "inc_r"
+        },
+
+        "inc_A": {
+            "opcode_position": "3C",
+            "opcode": "inc_r"
+        },
+
+        "dec_B": {
+            "opcode_position": "05",
+            "opcode": "dec_r"
+        },
+
+        "dec_C": {
+            "opcode_position": "0D",
+            "opcode": "dec_r"
+        },
+
+        "dec_D": {
+            "opcode_position": "15",
+            "opcode": "dec_r"
+        },
+
+        "dec_E": {
+            "opcode_position": "1D",
+            "opcode": "dec_r"
+        },
+
+        "dec_H": {
+            "opcode_position": "25",
+            "opcode": "dec_r"
+        },
+
+        "dec_L": {
+            "opcode_position": "2D",
+            "opcode": "dec_r"
+        },
+
+        "dec_A": {
+            "opcode_position": "3D",
+            "opcode": "dec_r"
+        }
 
     },
         
@@ -335,6 +451,10 @@
             "subops": ["illegal_subop"]
         },
 
+        "nop": {
+            "subops": ["nop", "finishInstruction"]
+        },
+
         "load_r_d8": {
             "subops": ["nop", "incrPCOffset", "nop", "loadRegDataBus", "nop", "finishInstruction"]
         },
@@ -345,6 +465,26 @@
 
         "add_r_r": {
             "subops": ["start_alu_r_r", "finishInstructionAluAdd"]
+        },
+
+        "jr_r8": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "nop", "incrPCOffset", "nop", "nop", "nop", "jumpRelativeDataBus"]
+        },
+
+        "jr_f_r8": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "nop", "finishInstructionIfFlags", "nop", "nop", "nop", "jumpRelativeDataBus"]
+        },
+
+        "load_rr_d16": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadRRHighDataBus", "nop", "incrPCOffset", "nop", "loadRRLowDataBus", "nop", "finishInstruction"]
+        },
+
+        "inc_r": {
+            "subops": ["inc_r_pt1", "inc_r_pt2_finish"]
+        },
+
+        "dec_r": {
+            "subops": ["dec_r_pt1", "dec_r_pt2_finish"]
         }
 
 
@@ -361,6 +501,12 @@
             "cs_pc_sel": "pc_sel_pc_incr",
             "cs_pc_offset_sel": "pc_offset_sel_zero",
             "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "finishInstructionIfFlags": {
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_flag"
         },
 
         "incrPCOffset": {
@@ -428,6 +574,92 @@
             "cs_flag_z_sel": "flag_z_alu",
             "cs_flag_n_sel": "flag_n_zero",
             "cs_flag_h_sel": "flag_h_alu"
+        },
+
+        "loadDataBuffer1": {
+            "cs_write_data_buffer1": 1,
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0
+        },
+
+        "jumpRelativeDataBus": {
+            "cs_pc_sel": "pc_sel_data_bus_rel",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "loadRRLowDataBus": {
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_zero",
+            "cs_reg_file_write_reg": 1
+        },
+
+        "loadRRHighDataBus": {
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_one",
+            "cs_reg_file_write_reg": 1
+        },
+
+        "inc_r_pt1": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_add"
+        },
+
+        "inc_r_pt2_finish": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_add",
+            
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst53",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst53",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_alu",
+
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "dec_r_pt1": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_sub"
+        },
+
+        "dec_r_pt2_finish": {
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_sub",
+            
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst53",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst53",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_one",
+            "cs_flag_h_sel": "flag_h_alu",
+
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one"
         }
 
 

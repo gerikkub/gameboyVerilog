@@ -69,9 +69,9 @@ module pc_mod(
     // Expand the given interrupt value to an address
     assign int_addr = {9'd0, 1'd1, int_pc_in, 3'd0};
 
-    // Perform a signed addition to pc register
-    assign data_bus_rel_value = (data_bus[7] == 'd0) ? pc_register + {9'd0, data_bus[6:0]} :
-                                pc_register + {9'h1FF, data_bus[6:0]};
+    // Perform a signed addition to pc + offset
+    assign data_bus_rel_value = (data_bus[7] == 'd0) ? pc_w_offset + {9'd0, data_bus[6:0]} :
+                                pc_w_offset + {9'h1FF, data_bus[6:0]};
 
     always @(posedge clock)
     begin
