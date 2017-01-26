@@ -292,6 +292,41 @@
             "opcode": "load_r_r"
         },
 
+        "load_B_(HL)": {
+            "opcode_position": "46",
+            "opcode": "load_r_(HL)"
+        },
+
+        "load_C_(HL)": {
+            "opcode_position": "4E",
+            "opcode": "load_r_(HL)"
+        },
+
+        "load_D_(HL)": {
+            "opcode_position": "56",
+            "opcode": "load_r_(HL)"
+        },
+
+        "load_E_(HL)": {
+            "opcode_position": "5E",
+            "opcode": "load_r_(HL)"
+        },
+
+        "load_H_(HL)": {
+            "opcode_position": "66",
+            "opcode": "load_r_(HL)"
+        },
+
+        "load_L_(HL)": {
+            "opcode_position": "6E",
+            "opcode": "load_r_(HL)"
+        },
+
+        "load_A_(HL)": {
+            "opcode_position": "7E",
+            "opcode": "load_r_(HL)"
+        },
+
 
         "add_A_B": {
             "opcode_position": "80",
@@ -534,7 +569,7 @@
             "opcode_position": "3F",
             "opcode": "ccf"
         }
-
+        
     },
         
     "opcode": {
@@ -556,6 +591,10 @@
 
         "load_r_r": {
             "subops": ["load_r_r", "finishInstruction"]
+        },
+
+        "load_r_(HL)": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "load_r_data_bus_addr_buffer", "nop", "nop", "finishInstruction"]
         },
 
         "add_r_r": {
@@ -669,6 +708,14 @@
 
         "loadRegDataBus": {
             "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst53",
+            "cs_reg_file_write_reg": 1
+        },
+
+        "load_r_data_bus_addr_buffer": {
+            "cs_db_address_sel": "db_addr_buffer",
             "cs_db_nread": 0,
             "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
             "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst53",
@@ -1027,6 +1074,19 @@
             "cs_reg_file_out2_sel_sel": "reg_file_out2_inst54_one"
         },
 
+        "build_hl_addr_pt1": {
+            "cs_write_addr_buffer": 1,
+            "cs_addr_buffer_sel": "addr_buffer_reg_file_out2",
+
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_H"
+        },
+
+        "build_hl_addr_pt2": {
+            "cs_write_addr_buffer": 1,
+            "cs_addr_buffer_sel": "addr_buffer_reg_file_out2",
+
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_L"
+        },
 
         "load_a_data_bus_pre": {
             "cs_db_address_sel": "db_addr_buffer",
