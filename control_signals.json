@@ -78,7 +78,7 @@
 
     "cs_flag_c_sel": {
         "type": "mux",
-        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift"]
+        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift", "flag_c_toggle"]
     },
 
     "cs_flag_z_sel": {
@@ -133,7 +133,7 @@
 
     "cs_sp_sel": {
         "type": "mux",
-        "values": ["sp_sel_sp", "sp_sel_sp_incr", "sp_sel_sp_dect", "sp_sel_data_bus", "sp_sel_data_bus_rel"]
+        "values": ["sp_sel_sp", "sp_sel_sp_incr", "sp_sel_sp_decr", "sp_sel_data_bus", "sp_sel_data_bus_rel"]
     },
 
     "cs_sp_write_temp_buf": {

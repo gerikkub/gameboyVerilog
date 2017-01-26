@@ -141,7 +141,7 @@ module core(
     wire cs_write_flag_h;
     wire cs_write_temp_flag_c;
 
-    wire [1:0]cs_flag_c_sel;
+    wire [2:0]cs_flag_c_sel;
     wire [1:0]cs_flag_z_sel;
     wire cs_flag_n_sel;
     wire [1:0]cs_flag_h_sel;
@@ -149,7 +149,8 @@ module core(
     parameter flag_c_zero = 'd0,
               flag_c_one = 'd1,
               flag_c_alu = 'd2,
-              flag_c_shift = 'd3;
+              flag_c_shift = 'd3,
+              flag_c_toggle = 'd4;
     
     parameter flag_z_zero = 'd0,
               flag_z_one = 'd1,
@@ -184,6 +185,7 @@ module core(
                     flag_c_one:   flag_c <= 'd1;
                     flag_c_alu:   flag_c <= alu_out_flags[0];
                     flag_c_shift: flag_c <= 'd0; // TODO
+                    flag_c_toggle: flag_c <= ~flag_c;
                     default: flag_c <= 'd1; // Should never occur
                 endcase
             end
@@ -447,7 +449,7 @@ module core(
     wire [1:0]cs_cu_adv_sel;
 
     wire flag_adv;
-    wire [58:0]control_signals;
+    wire [59:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction

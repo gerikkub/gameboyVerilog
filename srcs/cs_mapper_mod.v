@@ -32,11 +32,11 @@ output [1:0]cs_addr_buffer_sel,
 output cs_write_flag_z,
 output cs_write_flag_c,
 output cs_flag_n_sel,
-output [1:0]cs_flag_c_sel,
+output [2:0]cs_flag_c_sel,
 output cs_pc_write_temp_buf,
 output cs_write_flag_h,
 output cs_write_flag_n,
-input [58:0]control_signals 
+input [59:0]control_signals 
         ); 
         
 assign cs_flag_z_sel = control_signals[1:0];
@@ -69,8 +69,8 @@ assign cs_addr_buffer_sel = control_signals[50:49];
 assign cs_write_flag_z = control_signals[51];
 assign cs_write_flag_c = control_signals[52];
 assign cs_flag_n_sel = control_signals[53];
-assign cs_flag_c_sel = control_signals[55:54];
-assign cs_pc_write_temp_buf = control_signals[56];
-assign cs_write_flag_h = control_signals[57];
-assign cs_write_flag_n = control_signals[58];
+assign cs_flag_c_sel = control_signals[56:54];
+assign cs_pc_write_temp_buf = control_signals[57];
+assign cs_write_flag_h = control_signals[58];
+assign cs_write_flag_n = control_signals[59];
 endmodule
