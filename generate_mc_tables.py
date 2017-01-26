@@ -212,7 +212,7 @@ def addSubopsToOpcodeList(opcode_list, subop_list, subop_position_dict):
 
     for subop_name in subop_list:
         if not subop_name in subop_position_dict:
-            print "Subop {0} not found in subop list1}".format(subop_name)
+            print "Subop {0} not found in subop list".format(subop_name)
             return False
 
         opcode_list.append(subop_position_dict[subop_name])
@@ -265,7 +265,6 @@ def generateMetadataDict(metadata_json):
 def writeMetadataVector(metadata_opcode_dict, opcode_position_dict):
 
     ill_position = opcode_position_dict["illegal_op"]
-    print "Illegal_op pos: " + str(ill_position)
 
     metadata_vector = ['%X' % ill_position for x in range(0x200)]
 
@@ -277,8 +276,6 @@ def writeMetadataVector(metadata_opcode_dict, opcode_position_dict):
 
     mdata_file.write("\n".join(metadata_vector))
 
-
-    print metadata_vector
 
 def writeOpcodeVector(opcode_list):
     

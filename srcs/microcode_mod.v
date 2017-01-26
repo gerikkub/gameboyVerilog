@@ -1,13 +1,13 @@
 `timescale 1ns / 1ps 
  
 module microcode_mod( 
-    input [6:0]opcode, 
+    input [7:0]opcode, 
     output [59:0]control_signals 
     ); 
  
-    parameter opcode_table_size = 123; 
+    parameter opcode_table_size = 137; 
  
-    parameter subop_table_size = 56; 
+    parameter subop_table_size = 61; 
  
     reg [5:0]opcode_table[0:opcode_table_size-1]; 
     reg [59:0]subop_table[0:subop_table_size-1]; 

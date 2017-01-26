@@ -330,37 +330,324 @@
 
         "add_A_B": {
             "opcode_position": "80",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
         },
 
         "add_A_C": {
             "opcode_position": "81",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
         },
 
         "add_A_D": {
             "opcode_position": "82",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
         },
 
         "add_A_E": {
             "opcode_position": "83",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
         },
 
         "add_A_H": {
             "opcode_position": "84",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
         },
 
         "add_A_L": {
             "opcode_position": "85",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
         },
 
         "add_A_A": {
             "opcode_position": "87",
-            "opcode": "add_r_r"
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_B": {
+            "opcode_position": "88",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_C": {
+            "opcode_position": "89",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_D": {
+            "opcode_position": "8A",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_E": {
+            "opcode_position": "8B",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_H": {
+            "opcode_position": "8C",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_L": {
+            "opcode_position": "8D",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "adc_A_A": {
+            "opcode_position": "8F",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "sub_A_B": {
+            "opcode_position": "90",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sub_A_C": {
+            "opcode_position": "91",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sub_A_D": {
+            "opcode_position": "92",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sub_A_E": {
+            "opcode_position": "93",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sub_A_H": {
+            "opcode_position": "94",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_L": {
+            "opcode_position": "95",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_A": {
+            "opcode_position": "97",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_B": {
+            "opcode_position": "98",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_C": {
+            "opcode_position": "99",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_D": {
+            "opcode_position": "9A",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_E": {
+            "opcode_position": "9B",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_H": {
+            "opcode_position": "9C",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_L": {
+            "opcode_position": "9D",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "sbc_A_A": {
+            "opcode_position": "9F",
+            "opcode": "alu_r_r_n1"
+        },
+
+
+        "and_A_B": {
+            "opcode_position": "A0",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "and_A_C": {
+            "opcode_position": "A1",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "and_A_D": {
+            "opcode_position": "A2",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "and_A_E": {
+            "opcode_position": "A3",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "and_A_H": {
+            "opcode_position": "A4",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "and_A_L": {
+            "opcode_position": "A5",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "and_A_A": {
+            "opcode_position": "A7",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_B": {
+            "opcode_position": "A8",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_C": {
+            "opcode_position": "A9",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_D": {
+            "opcode_position": "AA",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_E": {
+            "opcode_position": "AB",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_H": {
+            "opcode_position": "AC",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_L": {
+            "opcode_position": "AD",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "xor_A_A": {
+            "opcode_position": "AF",
+            "opcode": "alu_r_r_n0"
+        },
+
+
+        "or_A_B": {
+            "opcode_position": "B0",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "or_A_C": {
+            "opcode_position": "B1",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "or_A_D": {
+            "opcode_position": "B2",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "or_A_E": {
+            "opcode_position": "B3",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "or_A_H": {
+            "opcode_position": "B4",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "or_A_L": {
+            "opcode_position": "B5",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "or_A_A": {
+            "opcode_position": "B7",
+            "opcode": "alu_r_r_n0"
+        },
+
+        "cp_A_B": {
+            "opcode_position": "B8",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "cp_A_C": {
+            "opcode_position": "B9",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "cp_A_D": {
+            "opcode_position": "BA",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "cp_A_E": {
+            "opcode_position": "BB",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "cp_A_H": {
+            "opcode_position": "BC",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "cp_A_L": {
+            "opcode_position": "BD",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "cp_A_A": {
+            "opcode_position": "BF",
+            "opcode": "alu_r_r_n1"
+        },
+
+        "add_a_(hl)": {
+            "opcode_position": "86",
+            "opcode": "alu_r_(hl)_n0"
+        },
+
+        "adc_a_(hl)": {
+            "opcode_position": "8E",
+            "opcode": "alu_r_(hl)_n0"
+        },
+
+        "sub_a_(hl)": {
+            "opcode_position": "96",
+            "opcode": "alu_r_(hl)_n1"
+        },
+
+        "sbc_a_(hl)": {
+            "opcode_position": "9E",
+            "opcode": "alu_r_(hl)_n1"
+        },
+
+        "and_a_(hl)": {
+            "opcode_position": "A6",
+            "opcode": "alu_r_(hl)_n0"
+        },
+
+        "xor_a_(hl)": {
+            "opcode_position": "AE",
+            "opcode": "alu_r_(hl)_n0"
+        },
+
+        "or_a_(hl)": {
+            "opcode_position": "B6",
+            "opcode": "alu_r_(hl)_n0"
+        },
+
+        "cp_a_(hl)": {
+            "opcode_position": "BE",
+            "opcode": "alu_r_(hl)_n1"
         },
 
 
@@ -597,8 +884,20 @@
             "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "load_r_data_bus_addr_buffer", "nop", "nop", "finishInstruction"]
         },
 
-        "add_r_r": {
-            "subops": ["start_alu_r_r", "finishInstructionAluAdd"]
+        "alu_r_r_n0": {
+            "subops": ["start_alu_r_r", "finishInstructionAluN0"]
+        },
+
+        "alu_r_r_n1": {
+            "subops": ["start_alu_r_r", "finishInstructionAluN1"]
+        },
+
+        "alu_r_(hl)_n0": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "nop", "loadDataBuffer1_addr_buffer", "start_alu_r_data_bus", "finish_instruction_r_data_bus_n0"]
+        },
+
+        "alu_r_(hl)_n1": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "nop", "loadDataBuffer1_addr_buffer", "start_alu_r_data_bus", "finish_instruction_r_data_bus_n1"]
         },
 
         "jr_r8": {
@@ -738,7 +1037,70 @@
             "cs_alu_in_C_sel": "alu_in_C_flag"
         },
 
-        "finishInstructionAluAdd": {
+        "start_alu_r_data_bus": {
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A",
+
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_data_bus_temp",
+            "cs_alu_in_C_sel": "alu_in_C_flag",
+            "cs_alu_op_sel": "alu_op_inst"
+        },
+
+        "finish_instruction_r_data_bus_n0": {
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A",
+
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_A",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_data_bus_temp",
+            "cs_alu_in_C_sel": "alu_in_C_flag",
+            "cs_alu_op_sel": "alu_op_inst",
+
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one",
+
+            "cs_write_flag_c": 1,
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_c_sel": "flag_c_alu",
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_alu"
+        },
+
+        "finish_instruction_r_data_bus_n1": {
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A",
+
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_A",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_data_bus_temp",
+            "cs_alu_in_C_sel": "alu_in_C_flag",
+            "cs_alu_op_sel": "alu_op_inst",
+
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one",
+
+            "cs_write_flag_c": 1,
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_c_sel": "flag_c_alu",
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_one",
+            "cs_flag_h_sel": "flag_h_alu"
+        },
+
+        "finishInstructionAluN0": {
             "cs_pc_sel": "pc_sel_pc_incr",
             "cs_pc_offset_sel": "pc_offset_sel_zero",
             "cs_cu_adv_sel": "adv_signal_mux_one",
@@ -765,11 +1127,45 @@
             "cs_flag_h_sel": "flag_h_alu"
         },
 
+        "finishInstructionAluN1": {
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_inst20",
+            "cs_alu_in_A_sel": "alu_in_A_reg_out1",
+            "cs_alu_in_B_sel": "alu_in_B_reg_out2",
+            "cs_alu_op_sel": "alu_op_inst",
+            "cs_alu_in_C_sel": "alu_in_C_flag",
+
+            "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_A",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_flag_c": 1,
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_c_sel": "flag_c_alu",
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_one",
+            "cs_flag_h_sel": "flag_h_alu"
+        },
+
         "loadDataBuffer1": {
             "cs_write_data_buffer1": 1,
             "cs_db_address_sel": "db_addr_pc_offset",
             "cs_db_nread": 0
         },
+
+        "loadDataBuffer1_addr_buffer": {
+            "cs_write_data_buffer1": 1,
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_nread": 0
+        },
+
 
         "jumpRelativeDataBus": {
             "cs_pc_sel": "pc_sel_data_bus_rel",

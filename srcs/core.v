@@ -284,13 +284,13 @@ module core(
     assign alu_in_A = (cs_alu_in_A_sel == alu_in_A_reg_out1) ? reg_file_out1 :
                       (cs_alu_in_A_sel == alu_in_A_SP_S) ? sp_out[15:8] :
                       (cs_alu_in_A_sel == alu_in_A_SP_P) ? sp_out[7:0] :
-                      (cs_alu_in_A_sel == alu_in_A_data_bus_temp) ? data_bus_buffer :
+                      (cs_alu_in_A_sel == alu_in_A_data_bus_temp) ? inst_data_buffer1 :
                       'hEE; // Can never occur
 
     assign alu_in_B = (cs_alu_in_B_sel == alu_in_B_zero) ? 'd0 :
                       (cs_alu_in_B_sel == alu_in_B_one) ? 'd1 :
                       (cs_alu_in_B_sel == alu_in_B_reg_out2) ? reg_file_out2 :
-                      (cs_alu_in_B_sel == alu_in_B_data_bus_temp) ? data_bus_buffer :
+                      (cs_alu_in_B_sel == alu_in_B_data_bus_temp) ? inst_data_buffer1 :
                       'hEE; // Can never occur
 
     assign alu_op = (cs_alu_op_sel == alu_op_inst) ? inst_buffer[5:3] :

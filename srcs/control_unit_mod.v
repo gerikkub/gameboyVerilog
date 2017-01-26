@@ -34,7 +34,7 @@ module control_unit_mod(
     initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 
     microcode_mod microcode(
-        .opcode(opcode_input[6:0]),
+        .opcode(opcode_input[7:0]),
         .control_signals(control_signals)
     );
 
