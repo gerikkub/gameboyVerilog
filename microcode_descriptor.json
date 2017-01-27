@@ -910,7 +910,26 @@
         "jp_(hl)": {
             "opcode_position": "E9",
             "opcode": "jump_(hl)"
+        },
+
+        "pop_BC": {
+            "opcode_position": "C1",
+            "opcode": "pop_rr"
+        },
+
+        "pop_DE": {
+            "opcode_position": "D1",
+            "opcode": "pop_rr"
+        },
+
+        "pop_HL": {
+            "opcode_position": "E1",
+            "opcode": "pop_rr"
         }
+
+
+
+
         
     },
         
@@ -964,7 +983,7 @@
         },
 
         "load_rr_d16": {
-            "subops": ["nop", "incrPCOffset", "nop", "loadRRHighDataBus", "nop", "incrPCOffset", "nop", "loadRRLowDataBus", "nop", "finishInstruction"]
+            "subops": ["nop", "incrPCOffset", "nop", "loadRRLowDataBus", "nop", "incrPCOffset", "nop", "loadRRHighDataBus", "nop", "finishInstruction"]
         },
         
         "load_sp_d16": {
@@ -1041,8 +1060,11 @@
 
         "jump_(hl)": {
             "subops": ["nop", "finish_instruction_pc_hl"]
-        }
+        },
 
+        "pop_rr": {
+            "subops": ["nop", "nop", "nop", "load_rr_low_sp", "nop", "inc_sp", "nop", "load_rr_high_sp", "inc_sp", "finishInstruction"]
+        }
 
     },
 
@@ -1270,7 +1292,7 @@
             "cs_cu_adv_sel": "adv_signal_mux_one"
         },
 
-        "loadRRLowDataBus": {
+        "loadRRHighDataBus": {
             "cs_db_address_sel": "db_addr_pc_offset",
             "cs_db_nread": 0,
             "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
@@ -1278,11 +1300,30 @@
             "cs_reg_file_write_reg": 1
         },
 
-        "loadRRHighDataBus": {
+        
+        "loadRRLowDataBus": {
             "cs_db_address_sel": "db_addr_pc_offset",
             "cs_db_nread": 0,
             "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
             "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_one",
+            "cs_reg_file_write_reg": 1
+        },
+
+        "load_rr_low_sp": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_nread": 0,
+
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_one",
+            "cs_reg_file_write_reg": 1
+        },
+
+        "load_rr_high_sp": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_nread": 0,
+
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst54_zero",
             "cs_reg_file_write_reg": 1
         },
         
