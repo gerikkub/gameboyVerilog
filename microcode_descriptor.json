@@ -925,12 +925,47 @@
         "pop_HL": {
             "opcode_position": "E1",
             "opcode": "pop_rr"
+        },
+
+        "add_a_d8": {
+            "opcode_position": "C6",
+            "opcode": "alu_d8_n0"
+        },
+
+        "adc_a_d8": {
+            "opcode_position": "CE",
+            "opcode": "alu_d8_n0"
+        },
+
+        "sub_a_d8": {
+            "opcode_position": "D6",
+            "opcode": "alu_d8_n1"
+        },
+
+        "sbc_a_d8": {
+            "opcode_position": "DE",
+            "opcode": "alu_d8_n1"
+        },
+
+        "and_d8": {
+            "opcode_position": "E6",
+            "opcode": "alu_d8_n0"
+        },
+
+        "xor_d8": {
+            "opcode_position": "EE",
+            "opcode": "alu_d8_n0"
+        },
+
+        "or_d8": {
+            "opcode_position": "F6",
+            "opcode": "alu_d8_n0"
+        },
+
+        "cp_d8": {
+            "opcode_position": "FE",
+            "opcode": "alu_d8_n1"
         }
-
-
-
-
-        
     },
         
     "opcode": {
@@ -1064,6 +1099,14 @@
 
         "pop_rr": {
             "subops": ["nop", "nop", "nop", "load_rr_low_sp", "nop", "inc_sp", "nop", "load_rr_high_sp", "inc_sp", "finishInstruction"]
+        },
+
+        "alu_d8_n0": {
+            "subops": ["nop", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "start_alu_r_data_bus", "finish_instruction_r_data_bus_n0"]
+        },
+
+        "alu_d8_n1": {
+            "subops": ["nop", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "start_alu_r_data_bus", "finish_instruction_r_data_bus_n1"]
         }
 
     },
