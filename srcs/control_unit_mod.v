@@ -11,7 +11,7 @@ module control_unit_mod(
 
     input [1:0]adv_sel,
 
-    output [59:0]control_signals
+    output [61:0]control_signals
     );
 
     parameter adv_signal_mux_zero = 'd0,
@@ -34,7 +34,7 @@ module control_unit_mod(
     initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 
     microcode_mod microcode(
-        .opcode(opcode_input[7:0]),
+        .opcode(opcode_input[8:0]),
         .control_signals(control_signals)
     );
 

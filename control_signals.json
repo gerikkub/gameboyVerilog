@@ -133,12 +133,17 @@
 
     "cs_sp_sel": {
         "type": "mux",
-        "values": ["sp_sel_sp", "sp_sel_sp_incr", "sp_sel_sp_decr", "sp_sel_data_bus", "sp_sel_data_bus_rel"]
+        "values": ["sp_sel_sp", "sp_sel_sp_incr", "sp_sel_sp_decr", "sp_sel_temp_buf", "sp_sel_data_bus_rel"]
     },
 
     "cs_sp_write_temp_buf": {
         "type": "num",
         "bits": 1
+    },
+
+    "cs_sp_temp_buf_sel": {
+        "type": "mux",
+        "values": ["sp_temp_sel_data_bus", "sp_temp_sel_alu", "sp_temp_sel_reg_file_out2"]
     },
 
     "cs_reg_file_out1_sel_sel": {

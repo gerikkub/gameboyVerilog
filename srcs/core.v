@@ -440,6 +440,7 @@ module core(
     // Control Signals for SP
     wire [2:0]cs_sp_sel;
     wire cs_sp_write_temp_buf;
+    wire [1:0]cs_sp_temp_buf_sel;
 
     wire [15:0]sp_out;
 
@@ -448,6 +449,9 @@ module core(
         .reset(reset),
         .sp_sel(cs_sp_sel),
         .data_bus(db_data),
+        .alu_in(alu_out),
+        .reg_file_out2(reg_file_out2),
+        .temp_buf_sel(cs_sp_temp_buf_sel),
         .write_temp_buf(cs_sp_write_temp_buf),
         .sp(sp_out)
     );
@@ -456,7 +460,7 @@ module core(
     wire [1:0]cs_cu_adv_sel;
 
     wire flag_adv;
-    wire [59:0]control_signals;
+    wire [61:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction
@@ -512,6 +516,7 @@ module core(
         .cs_write_flag_h(cs_write_flag_h),
         .cs_write_flag_n(cs_write_flag_n),
         .cs_reg_file_write_reg(cs_reg_file_write_reg),
+        .cs_sp_temp_buf_sel(cs_sp_temp_buf_sel),
 
         .control_signals(control_signals)
     );
