@@ -5,9 +5,9 @@ module microcode_mod(
     output [59:0]control_signals 
     ); 
  
-    parameter opcode_table_size = 221; 
+    parameter opcode_table_size = 251; 
  
-    parameter subop_table_size = 67; 
+    parameter subop_table_size = 71; 
  
     reg [6:0]opcode_table[0:opcode_table_size-1]; 
     reg [59:0]subop_table[0:subop_table_size-1]; 

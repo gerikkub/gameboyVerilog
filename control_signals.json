@@ -31,7 +31,7 @@
 
     "cs_db_address_sel": {
         "type": "mux",
-        "values": ["db_addr_buffer", "db_addr_pc_offset", "db_addr_sp"]
+        "values": ["db_addr_buffer", "db_addr_pc_offset", "db_addr_sp", "db_addr_buffer_swap"]
     },
 
     "cs_db_data_sel": {
@@ -148,7 +148,7 @@
 
     "cs_reg_file_out2_sel_sel": {
         "type": "mux",
-        "values": ["reg_file_out2_inst20", "reg_file_out2_inst53", "reg_file_out2_inst54_zero", "reg_file_out2_inst54_one", "reg_file_out2_H", "reg_file_out2_L"]
+        "values": ["reg_file_out2_inst20", "reg_file_out2_inst53", "reg_file_out2_inst54_zero", "reg_file_out2_inst54_one", "reg_file_out2_H", "reg_file_out2_L", "reg_file_out2_C"]
     },
 
     "cs_reg_file_data_in_sel": {

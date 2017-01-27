@@ -965,7 +965,23 @@
         "cp_d8": {
             "opcode_position": "FE",
             "opcode": "alu_d8_n1"
+        },
+
+        "ldh_a_(a8)": {
+            "opcode_position": "F0",
+            "opcode": "ldh_a_(a8)"
+        },
+
+        "ld_a_(c)": {
+            "opcode_position": "F2",
+            "opcode": "ld_a_(c)"
+        },
+
+        "ld_a_(a16)": {
+            "opcode_position": "FA",
+            "opcode": "ld_a_(a16)"
         }
+
     },
         
     "opcode": {
@@ -1107,7 +1123,20 @@
 
         "alu_d8_n1": {
             "subops": ["nop", "incrPCOffset", "loadDataBuffer1", "loadDataBuffer1", "start_alu_r_data_bus", "finish_instruction_r_data_bus_n1"]
+        },
+
+        "ldh_a_(a8)": {
+            "subops": ["load_addr_ff", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "load_a_data_bus_pre", "load_a_data_bus", "nop", "finishInstruction"]
+        },
+
+        "ld_a_(c)": {
+            "subops": ["load_addr_ff", "load_addr_c", "load_a_data_bus_pre", "load_a_data_bus", "nop", "finishInstruction"]
+        },
+
+        "ld_a_(a16)": {
+            "subops": ["nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "nop", "load_a_data_bus_swap", "nop", "finishInstruction"]
         }
+
 
     },
 
@@ -1813,7 +1842,39 @@
 
         "load_pc_temp_data_bus": {
             "cs_pc_write_temp_buf": 1
+        },
+
+        "load_addr_ff": {
+            "cs_write_addr_buffer": 1,
+            "cs_addr_buffer_sel": "addr_buffer_ff"
+        },
+
+        "load_addr_data_bus": {
+            "cs_db_address_sel": "db_addr_pc_offset",
+            "cs_db_nread": 0,
+
+            "cs_write_addr_buffer": 1,
+            "cs_addr_buffer_sel": "addr_buffer_data_bus"
+        },
+
+
+        "load_addr_c": {
+            "cs_write_addr_buffer": 1,
+            "cs_addr_buffer_sel": "addr_buffer_reg_file_out2",
+            "cs_reg_file_out2_sel_sel": "reg_file_out2_C"
+        },
+
+        "load_a_data_bus_swap": {
+            "cs_db_address_sel": "db_addr_buffer_swap",
+            "cs_db_nread": 0,
+
+            "cs_reg_file_data_in_sel": "reg_file_data_in_data_bus",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_A",
+            "cs_reg_file_write_reg": 1
         }
+
+
+
 
     }
 }

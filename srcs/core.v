@@ -111,7 +111,8 @@ module core(
 
     parameter db_addr_buffer = 'd0,
               db_addr_pc_offset = 'd1,
-              db_addr_sp = 'd2;
+              db_addr_sp = 'd2,
+              db_addr_buffer_swap = 'd3;
 
     parameter db_data_reg_file_out2 = 'd0,
               db_data_alu = 'd1,
@@ -121,7 +122,8 @@ module core(
     assign db_address = (cs_db_address_sel == db_addr_buffer) ? addr_buffer :
                         (cs_db_address_sel == db_addr_pc_offset) ? pc_out_w_offset :
                         (cs_db_address_sel == db_addr_sp) ? sp_out :
-                        'hEEEE; // Should never occur
+                        (cs_db_address_sel == db_addr_buffer_swap) ? {addr_buffer[7:0], addr_buffer[15:8]} :
+                        'hEEEE; // Can never occur
 
     assign db_data = (cs_db_nwrite == 'd1) ? 'dZ :
                      (cs_db_data_sel == db_data_reg_file_out2) ? reg_file_out2 :
@@ -345,7 +347,8 @@ module core(
               reg_file_out2_inst54_zero = 'd2,
               reg_file_out2_inst54_one = 'd3,
               reg_file_out2_H = 'd4,
-              reg_file_out2_L = 'd5;
+              reg_file_out2_L = 'd5,
+              reg_file_out2_C = 'd6;
 
     parameter reg_file_data_in_data_bus = 'd0,
               reg_file_data_in_alu = 'd1,
@@ -375,6 +378,7 @@ module core(
                                (cs_reg_file_out2_sel_sel == reg_file_out2_inst54_one)  ? {inst_buffer[5:4], 1'd1} :
                                (cs_reg_file_out2_sel_sel == reg_file_out2_H) ? 'b100 :
                                (cs_reg_file_out2_sel_sel == reg_file_out2_L) ? 'b101 :
+                               (cs_reg_file_out2_sel_sel == reg_file_out2_C) ? 'b001 :
                                'b110; // Should never occur
 
     assign reg_file_data_in = (cs_reg_file_data_in_sel == reg_file_data_in_data_bus) ? db_data :
