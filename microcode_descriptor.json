@@ -1095,6 +1095,31 @@
         "call_c_a16": {
             "opcode_position": "DC",
             "opcode": "call_flag_a16"
+        },
+
+        "push_bc": {
+            "opcode_position": "C5",
+            "opcode": "push_rr"
+        },
+
+        "push_de": {
+            "opcode_position": "D5",
+            "opcode": "push_rr"
+        },
+
+        "push_hl": {
+            "opcode_position": "E5",
+            "opcode": "push_rr"
+        },
+
+        "push_af": {
+            "opcode_position": "F5",
+            "opcode": "push_af"
+        },
+
+        "pop_af": {
+            "opcode_position": "F1",
+            "opcode": "pop_af"
         }
 
     },
@@ -1302,7 +1327,20 @@
 
         "call_flag_a16": {
             "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset", "nop", "loadDataBuffer1", "nop", "finishInstructionIfFlags", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "push_rr": {
+            "subops": ["nop", "dec_sp", "write_rr0_stack", "write_rr0_stack", "nop", "dec_sp", "write_rr1_stack", "write_rr1_stack", "nop", "nop", "nop", "nop", "nop", "finishInstruction"]
+        },
+
+        "push_af": {
+            "subops": ["nop", "dec_sp", "write_rr1_stack", "write_rr1_stack", "nop", "dec_sp", "write_flags_stack", "write_flags_stack", "nop", "nop", "nop", "nop", "nop", "finishInstruction"]
+        },
+
+        "pop_af": {
+            "subops": ["nop", "nop", "nop", "read_flags_stack", "nop", "inc_sp", "nop", "load_rr_low_sp", "inc_sp", "finishInstruction"]
         }
+
 
     },
 
@@ -2217,9 +2255,44 @@
         "dec_sp_incr_pc_offset": {
             "cs_sp_sel": "sp_sel_sp_decr",
             "cs_pc_offset_sel": "pc_offset_sel_offset_incr"
+        },
+
+        "write_rr0_stack": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_data_sel": "db_data_reg_file_out1",
+            "cs_db_nwrite": 0,
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_zero"
+        },
+
+        "write_rr1_stack": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_data_sel": "db_data_reg_file_out1",
+            "cs_db_nwrite": 0,
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst54_one"
+        },
+
+        "write_flags_stack": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_data_sel": "db_data_flags",
+            "cs_db_nwrite": 0
+        },
+
+        "read_flags_stack": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_nread": 0,
+
+            "cs_write_flag_c": 1,
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_c_sel": "flag_c_data_bus",
+            "cs_flag_z_sel": "flag_z_data_bus",
+            "cs_flag_n_sel": "flag_n_data_bus",
+            "cs_flag_h_sel": "flag_h_data_bus"
         }
-
-
 
 
 

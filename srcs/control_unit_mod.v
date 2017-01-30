@@ -11,7 +11,7 @@ module control_unit_mod(
 
     input [1:0]adv_sel,
 
-    output [63:0]control_signals
+    output [64:0]control_signals
     );
 
     parameter adv_signal_mux_zero = 'd0,

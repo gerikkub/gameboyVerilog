@@ -121,7 +121,8 @@ module core(
               db_data_pc_offset_c = 'd3,
               db_data_sp_s = 'd4,
               db_data_sp_p = 'd5,
-              db_data_data_bus_temp = 'd6;
+              db_data_data_bus_temp = 'd6,
+              db_data_flags = 'd7;
 
     assign db_address = (cs_db_address_sel == db_addr_buffer) ? addr_buffer :
                         (cs_db_address_sel == db_addr_pc_offset) ? pc_out_w_offset :
@@ -138,7 +139,8 @@ module core(
                      (cs_db_data_sel == db_data_sp_s) ? sp_out[15:8] :
                      (cs_db_data_sel == db_data_sp_p) ? sp_out[7:0] :
                      (cs_db_data_sel == db_data_data_bus_temp) ? inst_data_buffer1 :
-                     'hEE; // Should never occur
+                     (cs_db_data_sel == db_data_flags) ? {flag_z, flag_n, flag_h, flag_c, 4'd0} :
+                     'hEE; // Can never occur
 
     assign db_nwrite = cs_db_nwrite;
     assign db_nread = cs_db_nread;
@@ -153,26 +155,29 @@ module core(
 
     wire [2:0]cs_flag_c_sel;
     wire [1:0]cs_flag_z_sel;
-    wire cs_flag_n_sel;
+    wire [1:0]cs_flag_n_sel;
     wire [1:0]cs_flag_h_sel;
 
     parameter flag_c_zero = 'd0,
               flag_c_one = 'd1,
               flag_c_alu = 'd2,
               flag_c_shift = 'd3,
-              flag_c_toggle = 'd4;
+              flag_c_toggle = 'd4,
+              flag_c_data_bus = 'd5;
     
     parameter flag_z_zero = 'd0,
-              flag_z_one = 'd1,
+              flag_z_data_bus = 'd1,
               flag_z_alu = 'd2,
               flag_z_shift = 'd3;
 
     parameter flag_n_zero = 'd0,
-              flag_n_one = 'd1;
+              flag_n_one = 'd1,
+              flag_n_data_bus = 'd2;
 
     parameter flag_h_zero = 'd0,
               flag_h_one = 'd1,
-              flag_h_alu = 'd2;
+              flag_h_alu = 'd2,
+              flag_h_data_bus = 'd3;
 
      // Flag muxes
      always @(posedge clock)
@@ -196,6 +201,7 @@ module core(
                     flag_c_alu:   flag_c <= alu_out_flags[0];
                     flag_c_shift: flag_c <= 'd0; // TODO
                     flag_c_toggle: flag_c <= ~flag_c;
+                    flag_c_data_bus: flag_c <= db_data[4];
                     default: flag_c <= 'd1; // Should never occur
                 endcase
             end
@@ -206,7 +212,7 @@ module core(
             end else begin
                 case (cs_flag_z_sel)
                     flag_z_zero:  flag_z <= 'd0;
-                    flag_z_one:   flag_z <= 'd1;
+                    flag_z_data_bus: flag_z <= db_data[7];
                     flag_z_alu:   flag_z <= alu_out_flags[3];
                     flag_z_shift: flag_z <= 'd0; // TODO
                     default: flag_z <= 'd1; // Can never occur
@@ -220,6 +226,7 @@ module core(
                 case (cs_flag_n_sel)
                     flag_n_zero: flag_n <= 'd0;
                     flag_n_one:  flag_n <= 'd1;
+                    flag_n_data_bus: flag_n <= db_data[6];
                     default: flag_n <= 'd1; // Can never occur
                 endcase
             end
@@ -232,6 +239,7 @@ module core(
                     flag_h_zero: flag_h <= 'd0;
                     flag_h_one:  flag_h <= 'd1;
                     flag_h_alu:  flag_h <= alu_out_flags[1];
+                    flag_h_data_bus: flag_h <= db_data[5];
                     default: flag_h <= 'd1; // Could occur, but should not
                 endcase
             end
@@ -470,7 +478,7 @@ module core(
     wire [1:0]cs_cu_adv_sel;
 
     wire flag_adv;
-    wire [63:0]control_signals;
+    wire [64:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction

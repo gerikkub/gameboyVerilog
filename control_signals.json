@@ -36,7 +36,7 @@
 
     "cs_db_data_sel": {
         "type": "mux",
-        "values": ["db_data_reg_file_out1", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c", "db_data_sp_s", "db_data_sp_p", "db_data_data_bus_temp"]
+        "values": ["db_data_reg_file_out1", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c", "db_data_sp_s", "db_data_sp_p", "db_data_data_bus_temp", "db_data_flags"]
     },
 
     "cs_db_nwrite": {
@@ -78,22 +78,22 @@
 
     "cs_flag_c_sel": {
         "type": "mux",
-        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift", "flag_c_toggle"]
+        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift", "flag_c_toggle", "flag_c_data_bus"]
     },
 
     "cs_flag_z_sel": {
         "type": "mux",
-        "values": ["flag_z_zero", "flag_z_one", "flag_z_alu", "flag_z_shift"]
+        "values": ["flag_z_zero", "flag_z_data_bus", "flag_z_alu", "flag_z_shift"]
     },
 
     "cs_flag_n_sel": {
         "type": "mux",
-        "values": ["flag_n_zero", "flag_n_one"]
+        "values": ["flag_n_zero", "flag_n_one", "flag_n_data_bus"]
     },
 
     "cs_flag_h_sel": {
         "type": "mux",
-        "values": ["flag_h_zero", "flag_h_one", "flag_h_alu"]
+        "values": ["flag_h_zero", "flag_h_one", "flag_h_alu", "flag_h_data_bus"]
     },
 
     "cs_alu_in_A_sel": {
