@@ -1160,8 +1160,22 @@
         "rst_38": {
             "opcode_position": "FF",
             "opcode": "rst"
-        }
+        },
 
+        "ldh_(a8)_a": {
+            "opcode_position": "E0",
+            "opcode": "ldh_(a8)_a"
+        },
+
+        "ld_(c)_a": {
+            "opcode_position": "E2",
+            "opcode": "ld_(c)_a"
+        },
+
+        "ld_(a16)_a": {
+            "opcode_position": "EA",
+            "opcode": "ld_(a16)_a"
+        }
     },
         
     "opcode": {
@@ -1383,7 +1397,20 @@
 
         "rst": {
             "subops": ["incrPCOffset", "nop", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "finish_instruction_rst"]
+        },
+
+        "ldh_(a8)_a": {
+            "subops": ["load_addr_ff", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_a_data_bus", "write_a_data_bus", "nop", "finishInstruction"]
+        },
+
+        "ld_(c)_a": {
+            "subops": ["load_addr_ff", "load_addr_c", "write_a_data_bus", "write_a_data_bus", "nop", "finishInstruction"]
+        },
+
+        "ld_(a16)_a": {
+            "subops": ["nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_a_data_bus_swap", "write_a_data_bus_swap", "nop", "finishInstruction"]
         }
+
 
 
     },
@@ -2222,6 +2249,14 @@
 
         "write_a_data_bus": {
             "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_reg_file_out1",
+            "cs_db_nwrite": 0,
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A"
+        },
+
+        "write_a_data_bus_swap": {
+            "cs_db_address_sel": "db_addr_buffer_swap",
             "cs_db_data_sel": "db_data_reg_file_out1",
             "cs_db_nwrite": 0,
 
