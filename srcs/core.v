@@ -114,7 +114,7 @@ module core(
               db_addr_sp = 'd2,
               db_addr_buffer_swap = 'd3;
 
-    parameter db_data_reg_file_out2 = 'd0,
+    parameter db_data_reg_file_out1 = 'd0,
               db_data_alu = 'd1,
               db_data_pc_offset_p = 'd2,
               db_data_pc_offset_c = 'd3;
@@ -126,7 +126,7 @@ module core(
                         'hEEEE; // Can never occur
 
     assign db_data = (cs_db_nwrite == 'd1) ? 'dZ :
-                     (cs_db_data_sel == db_data_reg_file_out2) ? reg_file_out2 :
+                     (cs_db_data_sel == db_data_reg_file_out1) ? reg_file_out1 :
                      (cs_db_data_sel == db_data_alu) ? alu_out :
                      (cs_db_data_sel == db_data_pc_offset_p) ? pc_out_w_offset[15:8] :
                      (cs_db_data_sel == db_data_pc_offset_c) ? pc_out_w_offset[7:0] :

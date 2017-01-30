@@ -995,7 +995,28 @@
         "ld_sp_hl": {
             "opcode_position": "F9",
             "opcode": "ld_sp_hl"
+        },
+
+        "ld_(bc)_a": {
+            "opcode_position": "02",
+            "opcode": "ld_(rr)_a"
+        },
+
+        "ld_(de)_a": {
+            "opcode_position": "12",
+            "opcode": "ld_(rr)_a"
+        },
+
+        "ld_(hl+)_a": {
+            "opcode_position": "22",
+            "opcode": "ld_(hl+)_a"
+        },
+
+        "ld_(hl-)_a": {
+            "opcode_position": "32",
+            "opcode": "ld_(hl-)_a"
         }
+
 
     },
         
@@ -1100,6 +1121,18 @@
             "subops": ["build_rr_addr_dec_hl_pt1", "build_rr_addr_dec_hl_pt2", "load_a_data_bus_pre", "load_a_data_bus", "dec_hl_pt3", "finish_instruction_dec_hl_pt4"]
         },
 
+        "ld_(rr)_a": {
+            "subops": ["build_rr_addr_pt1", "build_rr_addr_pt2", "write_a_data_bus", "write_a_data_bus", "nop", "finishInstruction"]
+        },
+
+        "ld_(hl+)_a": {
+            "subops": ["build_rr_addr_inc_hl_pt1", "build_rr_addr_inc_hl_pt2", "write_a_data_bus", "write_a_data_bus", "inc_hl_pt3", "finish_instruction_inc_hl_pt4"]
+        },
+
+        "ld_(hl-)_a": {
+            "subops": ["build_rr_addr_dec_hl_pt1", "build_rr_addr_dec_hl_pt2", "write_a_data_bus", "write_a_data_bus", "dec_hl_pt3", "finish_instruction_dec_hl_pt4"]
+        },
+
         "scf": {
             "subops": ["scf", "finishInstruction"]
         },
@@ -1163,7 +1196,6 @@
         "ld_sp_hl": {
             "subops": ["ld_sp_hl_pt1", "ld_sp_hl_pt2", "nop", "nop", "nop", "finishInstruction"]
         }
-
 
     },
 
@@ -1991,9 +2023,15 @@
             "cs_sp_sel": "sp_sel_temp_buf",
 
             "cs_reg_file_out2_sel_sel": "reg_file_out2_H"
+        },
+
+        "write_a_data_bus": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_reg_file_out1",
+            "cs_db_nwrite": 0,
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A"
         }
-
-
 
     }
 }

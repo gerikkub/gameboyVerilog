@@ -36,7 +36,7 @@
 
     "cs_db_data_sel": {
         "type": "mux",
-        "values": ["db_data_reg_file_out2", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c"]
+        "values": ["db_data_reg_file_out1", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c"]
     },
 
     "cs_db_nwrite": {
