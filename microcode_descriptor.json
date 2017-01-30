@@ -1070,6 +1070,31 @@
         "ld_(hl)_a": {
             "opcode_position": "77",
             "opcode": "ld_(hl)_r"
+        },
+
+        "call_a16": {
+            "opcode_position": "CD",
+            "opcode": "call_a16"
+        },
+
+        "call_nz_a16": {
+            "opcode_position": "C4",
+            "opcode": "call_flag_a16"
+        },
+
+        "call_z_a16": {
+            "opcode_position": "CC",
+            "opcode": "call_flag_a16"
+        },
+
+        "call_nc_a16": {
+            "opcode_position": "D4",
+            "opcode": "call_flag_a16"
+        },
+
+        "call_c_a16": {
+            "opcode_position": "DC",
+            "opcode": "call_flag_a16"
         }
 
     },
@@ -1269,6 +1294,14 @@
 
         "ld_(hl)_r": {
             "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "write_r_addr_buf", "write_r_addr_buf", "nop", "finishInstruction"]
+        },
+
+        "call_a16": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset", "nop", "loadDataBuffer1", "incrPCOffset", "nop", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "call_flag_a16": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset", "nop", "loadDataBuffer1", "nop", "finishInstructionIfFlags", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
         }
 
     },
@@ -2167,7 +2200,26 @@
             "cs_db_nwrite": 0,
 
             "cs_reg_file_out1_sel_sel": "reg_file_out1_inst20"
+        },
+
+        "write_pc_p_stack": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_data_sel": "db_data_pc_offset_p",
+            "cs_db_nwrite": 0
+        },
+
+        "write_pc_c_stack": {
+            "cs_db_address_sel": "db_addr_sp",
+            "cs_db_data_sel": "db_data_pc_offset_c",
+            "cs_db_nwrite": 0
+        },
+
+        "dec_sp_incr_pc_offset": {
+            "cs_sp_sel": "sp_sel_sp_decr",
+            "cs_pc_offset_sel": "pc_offset_sel_offset_incr"
         }
+
+
 
 
 
