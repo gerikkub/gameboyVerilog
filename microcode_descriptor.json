@@ -1120,6 +1120,46 @@
         "pop_af": {
             "opcode_position": "F1",
             "opcode": "pop_af"
+        },
+
+        "rst_00": {
+            "opcode_position": "C7",
+            "opcode": "rst"
+        },
+
+        "rst_08": {
+            "opcode_position": "CF",
+            "opcode": "rst"
+        },
+
+        "rst_10": {
+            "opcode_position": "D7",
+            "opcode": "rst"
+        },
+
+        "rst_18": {
+            "opcode_position": "DF",
+            "opcode": "rst"
+        },
+
+        "rst_20": {
+            "opcode_position": "E7",
+            "opcode": "rst"
+        },
+
+        "rst_28": {
+            "opcode_position": "EF",
+            "opcode": "rst"
+        },
+
+        "rst_30": {
+            "opcode_position": "F7",
+            "opcode": "rst"
+        },
+
+        "rst_38": {
+            "opcode_position": "FF",
+            "opcode": "rst"
         }
 
     },
@@ -1339,6 +1379,10 @@
 
         "pop_af": {
             "subops": ["nop", "nop", "nop", "read_flags_stack", "nop", "inc_sp", "nop", "load_rr_low_sp", "inc_sp", "finishInstruction"]
+        },
+
+        "rst": {
+            "subops": ["incrPCOffset", "nop", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "finish_instruction_rst"]
         }
 
 
@@ -1376,6 +1420,12 @@
 
             "cs_reg_file_out1_sel_sel": "reg_file_out1_H",
             "cs_reg_file_out2_sel_sel": "reg_file_out2_L"
+        },
+
+        "finish_instruction_rst": {
+            "cs_pc_sel": "pc_sel_rst_mod",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one"
         },
 
         "incrPCOffset": {
