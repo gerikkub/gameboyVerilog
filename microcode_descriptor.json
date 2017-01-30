@@ -1035,6 +1035,41 @@
         "ld_(hl)_d8": {
             "opcode_position": "36",
             "opcode": "ld_(hl)_d8"
+        },
+
+        "ld_(hl)_b": {
+            "opcode_position": "70",
+            "opcode": "ld_(hl)_r"
+        },
+
+        "ld_(hl)_c": {
+            "opcode_position": "71",
+            "opcode": "ld_(hl)_r"
+        },
+
+        "ld_(hl)_d": {
+            "opcode_position": "72",
+            "opcode": "ld_(hl)_r"
+        },
+
+        "ld_(hl)_e": {
+            "opcode_position": "73",
+            "opcode": "ld_(hl)_r"
+        },
+
+        "ld_(hl)_h": {
+            "opcode_position": "74",
+            "opcode": "ld_(hl)_r"
+        },
+
+        "ld_(hl)_l": {
+            "opcode_position": "75",
+            "opcode": "ld_(hl)_r"
+        },
+
+        "ld_(hl)_a": {
+            "opcode_position": "77",
+            "opcode": "ld_(hl)_r"
         }
 
     },
@@ -1230,6 +1265,10 @@
 
         "ld_(hl)_d8": {
             "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "build_hl_addr_pt1", "build_hl_addr_pt2", "write_data_buffer_addr_buffer", "write_data_buffer_addr_buffer", "nop", "finishInstruction"]
+        },
+
+        "ld_(hl)_r": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "write_r_addr_buf", "write_r_addr_buf", "nop", "finishInstruction"]
         }
 
     },
@@ -2120,6 +2159,14 @@
             "cs_db_address_sel": "db_addr_buffer",
             "cs_db_data_sel": "db_data_data_bus_temp",
             "cs_db_nwrite": 0
+        },
+
+        "write_r_addr_buf": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_reg_file_out1",
+            "cs_db_nwrite": 0,
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst20"
         }
 
 

@@ -148,7 +148,7 @@
 
     "cs_reg_file_out1_sel_sel": {
         "type": "mux",
-        "values": ["reg_file_out1_inst53", "reg_file_out1_inst54_zero", "reg_file_out1_inst54_one", "reg_file_out1_A", "reg_file_out1_H", "reg_file_out1_L"]
+        "values": ["reg_file_out1_inst20", "reg_file_out1_inst53", "reg_file_out1_inst54_zero", "reg_file_out1_inst54_one", "reg_file_out1_A", "reg_file_out1_H", "reg_file_out1_L"]
     },
 
     "cs_reg_file_out2_sel_sel": {

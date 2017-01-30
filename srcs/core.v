@@ -343,12 +343,13 @@ module core(
     wire [2:0]cs_reg_file_data_in_sel_sel;
     wire cs_reg_file_write_reg;
 
-    parameter reg_file_out1_inst53 = 'd0,
-              reg_file_out1_inst54_zero = 'd1,
-              reg_file_out1_inst54_one  = 'd2,
-              reg_file_out1_A = 'd3,
-              reg_file_out1_H = 'd4,
-              reg_file_out1_L = 'd5;
+    parameter reg_file_out1_inst20 = 'd0,
+              reg_file_out1_inst53 = 'd1,
+              reg_file_out1_inst54_zero = 'd2,
+              reg_file_out1_inst54_one  = 'd3,
+              reg_file_out1_A = 'd4,
+              reg_file_out1_H = 'd5,
+              reg_file_out1_L = 'd6;
 
     parameter reg_file_out2_inst20 = 'd0,
               reg_file_out2_inst53 = 'd1,
@@ -372,7 +373,8 @@ module core(
               reg_file_data_in_sel_H = 'd4,
               reg_file_data_in_sel_L = 'd5;
 
-    assign reg_file_out1_sel = (cs_reg_file_out1_sel_sel == reg_file_out1_inst53) ? inst_buffer[5:3] :
+    assign reg_file_out1_sel = (cs_reg_file_out1_sel_sel == reg_file_out1_inst20) ? inst_buffer[2:0] :
+                               (cs_reg_file_out1_sel_sel == reg_file_out1_inst53) ? inst_buffer[5:3] :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_inst54_zero) ? {inst_buffer[5:4], 1'd0} :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_inst54_one)  ? {inst_buffer[5:4], 1'd1} :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_A) ? 'b111 :
