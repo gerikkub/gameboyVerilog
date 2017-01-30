@@ -1015,8 +1015,27 @@
         "ld_(hl-)_a": {
             "opcode_position": "32",
             "opcode": "ld_(hl-)_a"
-        }
+        },
 
+        "ld_(a16)_sp": {
+            "opcode_position": "08",
+            "opcode": "ld_(a16)_sp"
+        },
+
+        "inc_(hl)": {
+            "opcode_position": "34",
+            "opcode": "inc_(hl)"
+        },
+
+        "dec_(hl)": {
+            "opcode_position": "35",
+            "opcode": "dec_(hl)"
+        },
+
+        "ld_(hl)_d8": {
+            "opcode_position": "36",
+            "opcode": "ld_(hl)_d8"
+        }
 
     },
         
@@ -1195,6 +1214,22 @@
 
         "ld_sp_hl": {
             "subops": ["ld_sp_hl_pt1", "ld_sp_hl_pt2", "nop", "nop", "nop", "finishInstruction"]
+        },
+
+        "ld_(a16)_sp": {
+            "subops": ["nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_p_addr_buf", "write_p_addr_buf", "nop", "nop", "write_s_addr_buf_1", "write_s_addr_buf_1", "nop", "finishInstruction"]
+        },
+
+        "inc_(hl)": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "nop", "loadDataBuffer1_addr_buffer", "nop", "nop", "inc_and_store_data_buffer", "inc_and_store_data_buffer", "nop", "finishInstruction"]
+        },
+
+        "dec_(hl)": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "nop", "loadDataBuffer1_addr_buffer", "nop", "nop", "dec_and_store_data_buffer", "dec_and_store_data_buffer", "nop", "finishInstruction"]
+        },
+
+        "ld_(hl)_d8": {
+            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "build_hl_addr_pt1", "build_hl_addr_pt2", "write_data_buffer_addr_buffer", "write_data_buffer_addr_buffer", "nop", "finishInstruction"]
         }
 
     },
@@ -2031,7 +2066,63 @@
             "cs_db_nwrite": 0,
 
             "cs_reg_file_out1_sel_sel": "reg_file_out1_A"
+        },
+
+        "write_p_addr_buf": {
+            "cs_db_address_sel": "db_addr_buffer_swap",
+            "cs_db_data_sel": "db_data_sp_p",
+            "cs_db_nwrite": 0
+        },
+
+        "write_s_addr_buf_1": {
+            "cs_db_address_sel": "db_addr_buffer_swap_1",
+            "cs_db_data_sel": "db_data_sp_s",
+            "cs_db_nwrite": 0
+        },
+
+        "inc_and_store_data_buffer": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_alu",
+            "cs_db_nwrite": 0,
+
+            "cs_alu_in_A_sel": "alu_in_A_data_bus_temp",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_add",
+
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_alu"
+        },
+
+        "dec_and_store_data_buffer": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_alu",
+            "cs_db_nwrite": 0,
+
+            "cs_alu_in_A_sel": "alu_in_A_data_bus_temp",
+            "cs_alu_in_B_sel": "alu_in_B_one",
+            "cs_alu_op_sel": "alu_op_sub",
+
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_z_sel": "flag_z_alu",
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_alu"
+        },
+
+        "write_data_buffer_addr_buffer": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_data_bus_temp",
+            "cs_db_nwrite": 0
         }
+
+
 
     }
 }

@@ -104,32 +104,40 @@ module core(
     end
 
     // Control signals for data bus
-    wire [1:0]cs_db_address_sel;
-    wire [1:0]cs_db_data_sel;
+    wire [2:0]cs_db_address_sel;
+    wire [2:0]cs_db_data_sel;
     wire cs_db_nwrite;
     wire cs_db_nread;
 
     parameter db_addr_buffer = 'd0,
               db_addr_pc_offset = 'd1,
               db_addr_sp = 'd2,
-              db_addr_buffer_swap = 'd3;
+              db_addr_buffer_swap = 'd3,
+              db_addr_buffer_swap_1 = 'd4;
 
     parameter db_data_reg_file_out1 = 'd0,
               db_data_alu = 'd1,
               db_data_pc_offset_p = 'd2,
-              db_data_pc_offset_c = 'd3;
+              db_data_pc_offset_c = 'd3,
+              db_data_sp_s = 'd4,
+              db_data_sp_p = 'd5,
+              db_data_data_bus_temp = 'd6;
 
     assign db_address = (cs_db_address_sel == db_addr_buffer) ? addr_buffer :
                         (cs_db_address_sel == db_addr_pc_offset) ? pc_out_w_offset :
                         (cs_db_address_sel == db_addr_sp) ? sp_out :
                         (cs_db_address_sel == db_addr_buffer_swap) ? {addr_buffer[7:0], addr_buffer[15:8]} :
-                        'hEEEE; // Can never occur
+                        (cs_db_address_sel == db_addr_buffer_swap_1) ? {addr_buffer[7:0], addr_buffer[15:8]} + 'd1 :
+                        'hEEEE; // Should never occur
 
     assign db_data = (cs_db_nwrite == 'd1) ? 'dZ :
                      (cs_db_data_sel == db_data_reg_file_out1) ? reg_file_out1 :
                      (cs_db_data_sel == db_data_alu) ? alu_out :
                      (cs_db_data_sel == db_data_pc_offset_p) ? pc_out_w_offset[15:8] :
                      (cs_db_data_sel == db_data_pc_offset_c) ? pc_out_w_offset[7:0] :
+                     (cs_db_data_sel == db_data_sp_s) ? sp_out[15:8] :
+                     (cs_db_data_sel == db_data_sp_p) ? sp_out[7:0] :
+                     (cs_db_data_sel == db_data_data_bus_temp) ? inst_data_buffer1 :
                      'hEE; // Should never occur
 
     assign db_nwrite = cs_db_nwrite;
@@ -460,7 +468,7 @@ module core(
     wire [1:0]cs_cu_adv_sel;
 
     wire flag_adv;
-    wire [61:0]control_signals;
+    wire [63:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction
