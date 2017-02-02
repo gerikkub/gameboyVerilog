@@ -1,8 +1,10 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 
 `include "srcs/core.v"
 `include "srcs/memory_rom.v"
 `include "srcs/memory_hram.v"
+`include "srcs/memory_wram.v"
+
 
 module interconnect(
     input clock,
@@ -16,9 +18,11 @@ module interconnect(
 
     wire nsel_rom;
     wire nsel_hram;
+    wire nsel_wram;
 
-    assign nsel_rom = (address < 'h4000) ? (nread & nwrite) : 'd1;
+    assign nsel_rom = (address < 'h8000) ? (nread & nwrite) : 'd1;
     assign nsel_hram = ((address >= 'hFF80) && (address != 'hFFFF)) ? (nread & nwrite) : 'd1;
+    assign nsel_wram = (address[15:13] == 'b110) ? (nread & nwrite) : 'd1;
 
     core core(
         .clock(clock),
@@ -46,6 +50,24 @@ module interconnect(
         .nwrite(nwrite),
         .nsel(nsel_hram)
     );
+
+    memory_wram wram(
+        .clock(clock),
+        .address_bus(address),
+        .data_bus(data),
+        .nread(nread),
+        .nwrite(nwrite),
+        .nsel(nsel_wram)
+    );
+
+    always @(posedge clock)
+    begin
+        if (address == 'hFF01 &&
+            nwrite == 'd0)
+        begin
+            $display("%c", data);
+        end
+    end
     
 
 endmodule

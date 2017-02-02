@@ -1696,7 +1696,9 @@
         "inc_r_pt1": {
             "cs_alu_in_A_sel": "alu_in_A_reg_out1",
             "cs_alu_in_B_sel": "alu_in_B_one",
-            "cs_alu_op_sel": "alu_op_add"
+            "cs_alu_op_sel": "alu_op_add",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst53"
         },
 
         "inc_r_pt2_finish": {
@@ -1725,7 +1727,9 @@
         "dec_r_pt1": {
             "cs_alu_in_A_sel": "alu_in_A_reg_out1",
             "cs_alu_in_B_sel": "alu_in_B_one",
-            "cs_alu_op_sel": "alu_op_sub"
+            "cs_alu_op_sel": "alu_op_sub",
+
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_inst53"
         },
 
         "dec_r_pt2_finish": {

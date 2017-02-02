@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 
 module memory_rom(
     input clock,
@@ -12,7 +12,7 @@ module memory_rom(
     input nsel
     );
 
-    reg [7:0]rom[0:4095];
+    reg [7:0]rom[0:32767];
 
     initial $readmemh("srcs/rom.txt", rom);
 

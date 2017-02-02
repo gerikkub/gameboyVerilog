@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 
 module pc_mod(
     input clock,
@@ -80,7 +80,7 @@ module pc_mod(
     begin
         if (reset == 'd0)
         begin
-            pc_register <= 'd0;
+            pc_register <= 'h100;
             offset_register <= 'd0;
             data_bus_buffer <= 'd0;
         end else begin

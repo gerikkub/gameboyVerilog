@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps 
+`timescale 1ns / 1ns 
  
 module microcode_mod( 
     input [8:0]opcode, 
