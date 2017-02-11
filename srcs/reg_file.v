@@ -17,6 +17,17 @@ module reg_file(
 
     reg [7:0]true_registers[6:0];
 
+    initial
+    begin
+        true_registers[0] = 'h00;
+        true_registers[1] = 'h00;
+        true_registers[2] = 'hFF;
+        true_registers[3] = 'h56;
+        true_registers[4] = 'h00;
+        true_registers[5] = 'h0D;
+        true_registers[6] = 'h11;
+    end
+
     wire [7:0]registers[7:0];
 
     assign registers[0] = true_registers[0];
@@ -32,15 +43,6 @@ module reg_file(
     assign out2 = registers[out2_sel];
 
     integer i;
-
-    initial
-    begin
-        for (i = 0; i < 7; i++)
-        begin
-            true_registers[i] = 'd0;
-        end
-    end
-
 
     always @(posedge clock)
     begin

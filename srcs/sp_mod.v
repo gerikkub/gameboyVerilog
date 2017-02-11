@@ -58,7 +58,7 @@ module sp_mod(
     begin
         if (reset == 'd0)
         begin
-            sp_register <= 'd0;
+            sp_register <= 'hFFFE;
             sp_temp_buffer <= 'd0;
         end else begin
             sp_register <= sp_reg_mux_out;

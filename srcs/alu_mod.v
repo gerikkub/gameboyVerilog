@@ -91,7 +91,16 @@ module alu_mod(
 
         temp_reg <= alu_out;
 
-        flag_c_temp <= alu_flag_c_out;
+        if (alu_op == and_op)
+        begin
+            flag_c_temp <= 'd1;
+        end else if (alu_op == xor_op ||
+                     alu_op == or_op)
+        begin
+            flag_c_temp <= 'd0;
+        end else begin
+            flag_c_temp <= alu_flag_c_out;
+        end
         flag_z_temp <= alu_flag_z_out;
     end
 

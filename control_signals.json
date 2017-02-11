@@ -93,7 +93,7 @@
 
     "cs_flag_h_sel": {
         "type": "mux",
-        "values": ["flag_h_zero", "flag_h_one", "flag_h_alu", "flag_h_data_bus"]
+        "values": ["flag_h_zero", "flag_h_one", "flag_h_alu", "flag_h_data_bus", "flag_h_shift"]
     },
 
     "cs_alu_in_A_sel": {
@@ -163,7 +163,7 @@
 
     "cs_reg_file_data_in_sel_sel": {
         "type": "mux",
-        "values": ["reg_file_data_in_sel_inst53", "reg_file_data_in_sel_inst54_zero", "reg_file_data_in_sel_inst54_one", "reg_file_data_in_sel_A", "reg_file_data_in_sel_H", "reg_file_data_in_sel_L"]
+        "values": ["reg_file_data_in_sel_inst53", "reg_file_data_in_sel_inst54_zero", "reg_file_data_in_sel_inst54_one", "reg_file_data_in_sel_A", "reg_file_data_in_sel_H", "reg_file_data_in_sel_L", "reg_file_data_in_sel_inst20"]
     },
 
     "cs_reg_file_write_reg": {
@@ -171,9 +171,19 @@
         "bits": 1
     },
 
+    "cs_shift_in_sel": {
+        "type": "mux",
+        "values": ["shift_in_sel_reg_file", "shift_in_sel_data_bus"]
+    },
+
     "cs_cu_adv_sel": {
         "type": "mux",
         "values": ["adv_signal_mux_zero", "adv_signal_mux_one", "adv_signal_mux_flag"]
+    }, 
+
+    "cs_cu_toggle_cb": {
+        "type": "num",
+        "bits": 1
     }
 
 }

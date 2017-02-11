@@ -10,8 +10,9 @@ module control_unit_mod(
     input [7:0]inst_buffer,
 
     input [1:0]adv_sel,
+    input toggle_cb,
 
-    output [64:0]control_signals
+    output [67:0]control_signals
     );
 
     parameter adv_signal_mux_zero = 'd0,
@@ -30,16 +31,19 @@ module control_unit_mod(
     wire [15:0]opcode_input;
 
     wire adv_signal;
+    wire [67:0]control_signals_delay;
+    reg [67:0]control_signals_reg;
 
     initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 
     microcode_mod microcode(
         .opcode(opcode_input[8:0]),
-        .control_signals(control_signals)
+        .control_signals(control_signals_delay)
     );
 
+    reg cb_inst_active = 'd0;
 
-    assign metadata_output = metadata_table[inst_buffer];
+    assign metadata_output = metadata_table[{cb_inst_active, inst_buffer}];
     
     // Metadata_w_offset is the output of the metadata table + the offset
     // counter
@@ -53,6 +57,7 @@ module control_unit_mod(
                         (adv_sel == adv_signal_mux_flag) ? flag_adv :
                         'd0; // Should never reach this state
 
+    assign control_signals = control_signals_reg;
 
     always @(posedge clock)
     begin
@@ -61,6 +66,13 @@ module control_unit_mod(
             opcode_offset_counter <= opcode_offset_counter + 'd1;
         end else begin
             opcode_offset_counter <= 'd0;
+        end
+
+        if (toggle_cb == 'd0)
+        begin
+            cb_inst_active = cb_inst_active;
+        end else begin
+            cb_inst_active = ~cb_inst_active;
         end
 
         if (reset == 'd0)
@@ -72,6 +84,9 @@ module control_unit_mod(
 
             adv_toggle <= ~adv_toggle;
         end
+
+        #1
+        control_signals_reg <= control_signals_delay;
     end
 
 endmodule

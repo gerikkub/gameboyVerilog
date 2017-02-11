@@ -5,6 +5,7 @@
 `include "srcs/pc_mod.v"
 `include "srcs/reg_file.v"
 `include "srcs/sp_mod.v"
+`include "srcs/bit_ops.v"
 
 `include "srcs/cs_mapper_mod.v"
 
@@ -156,7 +157,7 @@ module core(
     wire [2:0]cs_flag_c_sel;
     wire [1:0]cs_flag_z_sel;
     wire [1:0]cs_flag_n_sel;
-    wire [1:0]cs_flag_h_sel;
+    wire [2:0]cs_flag_h_sel;
 
     parameter flag_c_zero = 'd0,
               flag_c_one = 'd1,
@@ -177,7 +178,8 @@ module core(
     parameter flag_h_zero = 'd0,
               flag_h_one = 'd1,
               flag_h_alu = 'd2,
-              flag_h_data_bus = 'd3;
+              flag_h_data_bus = 'd3,
+              flag_h_shift = 'd4;
 
      // Flag muxes
      always @(posedge clock)
@@ -185,7 +187,7 @@ module core(
         if (reset <= 'd0)
         begin
             flag_c <= 'd0;
-            flag_z <= 'd0;
+            flag_z <= 'd1;
             flag_n <= 'd0;
             flag_h <= 'd0;
             temp_flag_c <= 'd0;
@@ -199,7 +201,7 @@ module core(
                     flag_c_zero:  flag_c <= 'd0;
                     flag_c_one:   flag_c <= 'd1;
                     flag_c_alu:   flag_c <= alu_out_flags[0];
-                    flag_c_shift: flag_c <= 'd0; // TODO
+                    flag_c_shift: flag_c <= shift_c_out;
                     flag_c_toggle: flag_c <= ~flag_c;
                     flag_c_data_bus: flag_c <= db_data[4];
                     default: flag_c <= 'd1; // Should never occur
@@ -214,7 +216,7 @@ module core(
                     flag_z_zero:  flag_z <= 'd0;
                     flag_z_data_bus: flag_z <= db_data[7];
                     flag_z_alu:   flag_z <= alu_out_flags[3];
-                    flag_z_shift: flag_z <= 'd0; // TODO
+                    flag_z_shift: flag_z <= shift_z_out;
                     default: flag_z <= 'd1; // Can never occur
                 endcase
             end
@@ -240,6 +242,7 @@ module core(
                     flag_h_one:  flag_h <= 'd1;
                     flag_h_alu:  flag_h <= alu_out_flags[1];
                     flag_h_data_bus: flag_h <= db_data[5];
+                    flag_h_shift: flag_h <= shift_h_out;
                     default: flag_h <= 'd1; // Could occur, but should not
                 endcase
             end
@@ -379,7 +382,8 @@ module core(
               reg_file_data_in_sel_inst54_one = 'd2,
               reg_file_data_in_sel_A = 'd3,
               reg_file_data_in_sel_H = 'd4,
-              reg_file_data_in_sel_L = 'd5;
+              reg_file_data_in_sel_L = 'd5,
+              reg_file_data_in_sel_inst20 = 'd6;
 
     assign reg_file_out1_sel = (cs_reg_file_out1_sel_sel == reg_file_out1_inst20) ? inst_buffer[2:0] :
                                (cs_reg_file_out1_sel_sel == reg_file_out1_inst53) ? inst_buffer[5:3] :
@@ -401,7 +405,7 @@ module core(
 
     assign reg_file_data_in = (cs_reg_file_data_in_sel == reg_file_data_in_data_bus) ? db_data :
                               (cs_reg_file_data_in_sel == reg_file_data_in_alu) ? alu_out :
-                              (cs_reg_file_data_in_sel == reg_file_data_in_shift) ? 'd0 : // TODO
+                              (cs_reg_file_data_in_sel == reg_file_data_in_shift) ? shift_out : // TODO
                               (cs_reg_file_data_in_sel == reg_file_data_in_daa) ? 'd0 : // TODO
                               (cs_reg_file_data_in_sel == reg_file_data_in_cpl) ? 'd0 : // TODO
                               (cs_reg_file_data_in_sel == reg_file_data_in_out2) ? reg_file_out2 :
@@ -413,6 +417,7 @@ module core(
                                   (cs_reg_file_data_in_sel_sel == reg_file_data_in_sel_A) ? 'b111 :
                                   (cs_reg_file_data_in_sel_sel == reg_file_data_in_sel_H) ? 'b100 :
                                   (cs_reg_file_data_in_sel_sel == reg_file_data_in_sel_L) ? 'b101 :
+                                  (cs_reg_file_data_in_sel_sel == reg_file_data_in_sel_inst20) ? inst_buffer[2:0] :
                                   'b110; // Should never occur
 
     reg_file reg_file(
@@ -424,6 +429,32 @@ module core(
         .write_reg(cs_reg_file_write_reg),
         .out1(reg_file_out1),
         .out2(reg_file_out2)
+    );
+
+    // Control Signals for Shift Unit
+    wire [7:0]shift_out;
+    wire shift_c_out;
+    wire shift_z_out;
+    wire shift_h_out;
+    wire [7:0]shift_in;
+
+    wire cs_shift_in_sel;
+
+    parameter shift_in_sel_reg_file = 'd0,
+              shift_in_sel_data_bus = 'd1;
+
+    assign shift_in = (cs_shift_in_sel == shift_in_sel_reg_file) ? reg_file_out1 :
+                      (cs_shift_in_sel == shift_in_sel_data_bus) ? db_data :
+                      'hEE; // Can never occur
+
+    bit_ops shift_unit(
+        .shift_op(inst_buffer[7:3]),
+        .reg_in(shift_in),
+        .c_in(flag_c),
+        .reg_out(shift_out),
+        .c_out(shift_c_out),
+        .z_out(shift_z_out),
+        .h_out(shift_h_out)
     );
 
     // Control Signals for PC
@@ -476,9 +507,10 @@ module core(
     
     // Control signals for Control Unit
     wire [1:0]cs_cu_adv_sel;
+    wire cs_cu_toggle_cb;
 
     wire flag_adv;
-    wire [64:0]control_signals;
+    wire [67:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction
@@ -494,6 +526,7 @@ module core(
         .flag_adv(flag_adv),
         .inst_buffer(inst_buffer),
         .adv_sel(cs_cu_adv_sel),
+        .toggle_cb(cs_cu_toggle_cb),
         .control_signals(control_signals)
     );
 
@@ -535,6 +568,8 @@ module core(
         .cs_write_flag_n(cs_write_flag_n),
         .cs_reg_file_write_reg(cs_reg_file_write_reg),
         .cs_sp_temp_buf_sel(cs_sp_temp_buf_sel),
+        .cs_cu_toggle_cb(cs_cu_toggle_cb),
+        .cs_shift_in_sel(cs_shift_in_sel),
 
         .control_signals(control_signals)
     );
