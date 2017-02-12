@@ -12,7 +12,7 @@ module control_unit_mod(
     input [1:0]adv_sel,
     input toggle_cb,
 
-    output [67:0]control_signals
+    output [68:0]control_signals
     );
 
     parameter adv_signal_mux_zero = 'd0,
@@ -31,8 +31,8 @@ module control_unit_mod(
     wire [15:0]opcode_input;
 
     wire adv_signal;
-    wire [67:0]control_signals_delay;
-    reg [67:0]control_signals_reg;
+    wire [68:0]control_signals_delay;
+    reg [68:0]control_signals_reg;
 
     initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 

@@ -78,12 +78,12 @@
 
     "cs_flag_c_sel": {
         "type": "mux",
-        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift", "flag_c_toggle", "flag_c_data_bus"]
+        "values": ["flag_c_zero", "flag_c_one", "flag_c_alu", "flag_c_shift", "flag_c_toggle", "flag_c_data_bus", "flag_c_daa"]
     },
 
     "cs_flag_z_sel": {
         "type": "mux",
-        "values": ["flag_z_zero", "flag_z_data_bus", "flag_z_alu", "flag_z_shift"]
+        "values": ["flag_z_zero", "flag_z_data_bus", "flag_z_alu", "flag_z_shift", "flag_z_daa"]
     },
 
     "cs_flag_n_sel": {

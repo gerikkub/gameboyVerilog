@@ -3,7 +3,7 @@
 module cs_mapper_mod( 
  
 output [1:0]cs_sp_temp_buf_sel,
-output [1:0]cs_flag_z_sel,
+output [2:0]cs_flag_z_sel,
 output cs_db_nwrite,
 output [1:0]cs_alu_in_C_sel,
 output [2:0]cs_alu_op_sel,
@@ -39,44 +39,44 @@ output [2:0]cs_flag_c_sel,
 output cs_pc_write_temp_buf,
 output cs_write_flag_h,
 output cs_write_flag_n,
-input [67:0]control_signals 
+input [68:0]control_signals 
         ); 
         
 assign cs_sp_temp_buf_sel = control_signals[1:0];
-assign cs_flag_z_sel = control_signals[3:2];
-assign cs_db_nwrite = control_signals[4];
-assign cs_alu_in_C_sel = control_signals[51:50];
-assign cs_alu_op_sel = control_signals[7:5];
-assign cs_pc_offset_sel = control_signals[9:8];
-assign cs_flag_h_sel = control_signals[12:10];
-assign cs_reg_file_out2_sel_sel = control_signals[15:13];
-assign cs_shift_in_sel = control_signals[16];
-assign cs_reg_file_data_in_sel_sel = control_signals[19:17];
-assign cs_sp_sel = control_signals[22:20];
-assign cs_write_inst_buffer = control_signals[23];
-assign cs_pc_sel = control_signals[26:24];
-assign cs_reg_file_data_in_sel = control_signals[29:27];
-assign cs_write_data_buffer2 = control_signals[30];
-assign cs_write_data_buffer1 = control_signals[31];
-assign cs_cu_adv_sel = control_signals[33:32];
-assign cs_db_nread = control_signals[34];
-assign cs_db_address_sel = control_signals[37:35];
-assign cs_db_data_sel = control_signals[40:38];
-assign cs_reg_file_write_reg = control_signals[42];
-assign cs_write_temp_flag_c = control_signals[43];
-assign cs_write_data_bus_buffer = control_signals[44];
-assign cs_alu_in_A_sel = control_signals[46:45];
-assign cs_cu_toggle_cb = control_signals[47];
-assign cs_alu_in_B_sel = control_signals[49:48];
-assign cs_sp_write_temp_buf = control_signals[41];
-assign cs_reg_file_out1_sel_sel = control_signals[54:52];
-assign cs_write_addr_buffer = control_signals[55];
-assign cs_addr_buffer_sel = control_signals[57:56];
-assign cs_write_flag_z = control_signals[58];
-assign cs_write_flag_c = control_signals[59];
-assign cs_flag_n_sel = control_signals[61:60];
-assign cs_flag_c_sel = control_signals[64:62];
-assign cs_pc_write_temp_buf = control_signals[65];
-assign cs_write_flag_h = control_signals[66];
-assign cs_write_flag_n = control_signals[67];
+assign cs_flag_z_sel = control_signals[4:2];
+assign cs_db_nwrite = control_signals[5];
+assign cs_alu_in_C_sel = control_signals[52:51];
+assign cs_alu_op_sel = control_signals[8:6];
+assign cs_pc_offset_sel = control_signals[10:9];
+assign cs_flag_h_sel = control_signals[13:11];
+assign cs_reg_file_out2_sel_sel = control_signals[16:14];
+assign cs_shift_in_sel = control_signals[17];
+assign cs_reg_file_data_in_sel_sel = control_signals[20:18];
+assign cs_sp_sel = control_signals[23:21];
+assign cs_write_inst_buffer = control_signals[24];
+assign cs_pc_sel = control_signals[27:25];
+assign cs_reg_file_data_in_sel = control_signals[30:28];
+assign cs_write_data_buffer2 = control_signals[31];
+assign cs_write_data_buffer1 = control_signals[32];
+assign cs_cu_adv_sel = control_signals[34:33];
+assign cs_db_nread = control_signals[35];
+assign cs_db_address_sel = control_signals[38:36];
+assign cs_db_data_sel = control_signals[41:39];
+assign cs_reg_file_write_reg = control_signals[43];
+assign cs_write_temp_flag_c = control_signals[44];
+assign cs_write_data_bus_buffer = control_signals[45];
+assign cs_alu_in_A_sel = control_signals[47:46];
+assign cs_cu_toggle_cb = control_signals[48];
+assign cs_alu_in_B_sel = control_signals[50:49];
+assign cs_sp_write_temp_buf = control_signals[42];
+assign cs_reg_file_out1_sel_sel = control_signals[55:53];
+assign cs_write_addr_buffer = control_signals[56];
+assign cs_addr_buffer_sel = control_signals[58:57];
+assign cs_write_flag_z = control_signals[59];
+assign cs_write_flag_c = control_signals[60];
+assign cs_flag_n_sel = control_signals[62:61];
+assign cs_flag_c_sel = control_signals[65:63];
+assign cs_pc_write_temp_buf = control_signals[66];
+assign cs_write_flag_h = control_signals[67];
+assign cs_write_flag_n = control_signals[68];
 endmodule

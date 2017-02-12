@@ -6,6 +6,7 @@
 `include "srcs/reg_file.v"
 `include "srcs/sp_mod.v"
 `include "srcs/bit_ops.v"
+`include "srcs/daa_mod.v"
 
 `include "srcs/cs_mapper_mod.v"
 
@@ -155,7 +156,7 @@ module core(
     wire cs_write_temp_flag_c;
 
     wire [2:0]cs_flag_c_sel;
-    wire [1:0]cs_flag_z_sel;
+    wire [2:0]cs_flag_z_sel;
     wire [1:0]cs_flag_n_sel;
     wire [2:0]cs_flag_h_sel;
 
@@ -164,12 +165,14 @@ module core(
               flag_c_alu = 'd2,
               flag_c_shift = 'd3,
               flag_c_toggle = 'd4,
-              flag_c_data_bus = 'd5;
+              flag_c_data_bus = 'd5,
+              flag_c_daa = 'd6;
     
     parameter flag_z_zero = 'd0,
               flag_z_data_bus = 'd1,
               flag_z_alu = 'd2,
-              flag_z_shift = 'd3;
+              flag_z_shift = 'd3,
+              flag_z_daa = 'd4;
 
     parameter flag_n_zero = 'd0,
               flag_n_one = 'd1,
@@ -204,6 +207,7 @@ module core(
                     flag_c_shift: flag_c <= shift_c_out;
                     flag_c_toggle: flag_c <= ~flag_c;
                     flag_c_data_bus: flag_c <= db_data[4];
+                    flag_c_daa:   flag_c <= daa_c_out;
                     default: flag_c <= 'd1; // Should never occur
                 endcase
             end
@@ -217,7 +221,8 @@ module core(
                     flag_z_data_bus: flag_z <= db_data[7];
                     flag_z_alu:   flag_z <= alu_out_flags[3];
                     flag_z_shift: flag_z <= shift_z_out;
-                    default: flag_z <= 'd1; // Can never occur
+                    flag_z_daa:   flag_z <= daa_z_out;
+                    default: flag_z <= 'd1; // Should never occur
                 endcase
             end
 
@@ -406,7 +411,7 @@ module core(
     assign reg_file_data_in = (cs_reg_file_data_in_sel == reg_file_data_in_data_bus) ? db_data :
                               (cs_reg_file_data_in_sel == reg_file_data_in_alu) ? alu_out :
                               (cs_reg_file_data_in_sel == reg_file_data_in_shift) ? shift_out : // TODO
-                              (cs_reg_file_data_in_sel == reg_file_data_in_daa) ? 'd0 : // TODO
+                              (cs_reg_file_data_in_sel == reg_file_data_in_daa) ? daa_out :
                               (cs_reg_file_data_in_sel == reg_file_data_in_cpl) ? 'd0 : // TODO
                               (cs_reg_file_data_in_sel == reg_file_data_in_out2) ? reg_file_out2 :
                               'hEE; // Should never occur
@@ -455,6 +460,21 @@ module core(
         .c_out(shift_c_out),
         .z_out(shift_z_out),
         .h_out(shift_h_out)
+    );
+
+    // Control Signals for DAA
+    wire [7:0]daa_out;
+    wire daa_c_out;
+    wire daa_h_out;
+
+    daa_mod daa(
+        .in(reg_file_out1),
+        .c_in(flag_c),
+        .h_in(flag_h),
+        .n_in(flag_n),
+        .out(daa_out),
+        .c_out(daa_c_out),
+        .z_out(daa_z_out)
     );
 
     // Control Signals for PC
@@ -510,7 +530,7 @@ module core(
     wire cs_cu_toggle_cb;
 
     wire flag_adv;
-    wire [67:0]control_signals;
+    wire [68:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction
