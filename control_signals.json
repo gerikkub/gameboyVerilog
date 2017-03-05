@@ -103,7 +103,7 @@
 
     "cs_alu_in_B_sel": {
         "type": "mux",
-        "values": ["alu_in_B_zero", "alu_in_B_one", "alu_in_B_reg_out2", "alu_in_B_data_bus_temp"]
+        "values": ["alu_in_B_zero", "alu_in_B_one", "alu_in_B_reg_out2", "alu_in_B_data_bus_temp", "alu_in_B_data_bus_temp_sgn"]
     },
 
     "cs_alu_op_sel": {

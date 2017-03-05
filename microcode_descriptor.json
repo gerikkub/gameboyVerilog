@@ -3369,6 +3369,11 @@
             "cs_alu_op_sel": "alu_op_add",
 
             "cs_write_temp_flag_c": 1,
+            "cs_write_flag_h": 1,
+            "cs_write_flag_c": 1,
+
+            "cs_flag_h_sel": "flag_h_alu",
+            "cs_flag_c_sel": "flag_c_alu",
 
             "cs_sp_write_temp_buf": 1,
             "cs_sp_temp_buf_sel": "sp_temp_sel_alu"
@@ -3376,14 +3381,14 @@
 
         "add_sp_r8_pt3": {
             "cs_alu_in_A_sel": "alu_in_A_SP_S",
-            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_B_sel": "alu_in_B_data_bus_temp_sgn",
             "cs_alu_in_C_sel": "alu_in_C_temp",
             "cs_alu_op_sel": "alu_op_adc"
         },
 
         "add_sp_r8_pt4": {
             "cs_alu_in_A_sel": "alu_in_A_SP_S",
-            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_B_sel": "alu_in_B_data_bus_temp_sgn",
             "cs_alu_in_C_sel": "alu_in_C_temp",
             "cs_alu_op_sel": "alu_op_adc",
 
@@ -3392,13 +3397,9 @@
 
             "cs_write_flag_z": 1,
             "cs_write_flag_n": 1,
-            "cs_write_flag_h": 1,
-            "cs_write_flag_c": 1,
 
             "cs_flag_z_sel": "flag_z_zero",
-            "cs_flag_n_sel": "flag_n_zero",
-            "cs_flag_h_sel": "flag_h_alu",
-            "cs_flag_c_sel": "flag_c_alu"
+            "cs_flag_n_sel": "flag_n_zero"
         },
 
         "add_hl_sp_r8_pt2": {
@@ -3407,6 +3408,11 @@
             "cs_alu_op_sel": "alu_op_add",
 
             "cs_write_temp_flag_c": 1,
+            "cs_write_flag_h": 1,
+            "cs_write_flag_c": 1,
+
+            "cs_flag_h_sel": "flag_h_alu",
+            "cs_flag_c_sel": "flag_c_alu",
 
             "cs_reg_file_data_in_sel": "reg_file_data_in_alu",
             "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_L",
@@ -3416,7 +3422,7 @@
 
         "add_hl_sp_r8_pt4": {
             "cs_alu_in_A_sel": "alu_in_A_SP_S",
-            "cs_alu_in_B_sel": "alu_in_B_zero",
+            "cs_alu_in_B_sel": "alu_in_B_data_bus_temp_sgn",
             "cs_alu_in_C_sel": "alu_in_C_temp",
             "cs_alu_op_sel": "alu_op_adc",
 
@@ -3426,13 +3432,9 @@
 
             "cs_write_flag_z": 1,
             "cs_write_flag_n": 1,
-            "cs_write_flag_h": 1,
-            "cs_write_flag_c": 1,
 
             "cs_flag_z_sel": "flag_z_zero",
-            "cs_flag_n_sel": "flag_n_zero",
-            "cs_flag_h_sel": "flag_h_alu",
-            "cs_flag_c_sel": "flag_c_alu"
+            "cs_flag_n_sel": "flag_n_zero"
         },
 
         "ld_sp_hl_pt1": {

@@ -44,4 +44,12 @@ module interconnect_memcheck(
         .nsel(nsel)
     );
 
+    always @(posedge mem_clk)
+    begin
+        if (address == 'hFF01)
+        begin
+            $display("Data: %c", data);
+        end
+    end
+
 endmodule

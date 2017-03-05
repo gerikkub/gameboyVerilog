@@ -52,12 +52,23 @@ module gameboy_sim(
         check_idx = 0;
     end
 
+    integer percent = 0;
+    integer old_percent = 0;
+
     always @(posedge clock)
     begin
         if (inst_tick === 'd1)
         begin
+
+            percent = (check_idx * 100) / 1111850;
+            //$display("%d %d %d", percent, old_percent, check_idx);
+            if (percent > old_percent)
+            begin
+                $display("%d%%", percent);
+                old_percent = percent;
+            end
             
-            $display("Expected: %H Received %H", inst_check_table[check_idx], check_wire);
+            //$display("Expected: %H Received %H", inst_check_table[check_idx], check_wire);
 
             if (inst_check_table[check_idx] !== check_wire)
             begin

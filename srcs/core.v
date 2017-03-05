@@ -288,7 +288,8 @@ module core(
     parameter alu_in_B_zero = 'd0,
               alu_in_B_one  = 'd1,
               alu_in_B_reg_out2 = 'd2,
-              alu_in_B_data_bus_temp = 'd3;
+              alu_in_B_data_bus_temp = 'd3,
+              alu_in_B_data_bus_temp_sgn = 'd4;
 
     parameter alu_op_inst = 'd0,
               alu_op_add  = 'd1,
@@ -303,9 +304,11 @@ module core(
 
 
     wire [1:0]cs_alu_in_A_sel;
-    wire [1:0]cs_alu_in_B_sel;
+    wire [2:0]cs_alu_in_B_sel;
     wire [2:0]cs_alu_op_sel;
     wire [1:0]cs_alu_in_C_sel;
+
+    wire [7:0]alu_data_bus_sgn;
 
     assign alu_in_A = (cs_alu_in_A_sel == alu_in_A_reg_out1) ? reg_file_out1 :
                       (cs_alu_in_A_sel == alu_in_A_SP_S) ? sp_out[15:8] :
@@ -317,7 +320,8 @@ module core(
                       (cs_alu_in_B_sel == alu_in_B_one) ? 'd1 :
                       (cs_alu_in_B_sel == alu_in_B_reg_out2) ? reg_file_out2 :
                       (cs_alu_in_B_sel == alu_in_B_data_bus_temp) ? inst_data_buffer1 :
-                      'hEE; // Can never occur
+                      (cs_alu_in_B_sel == alu_in_B_data_bus_temp_sgn) ? alu_data_bus_sgn :
+                      'hEE; // Should never occur
 
     assign alu_op = (cs_alu_op_sel == alu_op_inst) ? inst_buffer[5:3] :
                     (cs_alu_op_sel == alu_op_add) ? add_op :
@@ -331,6 +335,8 @@ module core(
                       (cs_alu_in_C_sel == alu_in_C_zero) ? 'd0 :
                       (cs_alu_in_C_sel == alu_in_C_one) ? 'd1 :
                       'b1; // Can never occur
+
+    assign alu_data_bus_sgn = (inst_data_buffer1 & 'h80) ? 'hFF : 'h00;
 
     alu_mod alu_m(
         .clock(clock),
@@ -530,7 +536,7 @@ module core(
     wire cs_cu_toggle_cb;
 
     wire flag_adv;
-    wire [68:0]control_signals;
+    wire [69:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction
