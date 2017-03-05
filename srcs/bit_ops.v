@@ -50,9 +50,9 @@ module bit_ops(
     assign swap_result = {1'd0, reg_in[3:0], reg_in[7:4]};
     assign srl_result = {reg_in[0], 1'd0, reg_in[7:1]};
 
-    assign bit_result_temp = reg_in[7:0] & (1 << shift_op[3:0]);
-    assign res_result_temp = reg_in[7:0] & (~(1 << shift_op[3:0]));
-    assign set_result_temp = reg_in[7:0] | (1 << shift_op[3:0]);
+    assign bit_result_temp = reg_in[7:0] & (1 << shift_op[2:0]);
+    assign res_result_temp = reg_in[7:0] & (~(1 << shift_op[2:0]));
+    assign set_result_temp = reg_in[7:0] | (1 << shift_op[2:0]);
 
     assign bit_result = {c_in, bit_result_temp};
     assign res_result = {c_in, res_result_temp};
@@ -84,7 +84,7 @@ module bit_ops(
                      (shift_op[2:0] == srl_op) ? srl_result[8] :
                      'h1; // can never occur
 
-    assign z_out =   (shift_op[4:3] == bit_op) ? bit_result[7:0] == 'd1 :
+    assign z_out =   (shift_op[4:3] == bit_op) ? bit_result[7:0] == 'd0 :
                      reg_out == 'd0;
 
     assign h_out =   (shift_op[4:3] == bit_op) ? 'd1 : 'd0;

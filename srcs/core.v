@@ -107,7 +107,7 @@ module core(
 
     // Control signals for data bus
     wire [2:0]cs_db_address_sel;
-    wire [2:0]cs_db_data_sel;
+    wire [3:0]cs_db_data_sel;
     wire cs_db_nwrite;
     wire cs_db_nread;
 
@@ -124,7 +124,8 @@ module core(
               db_data_sp_s = 'd4,
               db_data_sp_p = 'd5,
               db_data_data_bus_temp = 'd6,
-              db_data_flags = 'd7;
+              db_data_flags = 'd7,
+              db_data_shift = 'd8;
 
     assign db_address = (cs_db_address_sel == db_addr_buffer) ? addr_buffer :
                         (cs_db_address_sel == db_addr_pc_offset) ? pc_out_w_offset :
@@ -142,7 +143,8 @@ module core(
                      (cs_db_data_sel == db_data_sp_p) ? sp_out[7:0] :
                      (cs_db_data_sel == db_data_data_bus_temp) ? inst_data_buffer1 :
                      (cs_db_data_sel == db_data_flags) ? {flag_z, flag_n, flag_h, flag_c, 4'd0} :
-                     'hEE; // Can never occur
+                     (cs_db_data_sel == db_data_shift) ? shift_out :
+                     'hEE; // Should never occur
 
     assign db_nwrite = cs_db_nwrite;
     assign db_nread = cs_db_nread;
@@ -416,9 +418,9 @@ module core(
 
     assign reg_file_data_in = (cs_reg_file_data_in_sel == reg_file_data_in_data_bus) ? db_data :
                               (cs_reg_file_data_in_sel == reg_file_data_in_alu) ? alu_out :
-                              (cs_reg_file_data_in_sel == reg_file_data_in_shift) ? shift_out : // TODO
+                              (cs_reg_file_data_in_sel == reg_file_data_in_shift) ? shift_out :
                               (cs_reg_file_data_in_sel == reg_file_data_in_daa) ? daa_out :
-                              (cs_reg_file_data_in_sel == reg_file_data_in_cpl) ? 'd0 : // TODO
+                              (cs_reg_file_data_in_sel == reg_file_data_in_cpl) ? (reg_file_out1 ^ 'hFF) :
                               (cs_reg_file_data_in_sel == reg_file_data_in_out2) ? reg_file_out2 :
                               'hEE; // Should never occur
 
@@ -455,7 +457,7 @@ module core(
               shift_in_sel_data_bus = 'd1;
 
     assign shift_in = (cs_shift_in_sel == shift_in_sel_reg_file) ? reg_file_out1 :
-                      (cs_shift_in_sel == shift_in_sel_data_bus) ? db_data :
+                      (cs_shift_in_sel == shift_in_sel_data_bus) ? inst_data_buffer1 :
                       'hEE; // Can never occur
 
     bit_ops shift_unit(
@@ -536,7 +538,7 @@ module core(
     wire cs_cu_toggle_cb;
 
     wire flag_adv;
-    wire [69:0]control_signals;
+    wire [70:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction

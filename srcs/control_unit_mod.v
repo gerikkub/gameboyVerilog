@@ -12,7 +12,7 @@ module control_unit_mod(
     input [1:0]adv_sel,
     input toggle_cb,
 
-    output [69:0]control_signals
+    output [70:0]control_signals
     );
 
     parameter adv_signal_mux_zero = 'd0,
@@ -31,14 +31,14 @@ module control_unit_mod(
     wire [15:0]opcode_input;
 
     wire adv_signal;
-    reg [69:0]control_signals_reg;
-    wire [69:0]control_signals_delay;
+    wire [70:0]control_signals_wire;
+    reg [70:0]control_signals_reg;
 
     initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 
     microcode_mod microcode(
-        .opcode(opcode_input[8:0]),
-        .control_signals(control_signals_delay)
+        .opcode(opcode_input[9:0]),
+        .control_signals(control_signals_wire)
     );
 
     reg cb_inst_active = 'd0;
@@ -86,7 +86,7 @@ module control_unit_mod(
         end
 
         #1
-        control_signals_reg <= control_signals_delay;
+        control_signals_reg <= control_signals_wire;
     end
 
 endmodule

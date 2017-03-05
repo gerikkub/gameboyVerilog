@@ -257,6 +257,8 @@ def generateMetadataDict(metadata_json):
     for mdata_name in metadata_json:
 
         position = int(metadata_json[mdata_name]["opcode_position"], 16)
+        if (metadata_json[mdata_name]["opcode_position"] == "00"):
+            print "Found 149: {:}".format((metadata_json[mdata_name]))
          
         metadata_opcode_dict[position] = metadata_json[mdata_name]["opcode"]
         
@@ -317,18 +319,10 @@ def main():
     if status == False:
         return
 
-    print subop_bitfield_dict
-
-    print subop_position_dict
-
     status, opcode_list, opcode_position_dict = generateOpcodeTable(microcode_json["opcode"], subop_position_dict)
 
     if status == False:
         return
-
-    print opcode_list
-
-    print opcode_position_dict
 
     status, metadata_opcode_dict = generateMetadataDict(microcode_json["metadata"])
 

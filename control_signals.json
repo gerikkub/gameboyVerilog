@@ -36,7 +36,7 @@
 
     "cs_db_data_sel": {
         "type": "mux",
-        "values": ["db_data_reg_file_out1", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c", "db_data_sp_s", "db_data_sp_p", "db_data_data_bus_temp", "db_data_flags"]
+        "values": ["db_data_reg_file_out1", "db_data_alu", "db_data_pc_offset_p", "db_data_pc_offset_c", "db_data_sp_s", "db_data_sp_p", "db_data_data_bus_temp", "db_data_flags", "db_data_shift"]
     },
 
     "cs_db_nwrite": {

@@ -14,7 +14,7 @@ module memory_check(
     );
 
     reg [23:0]read_locations[0:39999999];
-    reg [23:0]write_locations[0:299999];
+    reg [23:0]write_locations[0:2999999];
 
     initial $readmemh("sims/memread_check.txt", read_locations);
     initial $readmemh("sims/memwrite_check.txt", write_locations);

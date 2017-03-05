@@ -423,12 +423,12 @@
             "opcode": "alu_r_r_n1"
         },
 
-        "sbc_A_L": {
+        "suc_A_L": {
             "opcode_position": "95",
             "opcode": "alu_r_r_n1"
         },
 
-        "sbc_A_A": {
+        "suc_A_A": {
             "opcode_position": "97",
             "opcode": "alu_r_r_n1"
         },
@@ -857,9 +857,19 @@
             "opcode": "ccf"
         },
 
+        "cpl": {
+            "opcode_position": "2F",
+            "opcode": "cpl"
+        },
+
         "ret": {
             "opcode_position": "C9",
             "opcode": "ret"
+        },
+
+        "reti": {
+            "opcode_position": "D9",
+            "opcode": "reti"
         },
 
         "ret_nz": {
@@ -1497,6 +1507,46 @@
             "opcode": "cb_n0"
         },
 
+        "rlc_(hl)": {
+            "opcode_position": "106",
+            "opcode": "cb_(hl)"
+        },
+
+        "rrc_(hl)": {
+            "opcode_position": "10E",
+            "opcode": "cb_(hl)"
+        },
+
+        "rl_(hl)": {
+            "opcode_position": "116",
+            "opcode": "cb_(hl)"
+        },
+
+        "rr_(hl)": {
+            "opcode_position": "11E",
+            "opcode": "cb_(hl)"
+        },
+
+        "sla_(hl)": {
+            "opcode_position": "126",
+            "opcode": "cb_(hl)"
+        },
+
+        "sra_(hl)": {
+            "opcode_position": "12E",
+            "opcode": "cb_(hl)"
+        },
+
+        "swap_(hl)": {
+            "opcode_position": "136",
+            "opcode": "cb_(hl)"
+        },
+
+        "srl_(hl)": {
+            "opcode_position": "13E",
+            "opcode": "cb_(hl)"
+        },
+
         "bit_0_b": {
             "opcode_position": "140",
             "opcode": "cb_bit"
@@ -1775,6 +1825,46 @@
         "bit_7_a": {
             "opcode_position": "17F",
             "opcode": "cb_bit"
+        },
+
+        "bit_0_(hl)": {
+            "opcode_position": "146",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_1_(hl)": {
+            "opcode_position": "14E",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_2_(hl)": {
+            "opcode_position": "156",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_3_(hl)": {
+            "opcode_position": "15E",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_4_(hl)": {
+            "opcode_position": "166",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_5_(hl)": {
+            "opcode_position": "16E",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_6_(hl)": {
+            "opcode_position": "176",
+            "opcode": "cb_bit_(hl)"
+        },
+
+        "bit_7_(hl)": {
+            "opcode_position": "17E",
+            "opcode": "cb_bit_(hl)"
         },
 
         "res_0_b": {
@@ -2335,6 +2425,86 @@
         "set_7_a": {
             "opcode_position": "1FF",
             "opcode": "cb_res_set"
+        },
+
+        "res_0_(hl)": {
+            "opcode_position": "186",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_1_(hl)": {
+            "opcode_position": "18E",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_2_(hl)": {
+            "opcode_position": "196",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_3_(hl)": {
+            "opcode_position": "19E",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_4_(hl)": {
+            "opcode_position": "1A6",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_5_(hl)": {
+            "opcode_position": "1AE",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_6_(hl)": {
+            "opcode_position": "1B6",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "res_7_(hl)": {
+            "opcode_position": "1BE",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_0_(hl)": {
+            "opcode_position": "1C6",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_1_(hl)": {
+            "opcode_position": "1CE",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_2_(hl)": {
+            "opcode_position": "1D6",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_3_(hl)": {
+            "opcode_position": "1DE",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_4_(hl)": {
+            "opcode_position": "1E6",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_5_(hl)": {
+            "opcode_position": "1EE",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_6_(hl)": {
+            "opcode_position": "1F6",
+            "opcode": "cb_res_set_(hl)"
+        },
+
+        "set_7_(hl)": {
+            "opcode_position": "1FE",
+            "opcode": "cb_res_set_(hl)"
         }
 
     },
@@ -2459,8 +2629,16 @@
         "ccf": {
             "subops": ["ccf", "finishInstruction"]
         },
+
+        "cpl": {
+            "subops": ["cpl", "finishInstruction"]
+        },
         
         "ret": {
+            "subops": ["nop", "nop", "load_data_buffer1_sp", "load_data_buffer1_sp", "load_pc_temp_data_bus", "inc_sp", "load_data_buffer1_sp", "load_data_buffer1_sp", "inc_sp", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+        },
+
+        "reti": {
             "subops": ["nop", "nop", "load_data_buffer1_sp", "load_data_buffer1_sp", "load_pc_temp_data_bus", "inc_sp", "load_data_buffer1_sp", "load_data_buffer1_sp", "inc_sp", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
         },
 
@@ -2598,6 +2776,18 @@
 
         "cb_res_set": {
             "subops": ["res_set_cb", "finish_switch_cb"]
+        },
+
+        "cb_(hl)": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2",  "nop", "loadDataBuffer1_addr_buffer", "nop", "nop", "nop", "write_shift_addr_buffer", "nop", "finish_switch_cb"]
+        },
+
+        "cb_bit_(hl)": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "nop", "loadDataBuffer1_addr_buffer", "nop", "nop", "nop", "bit_cb_(hl)", "nop", "finish_switch_cb"]
+        },
+
+        "cb_res_set_(hl)": {
+            "subops": ["build_hl_addr_pt1", "build_hl_addr_pt2", "nop", "loadDataBuffer1_addr_buffer", "nop", "nop", "nop", "write_res_set_addr_buffer", "nop", "finish_switch_cb"]
         },
 
         "daa": {
@@ -3324,6 +3514,19 @@
             "cs_flag_h_sel": "flag_h_zero"
         },
 
+        "cpl": {
+            "cs_reg_file_out1_sel_sel": "reg_file_out1_A",
+            "cs_reg_file_data_in_sel": "reg_file_data_in_cpl",
+            "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_A",
+            "cs_reg_file_write_reg": 1,
+
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_n_sel": "flag_n_one",
+            "cs_flag_h_sel": "flag_h_one"
+        },
+
         "load_pc_temp_data_bus": {
             "cs_pc_write_temp_buf": 1
         },
@@ -3631,8 +3834,8 @@
             "cs_write_flag_h": 1,
 
             "cs_flag_z_sel": "flag_z_shift",
-            "cs_flag_n_sel": "flag_n_one",
-            "cs_flag_h_sel": "flag_h_shift"
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_one"
         },
 
         "res_set_cb": {
@@ -3642,6 +3845,44 @@
             "cs_reg_file_data_in_sel": "reg_file_data_in_shift",
             "cs_reg_file_data_in_sel_sel": "reg_file_data_in_sel_inst20",
             "cs_reg_file_write_reg": 1
+        },
+
+        "write_shift_addr_buffer": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_shift",
+            "cs_db_nwrite": 0,
+
+            "cs_shift_in_sel": "shift_in_sel_data_bus",
+
+            "cs_write_flag_c": 1,
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_c_sel": "flag_c_shift",
+            "cs_flag_z_sel": "flag_z_shift",
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_zero"
+        },
+
+        "bit_cb_(hl)": {
+            "cs_shift_in_sel": "shift_in_sel_data_bus",
+
+            "cs_write_flag_z": 1,
+            "cs_write_flag_n": 1,
+            "cs_write_flag_h": 1,
+
+            "cs_flag_z_sel": "flag_z_shift",
+            "cs_flag_n_sel": "flag_n_zero",
+            "cs_flag_h_sel": "flag_h_one"
+        },
+
+        "write_res_set_addr_buffer": {
+            "cs_db_address_sel": "db_addr_buffer",
+            "cs_db_data_sel": "db_data_shift",
+            "cs_db_nwrite": 0,
+
+            "cs_shift_in_sel": "shift_in_sel_data_bus"
         },
 
         "daa": {

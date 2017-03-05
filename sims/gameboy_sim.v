@@ -15,7 +15,7 @@ module gameboy_sim(
 
     always #10 clock = ~clock;
 
-    reg [91:0]inst_check_table[0:1999999];
+    reg [91:0]inst_check_table[0:7999999];
     integer check_idx = 0;
 
     initial $readmemh("sims/inst_check.txt", inst_check_table);
@@ -60,7 +60,7 @@ module gameboy_sim(
         if (inst_tick === 'd1)
         begin
 
-            percent = (check_idx * 100) / 1111850;
+            percent = (check_idx * 100) / 7475931;
             //$display("%d %d %d", percent, old_percent, check_idx);
             if (percent > old_percent)
             begin
