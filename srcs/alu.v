@@ -55,13 +55,13 @@ module alu(
 
     // ALU Ops
     assign addResult = in_A + in_B;
-    assign adcResult = in_A + in_B + in_C;
+    assign adcResult = in_A + in_B + {4'b0, in_C};
     assign subResult = in_A - in_B;
-    assign sbcResult = in_A - in_B - in_C;
+    assign sbcResult = in_A - in_B - {4'b0, in_C};
     assign andResult = in_A & in_B;
     assign xorResult = in_A ^ in_B;
     assign orResult = in_A | in_B;
-    assign cpResult = in_A - in_B - in_C;
+    assign cpResult = in_A - in_B - {4'b0, in_C};
 
     // Assign result
     always @(*)

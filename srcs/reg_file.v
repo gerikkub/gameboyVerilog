@@ -42,27 +42,30 @@ module reg_file(
     assign out1 = registers[out1_sel];
     assign out2 = registers[out2_sel];
 
-    integer i;
 
+    integer i;
     always @(posedge clock)
     begin
 
-        for (i = 0; i < 7; i++)
-        begin
-            true_registers[i] = true_registers[i];
-        end
+        true_registers[0] <= true_registers[0];
+        true_registers[1] <= true_registers[1];
+        true_registers[2] <= true_registers[2];
+        true_registers[3] <= true_registers[3];
+        true_registers[4] <= true_registers[4];
+        true_registers[5] <= true_registers[5];
+        true_registers[6] <= true_registers[6];
 
         if (write_reg == 'd1)
         begin
             case (data_in_sel)
-                'd0: true_registers[0] = data_in;
-                'd1: true_registers[1] = data_in;
-                'd2: true_registers[2] = data_in;
-                'd3: true_registers[3] = data_in;
-                'd4: true_registers[4] = data_in;
-                'd5: true_registers[5] = data_in;
-                'd6: true_registers[0] = true_registers[0];
-                'd7: true_registers[6] = data_in;
+                'd0: true_registers[0] <= data_in;
+                'd1: true_registers[1] <= data_in;
+                'd2: true_registers[2] <= data_in;
+                'd3: true_registers[3] <= data_in;
+                'd4: true_registers[4] <= data_in;
+                'd5: true_registers[5] <= data_in;
+                'd6: true_registers[0] <= true_registers[0];
+                'd7: true_registers[6] <= data_in;
             endcase
         end
 

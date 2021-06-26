@@ -46,7 +46,7 @@ module pc_mod(
 
     assign pc = pc_register;
 
-    assign pc_w_offset = pc_register + offset_register;
+    assign pc_w_offset = pc_register + {14'b0, offset_register};
 
     // PC register input mux
     assign pc_reg_mux_out = (pc_sel == pc_sel_pc) ? pc_register :

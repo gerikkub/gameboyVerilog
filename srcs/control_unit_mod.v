@@ -47,17 +47,18 @@ module control_unit_mod(
     
     // Metadata_w_offset is the output of the metadata table + the offset
     // counter
-    assign metadata_w_offset = metadata_output + opcode_offset_counter;
+    assign metadata_w_offset = metadata_output + {11'b0, opcode_offset_counter};
 
     assign opcode_input = (adv_buffer == 'd0) ? metadata_w_offset :
-                          adv_toggle;
+                          {15'b0, adv_toggle};
 
     assign adv_signal = (adv_sel == adv_signal_mux_zero) ? 'd0 :
                         (adv_sel == adv_signal_mux_one) ? 'd1 :
                         (adv_sel == adv_signal_mux_flag) ? flag_adv :
                         'd0; // Should never reach this state
 
-    assign control_signals = control_signals_reg;
+    //assign control_signals = control_signals_reg;
+    assign control_signals = control_signals_wire;
 
     always @(posedge clock)
     begin
@@ -85,8 +86,7 @@ module control_unit_mod(
             adv_toggle <= ~adv_toggle;
         end
 
-        #1
-        control_signals_reg <= control_signals_wire;
+        //control_signals_reg <= control_signals_wire;
     end
 
 endmodule

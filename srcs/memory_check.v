@@ -52,7 +52,7 @@ module memory_check(
                     $finish;
                 end
 
-                read_idx++;
+                read_idx = read_idx + 1;
             end else if (nwrite == 'd0 &&
                 nsel == 'd0)
             begin
@@ -68,7 +68,7 @@ module memory_check(
                     $finish;
                 end
 
-                write_idx++;
+                write_idx = write_idx + 1;
             end
         end
     end

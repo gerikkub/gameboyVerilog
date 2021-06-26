@@ -23,7 +23,7 @@ module memory_hram(
         end
     end
 
-    assign data_bus = (nread == 'd0 && nsel == 'd0) ? hram[address_bus[6:0]] : 'dZ;
+    assign data_bus = (nread == 'd0 && nsel == 'd0) ? hram[address_bus[6:0]] : 8'bZ;
 
     always @(posedge clock)
     begin

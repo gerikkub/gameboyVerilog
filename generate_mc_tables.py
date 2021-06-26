@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 
 import json
 import sys
@@ -277,6 +277,7 @@ def writeMetadataVector(metadata_opcode_dict, opcode_position_dict):
     mdata_file = open("metadata_vector.txt", "w")
 
     mdata_file.write("\n".join(metadata_vector))
+    mdata_file.write("\n")
 
 
 def writeOpcodeVector(opcode_list):
@@ -286,6 +287,7 @@ def writeOpcodeVector(opcode_list):
     opcode_file = open("opcode_vector.txt", "w")
 
     opcode_file.write("\n".join(opcode_vector))
+    opcode_file.write("\n")
 
 def writeSubopVector(subop_bitfield_dict, subop_position_dict):
 
@@ -297,6 +299,7 @@ def writeSubopVector(subop_bitfield_dict, subop_position_dict):
     subop_file = open("subop_vector.txt", "w")
 
     subop_file.write("\n".join(subop_vector))
+    subop_file.write("\n")
 
 
 def main():
@@ -305,11 +308,6 @@ def main():
 
     if status == False:
         return
-
-    print cs_position_dict
-
-
-    print default_bitfield
 
     microcode_data = open(sys.argv[2])
     microcode_json = json.load(microcode_data)
@@ -329,7 +327,6 @@ def main():
     if status == False:
         return
 
-    print metadata_opcode_dict
 
 
     writeMetadataVector(metadata_opcode_dict, opcode_position_dict)
@@ -339,6 +336,39 @@ def main():
     verilog_gen.writeMicrocodeVerilog("microcode_mod.v", len(opcode_list), len(subop_position_dict), cs_position_dict, cs_bits_dict)
 
     verilog_gen.writeControlSignalVerilog("cs_mapper_mod.v", cs_bits_dict, cs_position_dict)
+
+    map_f = open('micrcode_map.txt', 'w')
+
+    cs_tup = map(lambda a: (a, cs_position_dict[a]), cs_position_dict.keys())
+    cs_tup.sort(key=lambda a: a[1])
+
+    map_f.write("Control Signals:\n")
+    for sig, idx in cs_tup:
+        map_f.write(" {}: {}\n".format(idx, sig))
+
+    map_f.write("\nDefault Control Signals: {}\n".format(hex(default_bitfield)))
+
+    opcode_tup = map(lambda a: (a, metadata_opcode_dict[a]), metadata_opcode_dict.keys())
+    opcode_tup.sort(key=lambda a: a[0])
+
+    map_f.write("\nOpcode Positions:\n")
+    for idx, opcode in opcode_tup:
+        map_f.write(" {}: {}\n".format(idx, opcode))
+
+    subop_pos_tup = map(lambda a: (subop_position_dict[a], a), subop_position_dict.keys())
+    subop_pos_tup.sort(key=lambda a: a[0])
+    map_f.write("\nSubop Position:\n")
+    for idx, subop in subop_pos_tup:
+        map_f.write(" {}: {}\n".format(idx, subop))
+
+    subop_bit_tup = map(lambda a: (subop_bitfield_dict[a], a), subop_bitfield_dict.keys())
+    subop_bit_tup.sort(key=lambda a: a[1])
+    map_f.write("\nSubop Bitfields:\n")
+    for bits, subop in subop_bit_tup:
+        map_f.write(" {}: {}\n".format(subop, hex(bits)))
+
+
+
 
 
 if __name__ == "__main__":

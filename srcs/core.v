@@ -134,7 +134,7 @@ module core(
                         (cs_db_address_sel == db_addr_buffer_swap_1) ? {addr_buffer[7:0], addr_buffer[15:8]} + 'd1 :
                         'hEEEE; // Should never occur
 
-    assign db_data = (cs_db_nwrite == 'd1) ? 'dZ :
+    assign db_data = (cs_db_nwrite == 'd1) ? 8'bZ :
                      (cs_db_data_sel == db_data_reg_file_out1) ? reg_file_out1 :
                      (cs_db_data_sel == db_data_alu) ? alu_out :
                      (cs_db_data_sel == db_data_pc_offset_p) ? pc_out_w_offset[15:8] :
@@ -338,7 +338,7 @@ module core(
                       (cs_alu_in_C_sel == alu_in_C_one) ? 'd1 :
                       'b1; // Can never occur
 
-    assign alu_data_bus_sgn = (inst_data_buffer1 & 'h80) ? 'hFF : 'h00;
+    assign alu_data_bus_sgn = ((inst_data_buffer1 & 'h80) == 'h80) ? 'hFF : 'h00;
 
     alu_mod alu_m(
         .clock(clock),
@@ -473,6 +473,7 @@ module core(
     // Control Signals for DAA
     wire [7:0]daa_out;
     wire daa_c_out;
+    wire daa_z_out;
     wire daa_h_out;
 
     daa_mod daa(

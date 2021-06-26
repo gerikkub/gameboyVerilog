@@ -16,6 +16,6 @@ module memory_rom(
 
     initial $readmemh("srcs/rom.txt", rom);
 
-    assign data_bus = (nread == 'd0 && nsel == 'd0) ? rom[address_bus[13:0]] : 'dZ;
+    assign data_bus = (nread == 'd0 && nsel == 'd0) ? rom[address_bus[14:0]] : 8'bZ;
 
 endmodule
