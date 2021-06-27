@@ -2707,7 +2707,7 @@
         },
 
         "ld_(hl)_d8": {
-            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "build_hl_addr_pt1", "build_hl_addr_pt2", "write_data_buffer_addr_buffer", "write_data_buffer_addr_buffer", "nop", "finishInstruction"]
+            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "build_hl_addr_pt1", "build_hl_addr_pt2", "write_data_buffer_addr_buffer", "nop", "nop", "finishInstruction"]
         },
 
         "ld_(hl)_r": {
@@ -2723,11 +2723,11 @@
         },
 
         "push_rr": {
-            "subops": ["nop", "dec_sp", "write_rr0_stack", "write_rr0_stack", "nop", "dec_sp", "write_rr1_stack", "write_rr1_stack", "nop", "nop", "nop", "nop", "nop", "finishInstruction"]
+            "subops": ["nop", "dec_sp", "write_rr0_stack", "nop", "nop", "dec_sp", "write_rr1_stack", "nop", "nop", "nop", "nop", "nop", "nop", "finishInstruction"]
         },
 
         "push_af": {
-            "subops": ["nop", "dec_sp", "write_rr1_stack", "write_rr1_stack", "nop", "dec_sp", "write_flags_stack", "write_flags_stack", "nop", "nop", "nop", "nop", "nop", "finishInstruction"]
+            "subops": ["nop", "dec_sp", "write_rr1_stack", "nop", "nop", "dec_sp", "nop", "write_flags_stack", "nop", "nop", "nop", "nop", "nop", "finishInstruction"]
         },
 
         "pop_af": {
@@ -2735,19 +2735,19 @@
         },
 
         "rst": {
-            "subops": ["incrPCOffset", "nop", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "finish_instruction_rst"]
+            "subops": ["incrPCOffset", "nop", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "nop", "nop", "finish_instruction_rst"]
         },
 
         "ldh_(a8)_a": {
-            "subops": ["load_addr_ff", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_a_data_bus", "write_a_data_bus", "nop", "finishInstruction"]
+            "subops": ["load_addr_ff", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_a_data_bus", "nop", "nop", "finishInstruction"]
         },
 
         "ld_(c)_a": {
-            "subops": ["load_addr_ff", "load_addr_c", "write_a_data_bus", "write_a_data_bus", "nop", "finishInstruction"]
+            "subops": ["load_addr_ff", "load_addr_c", "write_a_data_bus", "nop", "nop", "finishInstruction"]
         },
 
         "ld_(a16)_a": {
-            "subops": ["nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_a_data_bus_swap", "write_a_data_bus_swap", "nop", "finishInstruction"]
+            "subops": ["nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "incrPCOffset", "nop", "load_addr_data_bus", "nop", "nop", "write_a_data_bus_swap", "nop", "nop", "finishInstruction"]
         },
 
         "di": {
