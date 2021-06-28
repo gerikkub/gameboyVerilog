@@ -118,7 +118,7 @@
 
     "cs_pc_sel": {
         "type": "mux",
-        "values": ["pc_sel_pc", "pc_sel_pc_incr", "pc_sel_rst_mod", "pc_sel_int_mod", "pc_sel_zero", "pc_sel_data_bus", "pc_sel_data_bus_rel", "pc_sel_reg_file"]
+        "values": ["pc_sel_pc", "pc_sel_pc_incr", "pc_sel_rst_mod", "pc_sel_int_mod", "pc_sel_zero", "pc_sel_data_bus", "pc_sel_data_bus_rel", "pc_sel_reg_file", "pc_sel_interrupt"]
     },
 
     "cs_pc_offset_sel": {
@@ -182,6 +182,26 @@
     }, 
 
     "cs_cu_toggle_cb": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_set_ime": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_clear_ime": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_ack_interrupt": {
+        "type": "num",
+        "bits": 1
+    },
+
+    "cs_set_halt": {
         "type": "num",
         "bits": 1
     }

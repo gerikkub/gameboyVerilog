@@ -59,7 +59,7 @@ TEST(INDIVIDUAL, 01) {
 }
 
 TEST(INDIVIDUAL, 02) {
-    bool res = run_test("test_roms/cpu_instrs/individual/02/02-interrupts.gb", 11000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/02/02-interrupts.gb", 11000000, "trace_02.vcd");
     EXPECT_TRUE(res);
 }
 

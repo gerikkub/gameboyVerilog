@@ -2,21 +2,21 @@
  
 module microcode_mod( 
     input [9:0]opcode, 
-    output [70:0]control_signals 
+    output [75:0]control_signals 
     ); 
  
-    parameter opcode_table_size = 537; 
+    parameter opcode_table_size = 559; 
  
-    parameter subop_table_size = 105; 
+    parameter subop_table_size = 110; 
  
     reg [6:0]opcode_table[0:opcode_table_size-1]; 
-    reg [70:0]subop_table[0:subop_table_size-1]; 
+    reg [75:0]subop_table[0:subop_table_size-1]; 
  
     initial $readmemh("srcs/opcode_vector.txt", opcode_table); 
     initial $readmemh("srcs/subop_vector.txt", subop_table); 
      
     wire [6:0]opcode_table_out; 
-    wire [70:0]subop_table_out; 
+    wire [75:0]subop_table_out; 
  
     assign opcode_table_out = opcode_table[opcode]; 
  

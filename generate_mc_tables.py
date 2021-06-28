@@ -238,6 +238,17 @@ def generateOpcodeTable(opcode_json, subop_position_dict):
     position = len(opcode_json["inst_fetch"]["subops"])
     del opcode_json["inst_fetch"]
 
+    if not "interrupt" in opcode_json:
+        print 'Special opcaode "interrupt" not found in opcode list'
+        return False, opcode_list, opcode_position_dict
+
+    addSubopsToOpcodeList(opcode_list, opcode_json["interrupt"]["subops"], subop_position_dict)
+
+    opcode_position_dict["interrupt"] = 2
+    assert(position == 2)
+    position = 2 + len(opcode_json["interrupt"]["subops"])
+    del opcode_json["interrupt"]
+
     if not "illegal_op" in opcode_json:
         print 'Special opcode "illegal_op" not found in opcode list'
         return False, opcode_list, opcode_position_dict

@@ -12,7 +12,11 @@ module control_unit_mod(
     input [1:0]adv_sel,
     input toggle_cb,
 
-    output [70:0]control_signals
+    input int_in,
+    input int_if_in,
+    input set_halt,
+
+    output [75:0]control_signals
     );
 
     parameter adv_signal_mux_zero = 'd0,
@@ -25,14 +29,23 @@ module control_unit_mod(
 
     reg adv_toggle = 'd0;
 
+    reg [4:0]int_opcode = 'd2;
 
     wire [15:0]metadata_output;
     wire [15:0]metadata_w_offset;
     wire [15:0]opcode_input;
 
     wire adv_signal;
-    wire [70:0]control_signals_wire;
-    reg [70:0]control_signals_reg;
+    wire should_int;
+
+    reg halted;
+    reg leave_halted;
+
+    wire [75:0]control_signals_wire;
+    reg [75:0]control_signals_reg;
+
+    // Stays active for the 20 clock cycles it takes to enter an interrupt
+    reg run_int;
 
     initial $readmemh("srcs/metadata_vector.txt", metadata_table);
 
@@ -49,7 +62,11 @@ module control_unit_mod(
     // counter
     assign metadata_w_offset = metadata_output + {11'b0, opcode_offset_counter};
 
-    assign opcode_input = (adv_buffer == 'd0) ? metadata_w_offset :
+    wire should_int = int_in == 'b1 && adv_buffer == 'd1;
+
+    assign opcode_input = (leave_halted == 'd1) ? {15'b0, adv_toggle} :
+                          (run_int == 'b1) ? {11'b0, int_opcode} :
+                          (adv_buffer == 'd0) ? metadata_w_offset :
                           {15'b0, adv_toggle};
 
     assign adv_signal = (adv_sel == adv_signal_mux_zero) ? 'd0 :
@@ -57,8 +74,8 @@ module control_unit_mod(
                         (adv_sel == adv_signal_mux_flag) ? flag_adv :
                         'd0; // Should never reach this state
 
-    //assign control_signals = control_signals_reg;
-    assign control_signals = control_signals_wire;
+    // TODO: Autocode this
+    assign control_signals = (halted == 'd1) ? 76'h4000000040 : control_signals_wire;
 
     always @(posedge clock)
     begin
@@ -86,7 +103,57 @@ module control_unit_mod(
             adv_toggle <= ~adv_toggle;
         end
 
-        //control_signals_reg <= control_signals_wire;
+        if (run_int == 'd0)
+        begin
+            int_opcode <= 'd2;
+        end
+        else
+        begin
+            int_opcode <= int_opcode + 'd1;
+        end
+
+        if (should_int == 'd1)
+        begin
+            run_int = 'd1;
+        end
+        else if (should_int == 'd0 && adv_signal == 'd1)
+        begin
+            run_int = 'd0;
+        end
+        else
+        begin
+            run_int = run_int;
+        end
+    end
+
+    always @(posedge clock)
+    begin
+        if (reset == 'd0)
+        begin
+            halted <= 'd0;
+            leave_halted <= 'd0;
+        end else begin
+            if (set_halt) begin
+                halted <= 'd1;
+            end
+            else if (int_if_in == 'd1 && adv_toggle == 'd1)
+            begin
+                halted <= 'd0;
+            end else begin
+                halted <= halted;
+            end
+
+            if (halted == 'd1 && int_if_in == 'd1 && adv_toggle == 'd1)
+            begin
+                leave_halted <= 'd1;
+            end else if (leave_halted == 'd1 && adv_toggle == 'd1)
+            begin
+                leave_halted <= 'd0;
+            end else begin
+                leave_halted <= leave_halted;
+            end
+        end
+
     end
 
 endmodule

@@ -17,7 +17,13 @@ module core(
     output [15:0]db_address,
     inout  [7:0]db_data,
     output db_nread,
-    output db_nwrite
+    output db_nwrite,
+
+    input int_vblank,
+    input int_stat,
+    input int_timer,
+    input int_serial,
+    input int_joypad
     );
 
     reg [7:0]inst_buffer = 'd0;
@@ -28,6 +34,7 @@ module core(
     reg flag_z = 'd0;
     reg flag_n = 'd0;
     reg flag_h = 'd0;
+
 
     wire [7:0]flags;
 
@@ -490,7 +497,7 @@ module core(
     wire [2:0]pc_rst_in;
     wire [2:0]pc_int_in;
 
-    wire [2:0]cs_pc_sel;
+    wire [3:0]cs_pc_sel;
     wire [1:0]cs_pc_offset_sel;
     wire cs_pc_write_temp_buf;
 
@@ -511,6 +518,7 @@ module core(
         .pc_sel(cs_pc_sel),
         .offset_sel(cs_pc_offset_sel),
         .write_temp_buf(cs_pc_write_temp_buf),
+        .int_active_prio(int_active_prio),
         .pc_w_offset(pc_out_w_offset),
         .pc(pc_out_direct)
     );
@@ -537,9 +545,10 @@ module core(
     // Control signals for Control Unit
     wire [1:0]cs_cu_adv_sel;
     wire cs_cu_toggle_cb;
+    wire cs_set_halt;
 
     wire flag_adv;
-    wire [70:0]control_signals;
+    wire [75:0]control_signals;
 
     // Used for coditional operation to skip the rest
     // of the instruction
@@ -556,8 +565,108 @@ module core(
         .inst_buffer(inst_buffer),
         .adv_sel(cs_cu_adv_sel),
         .toggle_cb(cs_cu_toggle_cb),
+        .int_in(int_cu),
+        .int_if_in(int_if_cu),
+        .set_halt(cs_set_halt),
         .control_signals(control_signals)
     );
+
+    // Control signals for IME
+    reg ime = 'd0;
+
+    wire cs_set_ime;
+    wire cs_clear_ime;
+    wire cs_ack_interrupt;
+
+    // Need to delay IME set by two clock cycles
+    reg ime_buffer1 = 'd0;
+    reg ime_buffer2 = 'd0;
+
+    wire ime_buffer_in;
+
+    reg [4:0]int_ie;
+    reg [4:0]int_if;
+
+    wire [4:0]int_if_in;
+    wire [4:0]int_active;
+
+    wire int_cu;
+    wire int_if_cu;
+
+    assign ime_buffer_in = (cs_set_ime == 'd1) ? 'b1:
+                           (cs_clear_ime == 'd1) ? 'b0:
+                           ime_buffer1;
+
+    assign int_active = int_ie & int_if;
+
+    assign int_cu = (int_active & {5{ime}}) != 'd0;
+    assign int_if_cu = int_if != 'd0;
+
+    wire [2:0]int_active_prio;
+
+    assign int_active_prio = (int_active[0] == 'b1) ? 3'd0 :
+                             (int_active[1] == 'b1) ? 3'd1 :
+                             (int_active[2] == 'b1) ? 3'd2 :
+                             (int_active[3] == 'b1) ? 3'd3 :
+                             (int_active[4] == 'b1) ? 3'd4 :
+                             3'h7;
+
+    // Ime buffering
+    always @(posedge clock)
+    begin
+        if (reset == 'd0)
+        begin
+            ime <= 'd0;
+            ime_buffer1 <= 'd0;
+            ime_buffer2 <= 'd0;
+        end
+        else
+        begin
+            ime_buffer1 <= ime_buffer_in;
+            ime_buffer2 <= ime_buffer1;
+            ime <= ime_buffer2;
+        end
+    end
+
+    // Interrupt register handling
+    assign int_if_in = {int_joypad, int_serial, int_timer, int_stat, int_vblank};
+
+    always @(posedge clock)
+    begin
+        if (db_nwrite == 'd0 && db_address == 'hFFFF)
+        begin
+            int_ie = db_data[4:0];
+        end
+        else
+        begin
+            int_ie = int_ie;
+        end
+    end
+
+    always @(posedge clock)
+    begin
+        if (db_nwrite == 'd0 && db_address == 'hFF0F)
+        begin
+            // TODO: It's unclear if writing this register
+            // only sets bits, or can clear bits as well
+            int_if <= db_data[4:0];
+        end
+        else if (cs_ack_interrupt == 'd1)
+        begin
+            // Clear the active interrupt
+            int_if <= int_if & ~('b1 << int_active_prio);
+        end
+        else
+        begin
+            int_if <= int_if | int_if_in;
+        end
+        
+    end
+
+    assign db_data = (db_nread == 'b1) ? 8'bZ :
+                     (db_address == 'hFFFF) ? {3'b0, int_ie} :
+                     (db_address == 'hFF0F) ? {3'b0, int_if} :
+                     8'bZ;
 
     // Control signal mapper
 
@@ -599,6 +708,10 @@ module core(
         .cs_sp_temp_buf_sel(cs_sp_temp_buf_sel),
         .cs_cu_toggle_cb(cs_cu_toggle_cb),
         .cs_shift_in_sel(cs_shift_in_sel),
+        .cs_set_ime(cs_set_ime),
+        .cs_clear_ime(cs_clear_ime),
+        .cs_ack_interrupt(cs_ack_interrupt),
+        .cs_set_halt(cs_set_halt),
 
         .control_signals(control_signals)
     );

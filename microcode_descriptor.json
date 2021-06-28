@@ -1227,6 +1227,11 @@
             "opcode": "cb_mod"
         },
 
+        "halt": {
+            "opcode_position": "76",
+            "opcode": "halt"
+        },
+
         "rlc_b": {
             "opcode_position": "100",
             "opcode": "cb_n0"
@@ -2514,6 +2519,16 @@
             "subops": ["fetch1", "fetch2"]
         },
 
+        "interrupt": {
+            "subops": [
+                "clear_ime", "nop", "nop", "nop",
+                "nop", "nop", "nop", "nop",
+                "dec_sp", "write_pc_p_stack", "nop", "nop",
+                "dec_sp", "write_pc_c_stack", "nop", "nop",
+                "nop", "nop", "nop", "finishInterruptJump"
+            ]
+        },
+
         "illegal_op": {
             "subops": ["illegal_subop"]
         },
@@ -2715,7 +2730,13 @@
         },
 
         "call_a16": {
-            "subops": ["nop", "incrPCOffset", "nop", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset", "nop", "loadDataBuffer1", "incrPCOffset", "nop", "dec_sp", "write_pc_p_stack", "nop", "dec_sp", "write_pc_c_stack", "write_pc_c_stack", "nop", "nop", "nop", "nop", "nop", "finish_instruction_jump"]
+            "subops": [
+                "nop", "incrPCOffset",
+                "nop", "loadDataBuffer1", "load_pc_temp_data_bus", "incrPCOffset",
+                "nop", "loadDataBuffer1", "incrPCOffset", "nop",
+                "dec_sp", "write_pc_p_stack", "nop", "dec_sp",
+                "write_pc_c_stack", "write_pc_c_stack", "nop", "nop",
+                "nop", "nop", "nop", "finish_instruction_jump"]
         },
 
         "call_flag_a16": {
@@ -2751,11 +2772,11 @@
         },
 
         "di": {
-            "subops": ["nop", "finishInstruction"]
+            "subops": ["clear_ime", "finishInstruction"]
         },
 
         "ei": {
-            "subops": ["nop", "finishInstruction"]
+            "subops": ["set_ime", "finishInstruction"]
         },
 
         "shift_norm": {
@@ -2792,6 +2813,10 @@
 
         "daa": {
             "subops": ["daa", "finishInstruction"]
+        },
+
+        "halt": {
+            "subops": ["nop", "halt"]
         }
     },
 
@@ -2841,6 +2866,13 @@
             "cs_pc_sel": "pc_sel_rst_mod",
             "cs_pc_offset_sel": "pc_offset_sel_zero",
             "cs_cu_adv_sel": "adv_signal_mux_one"
+        },
+
+        "finishInterruptJump": {
+            "cs_pc_sel": "pc_sel_interrupt",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_cu_adv_sel": "adv_signal_mux_one",
+            "cs_ack_interrupt": 1
         },
 
         "incrPCOffset": {
@@ -3898,7 +3930,24 @@
             "cs_flag_z_sel": "flag_z_daa",
             "cs_flag_h_sel": "flag_h_zero",
             "cs_flag_c_sel": "flag_c_daa"
-        }
+        },
 
+        "set_ime": {
+            "cs_set_ime": 1
+        },
+
+        "clear_ime": {
+            "cs_clear_ime": 1
+        },
+
+        "ack_interrupt": {
+            "cs_ack_interrupt": 1
+        },
+
+        "halt": {
+            "cs_pc_sel": "pc_sel_pc_incr",
+            "cs_pc_offset_sel": "pc_offset_sel_zero",
+            "cs_set_halt": 1
+        }
     }
 }

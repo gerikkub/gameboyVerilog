@@ -8,9 +8,10 @@ module pc_mod(
     input [2:0]int_pc_in,
     input [7:0]data_bus,
     input [15:0]reg_file_in,
-    input [2:0]pc_sel,
+    input [3:0]pc_sel,
     input [1:0]offset_sel,
     input write_temp_buf,
+    input [2:0]int_active_prio,
 
     output [15:0]pc_w_offset,
     output [15:0]pc
@@ -23,7 +24,8 @@ module pc_mod(
               pc_sel_zero = 'd4,
               pc_sel_data_bus = 'd5,
               pc_sel_data_bus_rel = 'd6,
-              pc_sel_reg_file = 'd7;
+              pc_sel_reg_file = 'd7,
+              pc_sel_interrupt = 'd8;
 
     parameter offset_sel_offset = 'd0,
               offset_sel_offset_incr = 'd1,
@@ -54,9 +56,11 @@ module pc_mod(
                             (pc_sel == pc_sel_rst_mod) ? rst_addr :
                             (pc_sel == pc_sel_int_mod) ? int_addr :
                             (pc_sel == pc_sel_zero) ? 16'd0 :
+                            //(pc_sel == pc_sel_data_bus) ? {data_bus_buffer, data_bus} :
                             (pc_sel == pc_sel_data_bus) ? {data_bus, data_bus_buffer} :
                             (pc_sel == pc_sel_data_bus_rel) ? data_bus_rel_value :
                             (pc_sel == pc_sel_reg_file) ? reg_file_in :
+                            (pc_sel == pc_sel_interrupt) ? 16'h40 + {10'b0, int_active_prio, 3'b0} :
                             'hFACE; // Can never occur!!!!!
 
 
