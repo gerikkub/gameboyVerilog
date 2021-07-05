@@ -5,6 +5,7 @@
 `include "srcs/memory_hram.v"
 `include "srcs/memory_wram.v"
 `include "srcs/gb_timer.v"
+`include "srcs/lcd/lcd.v"
 
 
 module gb_interconnect(
@@ -17,7 +18,13 @@ module gb_interconnect(
     output nwrite_out,
     output nread_out,
     output nsel_rom_out,
-    input [7:0]rom_data
+    input [7:0]rom_data,
+
+    // Video Signals
+    output [1:0]color_out,
+    output px_valid_out,
+    output [7:0]x_pos_out,
+    output [7:0]y_pos_out
     );
 
     wire [15:0]address;
@@ -106,16 +113,16 @@ module gb_interconnect(
         .int_timer(int_timer)
     );
 
-    /*
-    always @(posedge clock)
-    begin
-        if (address == 'hFF01 &&
-            nwrite == 'd0)
-        begin
-            $display("%c", data);
-        end
-    end
-    */
+    lcd lcd(
+        .clock(clock),
+        .nreset(reset),
+        .db_data(data),
+        .db_address(address),
+        .color_out(color_out),
+        .px_valid_out(px_valid_out),
+        .x_pos_out(x_pos_out),
+        .y_pos_out(y_pos_out)
+    );
 
 endmodule
 
