@@ -118,6 +118,8 @@ module gb_interconnect(
         .nreset(reset),
         .db_data(data),
         .db_address(address),
+        .db_nread(nread),
+        .db_nwrite(nwrite),
         .color_out(color_out),
         .px_valid_out(px_valid_out),
         .x_pos_out(x_pos_out),

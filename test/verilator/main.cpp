@@ -62,52 +62,52 @@ TEST(INDIVIDUAL, 01) {
 }
 
 TEST(INDIVIDUAL, 02) {
-    bool res = run_test("test_roms/cpu_instrs/individual/02/02-interrupts.gb", 11000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/02/02-interrupts.gb", 11000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 03) {
-    bool res = run_test("test_roms/cpu_instrs/individual/03/03-op sp,hl.gb", 11000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/03/03-op sp,hl.gb", 11000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 04) {
-    bool res = run_test("test_roms/cpu_instrs/individual/04/04-op r,imm.gb", 100000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/04/04-op r,imm.gb", 100000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 05) {
-    bool res = run_test("test_roms/cpu_instrs/individual/05/05-op rp.gb", 100000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/05/05-op rp.gb", 100000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 06) {
-    bool res = run_test("test_roms/cpu_instrs/individual/06/06-ld r,r.gb", 11000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/06/06-ld r,r.gb", 11000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 07) {
-    bool res = run_test("test_roms/cpu_instrs/individual/07/07-jr,jp,call,ret,rst.gb", 11000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/07/07-jr,jp,call,ret,rst.gb", 11000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 08) {
-    bool res = run_test("test_roms/cpu_instrs/individual/08/08-misc instrs.gb", 11000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/08/08-misc instrs.gb", 11000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 09) {
-    bool res = run_test("test_roms/cpu_instrs/individual/09/09-op r,r.gb", 1000000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/09/09-op r,r.gb", 1000000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 10) {
-    bool res = run_test("test_roms/cpu_instrs/individual/10/10-bit ops.gb", 100000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/10/10-bit ops.gb", 100000000, "", true);
     EXPECT_TRUE(res);
 }
 
 TEST(INDIVIDUAL, 11) {
-    bool res = run_test("test_roms/cpu_instrs/individual/11/11-op a,(hl).gb", 100000000, "");
+    bool res = run_test("test_roms/cpu_instrs/individual/11/11-op a,(hl).gb", 100000000, "", true);
     EXPECT_TRUE(res);
 }
 
